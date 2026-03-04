@@ -52,17 +52,35 @@ Include source for the dataset
 
 ## Planning
 
-read study thoroughly
+To plan my replication, I read the study by @morin2025 thoroughly, especially focusing on the pre-training and prompt engineering.
 
-download dataset from OSF and look at the data in LibreOffice
+Also, I downloaded the dataset from OSF and looked at the data using LibreOffice Calc.
+
+Another important step in planning the replication was to look at the conversation transcript, that @morin2025 provided with their data. It shows concrete prompts and answers of the model. The conversation consists of the following parts:
+**Pretraining**
+- First, the LLM gets a user prompt containing detailed instructions on how to classify the sentences, and is presented with examples for every instance and a step-by-step approach to classification.
+- It is instructed to look at 493 pretraining sentences in a dataset containing correct classifications, think about each classification step-by-step, and encouraged to ask questions.
+**Training**
+- A round of supervised classifications follows: The model is prompted to classify the first 100 sentences in batches of 25. Mistakes are corrected through user prompts.
+- After that, another dataset of 100 sentences is requested to be classified without the close supervision (and to be provided in tab-separated .csv-format).
+- All incorrect classifications are pasted into the next user prompt. The model is told its accuracy for the task and instructed to review the errors.
+- These reviews are not further commented, the model is simply told to keep lessons in mind. It is requested to classify step-by-step and consistently apply the insertion test, then given new data (EnTenTen_random_sample_101.csv), and told to do the full classification in one batch in .csv format.
+- It is told the accuracy rate (93%) and told it is good
+**Testing**
+- Provided with new data (EnTenTen_random_sample_102.csv) and told to follow the procedure that was successfully applied in the latest round of classifications. After classification, it is again told the accuracy.
+
 
 choose LLM and check technicalities: problems with running LLMs locally via Ollama -\> then used API key to use KI:connect
+
+few sentences about the LLM of choice with source
+
+
+
+## Running the replication
 
 worked with API documentation to set up LLM for usage, also tried out some prompts (use what for formulating prompts?)
 
 testing with smaller things -\> maybe do a test run with my own dataset
-
-## Running the replication
 
 # Results of the replication
 
