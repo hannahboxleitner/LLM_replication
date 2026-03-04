@@ -70,7 +70,7 @@ Another important step in planning the replication was to look at the conversati
 - Provided with new data (EnTenTen_random_sample_102.csv) and told to follow the procedure that was successfully applied in the latest round of classifications. After classification, it is again told the accuracy.
 
 
-choose LLM and check technicalities: problems with running LLMs locally via Ollama -\> then used API key to use KI:connect
+For this project, I wanted to replicate the study by @morin2025 with the same approach and the same data, but use a different, and especially an open LLM for the task. **Since running LLMs locally via Ollama (source?) was only possible with rather small LLMs due to the available hardware, I used an API key via KI:connect.** I decided to use Mistral Small 3.2 24B Instruct 2506.
 
 few sentences about the LLM of choice with source
 

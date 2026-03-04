@@ -20,7 +20,7 @@ payload <- '{
       "content": "I think the moon is bigger than the earth. Is that true?"
     }
   ],
-  "model":"Mistral Small 3.2 24B Instruct 2506"
+  "model":"Mistral Small 3-2-24b Instruct KI:Inferenz.nrw"
 }'
 
 # sending request (API)
@@ -50,7 +50,7 @@ call_llm <- function(question) {
         "content":"%s"
       }
     ],
-    "model":"Mistral Small 3.2 24B Instruct 2506"
+    "model":"Mistral Small 3-2-24b Instruct KI:Inferenz.nrw"
   }', question)
   
   response <- VERB(
@@ -63,4 +63,6 @@ call_llm <- function(question) {
   )
   return(content(response, "parsed"))
 }
+
+call_llm("Tell me a five-word story")
 
