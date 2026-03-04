@@ -1,0 +1,77 @@
+---
+title: "Term paper: Replication of an LLM study by Morin & Larsson (2025)"
+author: Hannah Boxleitner
+format: html
+bibliography: references.bib
+---
+
+# Introduction
+
+In the last decades, Researchers in corpus linguistics gained access to increasingly massive corpora of natural language in different languages. This poses great opportunities, but also necessitates manual cleaning and processing of large amounts of data [@morin2025: 1]. The rise of large language models (LLMs) is therefore a rather interesting development for corpus linguistic research, making it possible to handle larger datasets and corpora automatically. In recent years, many papers testing LLMs for assisting in linguistic research have been published **(sources)**.
+
+I aim to replicate a study by @morin2025, which presents a replicable method for leveraging LLMs for assistance in linguistic grammatical annotation. While the study was conducted with the model Claude Sonnet 3.5, I will attempt to replicate it using the same data, but with an open LLM (Mistral) in R.
+
+This project is intended to embody the principles of Open Science in two respects: First, I want to contribute to the use and examination of open LLMs for analysis of linguistic data. While closed LLMs (like ChatGPT) are widely used in day-to-day life, their usage brings difficulties regarding data rights, privacy, etc. **(see presentation for citation)** among others. Many open alternatives are on the rise, but are not as widely used and investigated in studies as necessary **(source?)**. 
+**Second**, I want to conduct a replication and thereby participate in the central aim of making linguistic research more cumulative and robust.
+
+# Methodological approach
+
+In planning this replication, I used the handbook by @röseler2025 as a guide for the research process. On a general note, the following steps are listed (and conducted in this replication study):
+
+-   choosing a target study,
+
+-   deciding between different types of replications,
+
+-   planning and running the new study,
+
+-   analyzing the results,
+
+-   discussing outcomes in the light of potential differences,
+
+-   and publishing a report [@röseler2025a].
+
+# The target study
+
+The target study by @morin2025 focuses on the verb *consider*, which can be found in a number of larger grammatical constructions, one of which is an evaluative use introducing an evaluation or judgement. 
+
+**insert screenshots p. 2**
+
+The relationship between the three variants is unclear and it has been suggested that the *consider + as* construction might be becoming less and less common. Searching for this construction in the EnTenTen21 corpus (**source**), the authors encountered the problem that the evaluative construction coexists with another
+prominent use of consider as a cognition verb **(include example?)**, and out of a random sample of 200 CONSIDER tokens, only 11.5% were found to be true positives and therefore of interest for the research question  [@morin2025: 2]. For a corpus-based study addressing this methodological challenge, @morin2025 make use of LLMs for cleaning and annotation tasks, and outline how to
+automatically annotate large quantities of evaluative *consider* constructions, based on the key processes of
+prompt engineering, training, and evaluation. For this task, the LLM Claude Sonnet 3.5 and data from the NOW corpus ans Sketch Engine's EnTenTen21 corpus was used [@morin2025: 3].
+**short summary of the study and the results??**
+
+Include source for the dataset
+
+## Decide on type of replication
+
+**close replication?** [@röseler2025a: Chapter 4]
+
+# Planning and running the replication
+
+## Planning
+
+read study thoroughly
+
+download dataset from OSF and look at the data in LibreOffice
+
+choose LLM and check technicalities: problems with running LLMs locally via Ollama -\> then used API key to use KI:connect
+
+worked with API documentation to set up LLM for usage, also tried out some prompts (use what for formulating prompts?)
+
+testing with smaller things -\> maybe do a test run with my own dataset
+
+## Running the replication
+
+# Results of the replication
+
+accuracy
+
+accuracy compared to the original study
+
+# Discussion of outcomes in light of differences
+
+# Conclusion
+
+How do open LLMs perform in comparison and why is it crucial that we support and optimize them?
