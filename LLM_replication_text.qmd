@@ -78,7 +78,7 @@ few sentences about the LLM of choice with source
 
 ## Running the replication
 
-worked with API documentation to set up LLM for usage, also tried out some prompts (use what for formulating prompts?)
+Via the KI:connect API documentation <https://chat.kiconnect.nrw/app/api-docs/#tag/chatcompletions/post/v1chatcompletions>, I set up the LLM for usage with an API key, and tried out some prompts (use what for formulating prompts?). Integrating the iterative nature of a multi-turn-conversation posed a challenge. Reading up on OpenAI's Conversation API <https://developers.openai.com/api/docs/guides/conversation-state>, which unfortunately does not exist for this model **(?)**, I tried to build something similar.
 
 testing with smaller things -\> maybe do a test run with my own dataset
 
@@ -89,6 +89,8 @@ accuracy
 accuracy compared to the original study
 
 # Discussion of outcomes in light of differences
+
+# Reflection of methodological approach and difficulties
 
 # Conclusion
 
