@@ -99,3 +99,28 @@ print(res$answer)
 res <- ask_llm(conv, "Please summarize it in one sentence.", api_key = "696737b2064cdc09cc517014:cZF+T2q6DsUFHgolXB56Hn0sUG+eT46viIQEDRaISk4=")
 conv <- res$conversation
 print(res$answer)
+
+
+## Additional options (maybe useful for study!)
+
+## Defining a system prompt (for detailed instructions about classification steps?)
+#conv <- create_conversation()
+#conv <- add_message(conv, "system",
+#                    "You are a classifier that labels sentences as positive or negative.")
+
+
+## For several training rounds
+#training_data <- c(
+#  "I love this movie",
+#  "This is terrible",
+#  "The weather is great"
+#)
+
+#for(sentence in training_data) {
+#  res <- ask_llm(conv, paste("Classify:", sentence), api_key)
+#  conv <- res$conversation
+#}
+
+
+## maybe save every conversation as json log (for reproducibility purposes)
+#write_json(conv$messages, "conversation_log.json", pretty = TRUE)
