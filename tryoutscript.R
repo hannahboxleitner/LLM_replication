@@ -29,16 +29,18 @@
 
 ## other try: work with lists
 
-# load libraries
+# Load libraries necessary for the project
 library(httr)
 library(jsonlite)
 
-# save API key as an environment variable
+# The API key is saved as an environment variable in a .renviron file outside of the project folder and called inside of the function
 
-# Conversation as a list (of lists)
+# Assign conv variable for conversation as a list of messages
 create_conversation <- function() {
   list(messages = list())
 }
+
+conv <- create_conversation()
 
 # Function for adding a message
 add_message <- function(conv, role, content) {
@@ -77,7 +79,7 @@ call_llm <- function(conv, api_key) {
   )
 }
 
-# function for user-question
+# Function for user-question
 ask_llm <- function(conv, question) {
   
   api_key <- Sys.getenv("MISTRAL_API_KEY")
@@ -91,8 +93,6 @@ ask_llm <- function(conv, question) {
 
 # try it out
 
-conv <- create_conversation()
-
 res <- ask_llm(conv, "What is linguistics")
 conv <- res$conversation
 print(res$answer)
@@ -105,18 +105,7 @@ res <- ask_llm(conv, "Please summarize it in one sentence.")
 conv <- res$conversation
 print(res$answer)
 
-# maybe find a way that I don't have to put in the API key every time? should not be in the script at all?
-#Sys.setenv(MISTRAL_API_KEY = "x") (Windows???)
-#api_key <- Sys.getenv("MISTRAL_API_KEY")
-
-
 ## Additional options (maybe useful for study!)
-
-## Defining a system prompt (for detailed instructions about classification steps?)
-#conv <- create_conversation()
-#conv <- add_message(conv, "system",
-#                    "You are a classifier that labels sentences as positive or negative.")
-
 
 ## For several training rounds
 #training_data <- c(

@@ -78,9 +78,11 @@ few sentences about the LLM of choice with source
 
 ## Running the replication
 
-Via the KI:connect API documentation <https://chat.kiconnect.nrw/app/api-docs/#tag/chatcompletions/post/v1chatcompletions>, I set up the LLM for usage with an API key, and tried out some prompts (use what for formulating prompts?). Integrating the iterative nature of a multi-turn-conversation posed a challenge. Reading up on OpenAI's Conversation API <https://developers.openai.com/api/docs/guides/conversation-state>, which unfortunately does not exist for this model **(?)**, I tried to build something similar.
+Via the KI:connect API documentation <https://chat.kiconnect.nrw/app/api-docs/#tag/chatcompletions/post/v1chatcompletions>, I set up the LLM for usage with an API key, and tried out some prompts (use what for formulating prompts?). **Integrating the iterative nature of a multi-turn-conversation posed a challenge. Reading up on OpenAI's Conversation API <https://developers.openai.com/api/docs/guides/conversation-state>, which unfortunately does not exist for this model **(?)**, reading up on packages suited / using these packages, I tried to build something similar.**
 
-testing with smaller things -\> maybe do a test run with my own dataset
+**The code was modified to be suitable for multi-turn conversations. For methodological consistency, I tried to keep the process as close to the one shown in the transcript of the conversation in @morin2025's data. For example, while the very long initial user prompt (containing detailed instructions for step-by-step classification with examples) could also have been implemented as a system prompt in the code, I also included it in the chat, as proposed by @morin2025.**
+
+**testing with smaller things -\> maybe do a test run with my own dataset**
 
 # Results of the replication
 
