@@ -1,43 +1,46 @@
 # test tidyllm
 
 #install.packages("tidyllm")
-library(tidyllm)
+#library(tidyllm)
 
 # set up API key
-Sys.setenv(OPENAI_API_KEY = "696737b2064cdc09cc517014:cZF+T2q6DsUFHgolXB56Hn0sUG+eT46viIQEDRaISk4=")
+#Sys.setenv(OPENAI_API_KEY = "x")
 
-my_provider <- openai(.model="Mistral Small 3-2-24b Instruct KI:Inferenz.nrw",
-                      .api_url="https://chat.kiconnect.nrw",
-                      .compatible = TRUE,
-                      .api_path = "/api/v1/chat/completions",
-                      .api_key = "696737b2064cdc09cc517014:cZF+T2q6DsUFHgolXB56Hn0sUG+eT46viIQEDRaISk4="
-)
+#my_provider <- openai(.model="Mistral Small 3-2-24b Instruct KI:Inferenz.nrw",
+#                      .api_url="https://chat.kiconnect.nrw",
+#                      .compatible = TRUE,
+#                      .api_path = "/api/v1/chat/completions",
+                      
+#)
 
-llm_message("Hi there") |>
-  chat(my_provider)
+#llm_message("Hi there") |>
+#  chat(my_provider)
 
 # try to set default model
-options(tidyllm_chat_default = mistral(.model = "Mistral Small 3-2-24b Instruct KI:Inferenz.nrw"))
+#options(tidyllm_chat_default = mistral(.model = "Mistral Small 3-2-24b Instruct KI:Inferenz.nrw"))
 
 # Start a conversation
-conversation <- llm_message("What is the capital of France?") |>
-  chat(tidyllm_chat_default)
+#conversation <- llm_message("What is the capital of France?") |>
+#  chat(tidyllm_chat_default)
 
 #Standard way that llm_messages are printed
-conversation
+#conversation
 
 
 ## other try: work with lists
 
+# load libraries
 library(httr)
 library(jsonlite)
 
-# conversation as a list (of lists)
+# save API key as an environment variable
+
+# Conversation as a list (of lists)
 create_conversation <- function() {
   list(messages = list())
 }
 
-# function for adding a message
+# Function for adding a message
 add_message <- function(conv, role, content) {
   conv$messages <- append(conv$messages, list(list(
     role = role,
@@ -75,7 +78,9 @@ call_llm <- function(conv, api_key) {
 }
 
 # function for user-question
-ask_llm <- function(conv, question, api_key) {
+ask_llm <- function(conv, question) {
+  
+  api_key <- Sys.getenv("MISTRAL_API_KEY")
   
   conv <- add_message(conv, "user", question)
   
@@ -88,17 +93,21 @@ ask_llm <- function(conv, question, api_key) {
 
 conv <- create_conversation()
 
-res <- ask_llm(conv, "What is linguistics", api_key = "696737b2064cdc09cc517014:cZF+T2q6DsUFHgolXB56Hn0sUG+eT46viIQEDRaISk4=")
+res <- ask_llm(conv, "What is linguistics")
 conv <- res$conversation
 print(res$answer)
 
-res <- ask_llm(conv, "Yes,I would like more details on Sociolinguistics.", api_key = "696737b2064cdc09cc517014:cZF+T2q6DsUFHgolXB56Hn0sUG+eT46viIQEDRaISk4=")
+res <- ask_llm(conv, "Yes,I would like more details on Sociolinguistics.")
 conv <- res$conversation
 print(res$answer)
 
-res <- ask_llm(conv, "Please summarize it in one sentence.", api_key = "696737b2064cdc09cc517014:cZF+T2q6DsUFHgolXB56Hn0sUG+eT46viIQEDRaISk4=")
+res <- ask_llm(conv, "Please summarize it in one sentence.")
 conv <- res$conversation
 print(res$answer)
+
+# maybe find a way that I don't have to put in the API key every time? should not be in the script at all?
+#Sys.setenv(MISTRAL_API_KEY = "x") (Windows???)
+#api_key <- Sys.getenv("MISTRAL_API_KEY")
 
 
 ## Additional options (maybe useful for study!)
