@@ -1,6 +1,5 @@
 # test tidyllm
 
-#install.packages("tidyllm")
 #library(tidyllm)
 
 # set up API key
@@ -172,14 +171,105 @@ file.rename(
 # Also save as JSON (to preserve structure)
 write_json(conv, "pilot_data/pilot_pretraining.json", pretty = TRUE, auto_unbox = TRUE)
 
-# 2. TRAINING
+# 2. SUPERVISED TRAINING
 
+# Load data
+supervised_training_data <- read.csv("pilot_data/pilot_supervised_training.csv", stringsAsFactors = FALSE)
+
+# Give the dataset and ask for first batch
+res <- ask_llm(conv, paste(
+  "<instructions> Now we will classify 15 sentences together from another dataset. Work in batches of 5 sentences at a time. Think step-by-step about each classification, and for each classification I want you to include <thinking> </thinking> and your <answer> </answer>. </instructions>",
+  paste(
+    apply(supervised_training_data, 1, function(row) {
+      paste0("Sentence: ", row["text"])
+    }),
+    collapse = "\n"
+  ),
+  sep = "\n"
+))
+conv <- res$conversation
+print(res$answer)
+
+# Feedback for first and then next batch
+res <- ask_llm(conv, paste(
+  "<instructions> Good, these classifications were correct. Please classify the next 5 sentences. </instructions>",
+  paste(
+    apply(supervised_training_data, 1, function(row) {
+      paste0("Sentence: ", row["text"])
+    }),
+    collapse = "\n"
+  ),
+  sep = "\n"
+))
+conv <- res$conversation
+print(res$answer)
+
+# Feedback for second and then last batch
+res <- ask_llm(conv, paste(
+  "<instructions> Most classifications were correct, except for \"She don't know how she's supposed to put it from her mind\". Your reasoning is good, but rather points to despair than to pain. Please classify the final 5 sentences. </instructions>",
+  paste(
+    apply(supervised_training_data, 1, function(row) {
+      paste0("Sentence: ", row["text"])
+    }),
+    collapse = "\n"
+  ),
+  sep = "\n"
+))
+conv <- res$conversation
+print(res$answer)
+
+# 3. UNSUPERVISED TRAINING
+
+# Load data
+unsupervised_training_data <- read.csv("pilot_data/pilot_unsupervised_training.csv", stringsAsFactors = FALSE)
+
+# Give the unsupervised dataset and instruct including format
+res <- ask_llm(conv, paste(
+  "<instructions>",
+  "Now you will classify 16 sentences without supervision.",
+  "Think step-by-step for each classification <thinking> </thinking>.",
+  "Please provide your classification in tab separated .csv format in one large batch <answer> </answer>.", # looked different
+  "</instructions>",
+  paste(
+    apply(unsupervised_training_data, 1, function(row) {
+      paste0("Sentence: ", row["text"])
+    }),
+    collapse = "\n"
+  ),
+  sep = "\n"
+))
+conv <- res$conversation
+print(res$answer)
+
+# review the errors
+res <- ask_llm(conv, paste(
+  "<instructions>",
+  "had me hopeless and numb </s><s> Weight was more than I was able to bear </s><s> Cause you got no one to listen, you got no one to call </s><s> But I've seen your self-pity showin' as the tears rolled down your cheeks </s><s> Soon you know I'll leave you and I'll never look behind </s><s> My days now end as they began, with thoughts of you </s><s> Now these thoughts are haunting me of how complete I used to be,",
+  "your accuracy is 62.5%.",
+  "let's review the errors. I have pasted all the classifications that you got wrong.",
+  "</instructions>",
+  sep = ""
+))
+conv <- res$conversation
+print(res$answer)
+
+# Print transcript of pretraining conversation
+# Convert conversation into transcript and save as variable
+transcript <- sapply(conv$messages, function(msg) {
+  paste0(toupper(msg$role), ": ", msg$content)
+})
+
+# Collapse into one big string with line breaks
+transcript_text <- paste(transcript, collapse = "\n\n")
+
+# Print to console
+cat(transcript_text)
 # save as text file
-#writeLines(transcript_text, "pilot_data/pilot_supervised_training_transcript.txt")
+writeLines(transcript_text, "pilot_data/pilot_training_transcript.txt")
 
 
 
-
+# 4. TESTING
 
 
 
