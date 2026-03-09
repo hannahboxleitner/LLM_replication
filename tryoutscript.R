@@ -1,32 +1,4 @@
-# test tidyllm
-
-#library(tidyllm)
-
-# set up API key
-#Sys.setenv(OPENAI_API_KEY = "x")
-
-#my_provider <- openai(.model="Mistral Small 3-2-24b Instruct KI:Inferenz.nrw",
-#                      .api_url="https://chat.kiconnect.nrw",
-#                      .compatible = TRUE,
-#                      .api_path = "/api/v1/chat/completions",
-                      
-#)
-
-#llm_message("Hi there") |>
-#  chat(my_provider)
-
-# try to set default model
-#options(tidyllm_chat_default = mistral(.model = "Mistral Small 3-2-24b Instruct KI:Inferenz.nrw"))
-
-# Start a conversation
-#conversation <- llm_message("What is the capital of France?") |>
-#  chat(tidyllm_chat_default)
-
-#Standard way that llm_messages are printed
-#conversation
-
-
-## other try: work with lists
+# LLM Replication Project: Pilot study
 
 # Load libraries necessary for the project
 library(httr)
