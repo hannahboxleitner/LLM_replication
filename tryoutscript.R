@@ -241,7 +241,7 @@ res <- ask_llm(conv, paste(
 conv <- res$conversation
 print(res$answer)
 
-# review the errors
+# Review the errors (2nd prompt)
 res <- ask_llm(conv, paste(
   "<instructions>",
   "had me hopeless and numb </s><s> Weight was more than I was able to bear </s><s> Cause you got no one to listen, you got no one to call </s><s> But I've seen your self-pity showin' as the tears rolled down your cheeks </s><s> Soon you know I'll leave you and I'll never look behind </s><s> My days now end as they began, with thoughts of you </s><s> Now these thoughts are haunting me of how complete I used to be,",
@@ -253,23 +253,95 @@ res <- ask_llm(conv, paste(
 conv <- res$conversation
 print(res$answer)
 
+# Give feedback with renewed accuracy
+res <- ask_llm(conv, paste(
+  "<instructions>",
+  "your accuracy improved to 100%. that is really good!",
+  "</instructions>",
+  sep = ""
+))
+conv <- res$conversation
+print(res$answer)
 # Print transcript of pretraining conversation
 # Convert conversation into transcript and save as variable
-transcript <- sapply(conv$messages, function(msg) {
-  paste0(toupper(msg$role), ": ", msg$content)
-})
+#transcript <- sapply(conv$messages, function(msg) {
+#  paste0(toupper(msg$role), ": ", msg$content)
+#})
 
 # Collapse into one big string with line breaks
-transcript_text <- paste(transcript, collapse = "\n\n")
+#transcript_text <- paste(transcript, collapse = "\n\n")
 
 # Print to console
-cat(transcript_text)
+#cat(transcript_text)
 # save as text file
-writeLines(transcript_text, "pilot_data/pilot_training_transcript.txt")
-
+#writeLines(transcript_text, "pilot_data/pilot_training_transcript.txt")
 
 
 # 4. TESTING
+
+# Load data
+testing_data <- read.csv("pilot_data/pilot_testing.csv", stringsAsFactors = FALSE)
+
+# Give the testing dataset and instruct including format
+res <- ask_llm(conv, paste(
+  "<instructions>",
+  "Keep those lessons in mind.",
+  "I will now give you new data from the dataset pilot_testing.csv below",
+  "Please <thinking> classify each sentence >/thinking>.",
+  "Return your results as CSV with the columns:",
+  "text,sentiment",
+  "Put the CSV inside <answer> </answer>.",
+  "</instructions>",
+  paste(
+    apply(testing_data, 1, function(row) {
+      paste0("Sentence: ", row["text"])
+    }),
+    collapse = "\n"
+  ),
+  sep = "\n"
+))
+conv <- res$conversation
+print(res$answer)
+
+# To judge the output and compare to my annotated dataset, I need to clean the model output first
+library(readr)
+
+csv_text <- gsub("</?answer>", "", res$answer) # removes <answer> tags from output and replaces with ""
+
+llm_results <- read_csv(csv_text) # save results as variable
+
+# Load my annotations
+Hannah_annotation <- read_csv("pilot_data/pilot_testing_annotated_Hannah.csv")
+
+# Merge predictions for comparison and name the columns
+comparison <- merge(Hannah_annotation, llm_results, by = "text")
+
+names(comparison)[names(comparison) == "sentiment.x"] <- "sentiment_Hannah"
+names(comparison)[names(comparison) == "sentiment.y"] <- "sentiment_LLM"
+
+print(comparison)
+
+# Compute accuracy
+accuracy <- mean(comparison$sentiment_Hannah == comparison$sentiment_LLM)
+
+print(accuracy)
+
+# Write transcript without showing dataset (exchanged with placeholder)
+transcript <- sapply(conv$messages, function(msg) {
+  content <- msg$content
+  
+  # Remove long sentence lists
+  content <- sub("Sentence:.*", "[DATASET REMOVED FOR TRANSCRIPT]", content)
+  
+  paste0(toupper(msg$role), ": ", content)
+})
+
+transcript_text <- paste(transcript, collapse = "\n\n")
+cat(transcript_text)
+writeLines(transcript_text, "pilot_data/pilot_complete.txt")
+# now need to mention the dataset name in the user prompt for clarity in transcript
+
+
 
 
 
