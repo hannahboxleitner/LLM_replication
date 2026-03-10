@@ -11,8 +11,7 @@ In the last decades, Researchers in corpus linguistics gained access to increasi
 
 I aim to replicate a study by @morin2025, which presents a replicable method for leveraging LLMs for assistance in linguistic grammatical annotation. While the study was conducted with the model Claude Sonnet 3.5, I will attempt to replicate it using the same data, but with an open LLM (Mistral) in R.
 
-This project is intended to embody the principles of Open Science in two respects: First, I want to contribute to the use and examination of open LLMs for analysis of linguistic data. While closed LLMs (like ChatGPT) are widely used in day-to-day life, their usage brings difficulties regarding data rights, privacy, etc. **(see presentation for citation)** among others. Many open alternatives are on the rise, but are not as widely used and investigated in studies as necessary **(source?)**. 
-**Second**, I want to conduct a replication and thereby participate in the central aim of making linguistic research more cumulative and robust.
+This project is intended to embody the principles of Open Science in two respects: First, I want to contribute to the use and examination of open LLMs for analysis of linguistic data. While closed LLMs (like ChatGPT) are widely used in day-to-day life, their usage brings difficulties regarding data rights, privacy, etc. **(see presentation for citation)** among others. Many open alternatives are on the rise, but are not as widely used and investigated in studies as necessary **(source?)**. **Second**, I want to conduct a replication and thereby participate in the central aim of making linguistic research more cumulative and robust.
 
 # Methodological approach
 
@@ -28,25 +27,23 @@ In planning this replication, I used the handbook by @röseler2025 as a guide fo
 
 -   discussing outcomes in the light of potential differences,
 
--   and publishing a report [@röseler2025a].
+-   and publishing a report [@röseler2025].
 
 # The target study
 
-The target study by @morin2025 focuses on the verb *consider*, which can be found in a number of larger grammatical constructions, one of which is an evaluative use introducing an evaluation or judgement. 
+The target study by @morin2025 focuses on the verb *consider*, which can be found in a number of larger grammatical constructions, one of which is an evaluative use introducing an evaluation or judgement.
 
 **insert screenshots p. 2**
 
-The relationship between the three variants is unclear and it has been suggested that the *consider + as* construction might be becoming less and less common. Searching for this construction in the EnTenTen21 corpus (**source**), the authors encountered the problem that the evaluative construction coexists with another
-prominent use of consider as a cognition verb **(include example?)**, and out of a random sample of 200 CONSIDER tokens, only 11.5% were found to be true positives and therefore of interest for the research question  [@morin2025: 2]. For a corpus-based study addressing this methodological challenge, @morin2025 make use of LLMs for cleaning and annotation tasks, and outline how to
-automatically annotate large quantities of evaluative *consider* constructions, based on the key processes of
-prompt engineering, training, and evaluation. For this task, the LLM Claude Sonnet 3.5 and data from the NOW corpus ans Sketch Engine's EnTenTen21 corpus was used [@morin2025: 3].
-**short summary of the study and the results??**
+The relationship between the three variants is unclear and it has been suggested that the *consider + as* construction might be becoming less and less common. Searching for this construction in the EnTenTen21 corpus (**source**), the authors encountered the problem that the evaluative construction coexists with another prominent use of consider as a cognition verb **(include example?)**, and out of a random sample of 200 CONSIDER tokens, only 11.5% were found to be true positives and therefore of interest for the research question [@morin2025: 2]. For a corpus-based study addressing this methodological challenge, @morin2025 make use of LLMs for cleaning and annotation tasks, and outline how to automatically annotate large quantities of evaluative *consider* constructions, based on the key processes of prompt engineering, training, and evaluation. For this task, the LLM Claude Sonnet 3.5 and data from the NOW corpus ans Sketch Engine's EnTenTen21 corpus was used [@morin2025: 3]. **short summary of the study and the results??**
 
 Include source for the dataset
 
 ## Decide on type of replication
 
-**close replication?** [@röseler2025a: Chapter 4]
+**close replication?** [@röseler2025: Chapter 4]
+
+While the replication should resemble the original study very closely, this can be difficult to achieve for multiple reasons. Among others, original studies may not include sufficient detail in some respects [@röseler2025: Chapter 6.3]. In the case of replicating @morin2025, the authors share their data and a transcript of the conversation, while also explaining their approach in the paper, but the code with which the automated was implemented (or even the programming language, for example) is not shared. Therefore, resembling the study in terms of implementing the pipeline is only possible to a limited extent.
 
 # Planning and running the replication
 
@@ -56,33 +53,23 @@ To plan my replication, I read the study by @morin2025 thoroughly, especially fo
 
 Also, I downloaded the dataset from OSF and looked at the data using LibreOffice Calc.
 
-Another important step in planning the replication was to look at the conversation transcript, that @morin2025 provided with their data. It shows concrete prompts and answers of the model. The conversation consists of the following parts:
-**Pretraining**
-- First, the LLM gets a user prompt containing detailed instructions on how to classify the sentences, and is presented with examples for every instance and a step-by-step approach to classification.
-- It is instructed to look at 493 pretraining sentences in a dataset containing correct classifications, think about each classification step-by-step, and encouraged to ask questions.
-**Training**
-- A round of supervised classifications follows: The model is prompted to classify the first 100 sentences in batches of 25. Mistakes are corrected through user prompts.
-- After that, another dataset of 100 sentences is requested to be classified without the close supervision (and to be provided in tab-separated .csv-format).
-- All incorrect classifications are pasted into the next user prompt. The model is told its accuracy for the task and instructed to review the errors.
-- These reviews are not further commented, the model is simply told to keep lessons in mind. It is requested to classify step-by-step and consistently apply the insertion test, then given new data (EnTenTen_random_sample_101.csv), and told to do the full classification in one batch in .csv format.
-- It is told the accuracy rate (93%) and told it is good
-**Testing**
-- Provided with new data (EnTenTen_random_sample_102.csv) and told to follow the procedure that was successfully applied in the latest round of classifications. After classification, it is again told the accuracy.
-
+Another important step in planning the replication was to look at the conversation transcript, that @morin2025 provided with their data. It shows concrete prompts and answers of the model. The conversation consists of the following parts: **Pretraining** - First, the LLM gets a user prompt containing detailed instructions on how to classify the sentences, and is presented with examples for every instance and a step-by-step approach to classification. - It is instructed to look at 493 pretraining sentences in a dataset containing correct classifications, think about each classification step-by-step, and encouraged to ask questions. **Training** - A round of supervised classifications follows: The model is prompted to classify the first 100 sentences in batches of 25. Mistakes are corrected through user prompts. - After that, another dataset of 100 sentences is requested to be classified without the close supervision (and to be provided in tab-separated .csv-format). - All incorrect classifications are pasted into the next user prompt. The model is told its accuracy for the task and instructed to review the errors. - These reviews are not further commented, the model is simply told to keep lessons in mind. It is requested to classify step-by-step and consistently apply the insertion test, then given new data (EnTenTen_random_sample_101.csv), and told to do the full classification in one batch in .csv format. - It is told the accuracy rate (93%) and told it is good **Testing** - Provided with new data (EnTenTen_random_sample_102.csv) and told to follow the procedure that was successfully applied in the latest round of classifications. After classification, it is again told the accuracy.
 
 For this project, I wanted to replicate the study by @morin2025 with the same approach and the same data, but use a different, and especially an open LLM for the task. **Since running LLMs locally via Ollama (source?) was only possible with rather small LLMs due to the available hardware, I used an API key via KI:connect.** I decided to use Mistral Small 3.2 24B Instruct 2506.
 
 few sentences about the LLM of choice with source
 
-
+**Decide on criteria for successful replication + maybe hypothesis**
 
 ## Running the replication
 
-Via the KI:connect API documentation <https://chat.kiconnect.nrw/app/api-docs/#tag/chatcompletions/post/v1chatcompletions>, I set up the LLM for usage with an API key, and tried out some prompts (use what for formulating prompts?). **Integrating the iterative nature of a multi-turn-conversation posed a challenge. Reading up on OpenAI's Conversation API <https://developers.openai.com/api/docs/guides/conversation-state>, which unfortunately does not exist for this model **(?)**, reading up on packages suited / using these packages, I tried to build something similar.**
+Via the KI:connect API documentation <https://chat.kiconnect.nrw/app/api-docs/#tag/chatcompletions/post/v1chatcompletions>, I set up the LLM for usage with an API key, and tried out some prompts (use what for formulating prompts?). **Integrating the iterative nature of a multi-turn-conversation posed a challenge. Reading up on OpenAI's Conversation API <https://developers.openai.com/api/docs/guides/conversation-state>, which unfortunately does not exist for this model** (?)**, reading up on packages suited / using these packages, I tried to build something similar.**
 
 **The code was modified to be suitable for multi-turn conversations. For methodological consistency, I tried to keep the process as close to the one shown in the transcript of the conversation in @morin2025's data. For example, while the very long initial user prompt (containing detailed instructions for step-by-step classification with examples) could also have been implemented as a system prompt in the code, I also included it in the chat, as proposed by @morin2025.**
 
-**testing with smaller things -\> maybe do a test run with my own dataset**
+**testing with smaller things -\> maybe do a test run with my own dataset: things I did differently in the pilot**
+
+-\> e.g. I did not define the desired accuracy level -\> will do in the study.; the instructions were way less detailed, the kind of classification task was different, etc.
 
 # Results of the replication
 

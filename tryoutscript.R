@@ -8,23 +8,23 @@ library(dplyr)    # for manipulating and summarizing data
 
 # The API key is saved as an environment variable in a .renviron file outside of the project folder and called inside of the function
 
-# Assign conv variable for conversation as a list of messages
+# Assign conv function for conversation as a list of messages
 create_conversation <- function() {
   list(messages = list())
 }
 
-conv <- create_conversation() # resets conversation every time I run it
+conv <- create_conversation() # conv-object: resets conversation every time I run it
 
-# Function for adding a message
+# Function for adding message to conv object (with role and content)
 add_message <- function(conv, role, content) {
   conv$messages <- append(conv$messages, list(list(
     role = role,
     content = content
   )))
-  conv
+  conv # return the updated conversation
 }
 
-# API call function
+# API call function: sends conversation to API and returns answer
 call_llm <- function(conv, api_key) {
   
   payload <- list(
@@ -52,7 +52,7 @@ call_llm <- function(conv, api_key) {
   )
 }
 
-# Function for user-question
+# Function for user-question (adds user question to the conversation and sends to API)
 ask_llm <- function(conv, question) {
   
   api_key <- Sys.getenv("MISTRAL_API_KEY")
