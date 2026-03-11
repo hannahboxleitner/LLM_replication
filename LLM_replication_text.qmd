@@ -81,15 +81,37 @@ I used a small dataset I had annotated manually once for another project. The ta
 
 ## Deciding on a model
 
-For this project, I wanted to replicate the study by @morin2025 with the same approach and the same data, but use a different, and especially an open LLM for the task. **Since running LLMs locally via Ollama (source?) was only possible with rather small LLMs due to the available hardware, I used an API key via KI:connect.** I decided to use Mistral Small 3.2 24B Instruct 2506.
+For this project, I wanted to replicate the study by @morin2025 with a different, and especially an open LLM for the task. Since running LLMs locally was only possible with rather small LLMs due to the available hardware, I used an API key via KI:connect.
 
-*few sentences about the LLM of choice with source*
+The model chosen for this project is Mistral Small 3.2 24B Instruct 2506, which was released in 2025 under Apache 2.0 license. It is a minor update of [Mistral-Small-3.1-24B-Instruct-2503](https://huggingface.co/mistralai/Mistral-Small-3.1-24B-Instruct-2503), improved in the area of instruction following, repetition errors, and function calling. Even though this model is considered open source, one might take a closer look in terms of openness: It is evidently open in some respects (open weights, for example), but closed in others (e.g. no open code) [@mistrala]. However, considering available options for this project and that a certain size and performance was required for the task at hand, it is still the most suitable choice.
+
+Using the API documentation in [@ki:conne], I was able to get started on chat completions.
+
+Considering the concern of data leakage, it is important to note that the model was released in summer of 2025. **When it was trained exactly is unclear.** @morin2025, who used data from the NOW corpus and Sketch Engine’s EnTenTen21 corpus [@morin2025: 3], created their OSF-database also containing the annotated dataset used as the gold standard for comparison, in November 2024.
 
 ## Defining replication criteria and hypothesis
 
+@morin2025 present a methodological pipeline leveraging an LLM for the automatic annotation of grammatical data, based on the case study of the evaluative *consider* construction in English. Their research questions are concerned with the frequency of the different variants of the *consider* construction. While they don't formulate a hypothesis in their paper, they state a twofold goal to 1) build a replicable methodological pipeline that can be repurposed and 2) to substantially improve the quality of annotation of future corpus studies [@morin2025:3].
+
+In view of the first goal, this paper will focus on the replication process itself. My research question is: Is this study replicable with another, open LLM? **While they mention generalizability towards other languages or other grammatical constructions, generalizability considering other models is a highly relevant question.**
+
+To answer this research question, I need to make The authors state in their abstract to have reached "a model accuracy of over 90%" [@morin2025: 1]. While they include some other evaluation metrics, they mostly focus on accuracy in the rest of the paper. For the replication of this project, I therefore want to define reaching an **accuracy of over 90%** as the main **criterion** for a successful replication.
+
+While attempting to reach this goal, the focus of this project - **with regard to principles of open science** - remains the replication process itself, which, as mentioned before, is supposed to be as close as possible to the methodological pipeline presented in @morin2025, including specifics like
+
+-   using XML-tags in user prompts (e.g. for \<instructions\> classification instructions \</instructions\>)
+
+-   putting all the instruction inside user prompts (as suggested in the transcript) as opposed to implementing a system prompt
+
+-   etc.
+
+Based on these considerations, I want to establish the following hypothesis for this project: Using the methodological pipeline and data from @morin2025 in a close replication with the open model Mistral Small 3.2 24B Instruct 2506, it is possible to reach an accuracy level of over 90%.
+
+**Relevant** **to your field of study and/or society more broadly**
+
 # Running the replication
 
-Via the KI:connect API documentation <https://chat.kiconnect.nrw/app/api-docs/#tag/chatcompletions/post/v1chatcompletions>, I set up the LLM for usage with an API key, and tried out some prompts (use what for formulating prompts?). **Integrating the iterative nature of a multi-turn-conversation posed a challenge. Reading up on OpenAI's Conversation API <https://developers.openai.com/api/docs/guides/conversation-state>, which unfortunately does not exist for this model** (?)**, reading up on packages suited / using these packages, I tried to build something similar.**
+(Via the KI:connect API documentation <https://chat.kiconnect.nrw/app/api-docs/#tag/chatcompletions/post/v1chatcompletions>, I set up the LLM for usage with an API key, and tried out some prompts (use what for formulating prompts?). **Integrating the iterative nature of a multi-turn-conversation posed a challenge. Reading up on OpenAI's Conversation API <https://developers.openai.com/api/docs/guides/conversation-state>, which unfortunately does not exist for this model** (?)**, reading up on packages suited / using these packages, I tried to build something similar.) -\> already in the planning section**
 
 **The code was modified to be suitable for multi-turn conversations. For methodological consistency, I tried to keep the process as close to the one shown in the transcript of the conversation in @morin2025's data. For example, while the very long initial user prompt (containing detailed instructions for step-by-step classification with examples) could also have been implemented as a system prompt in the code, I also included it in the chat, as proposed by @morin2025.**
 
@@ -103,7 +125,17 @@ accuracy
 
 accuracy compared to the original study
 
+what went wrong or well
+
+Replication focus: Hypothesis, was the replication successful?
+
+is the approach indeed replicable?
+
 # Discussion of outcomes in light of differences
+
+Relevance!
+
+Generalizability, Opportunities
 
 # Reflection of methodological approach and difficulties
 
