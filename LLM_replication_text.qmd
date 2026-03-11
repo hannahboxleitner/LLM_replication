@@ -37,31 +37,57 @@ The target study by @morin2025 focuses on the verb *consider*, which can be foun
 
 The relationship between the three variants is unclear and it has been suggested that the *consider + as* construction might be becoming less and less common. Searching for this construction in the EnTenTen21 corpus (**source**), the authors encountered the problem that the evaluative construction coexists with another prominent use of consider as a cognition verb **(include example?)**, and out of a random sample of 200 CONSIDER tokens, only 11.5% were found to be true positives and therefore of interest for the research question [@morin2025: 2]. For a corpus-based study addressing this methodological challenge, @morin2025 make use of LLMs for cleaning and annotation tasks, and outline how to automatically annotate large quantities of evaluative *consider* constructions, based on the key processes of prompt engineering, training, and evaluation. For this task, the LLM Claude Sonnet 3.5 and data from the NOW corpus ans Sketch Engine's EnTenTen21 corpus was used [@morin2025: 3]. **short summary of the study and the results??**
 
-Include source for the dataset
+Include source for the dataset that can be downloaded (see project from last year to mmake it look nice)
+
+# Planning the replication
 
 ## Decide on type of replication
 
-**close replication?** [@röseler2025: Chapter 4]
+**close replication?** [@röseler2025: Chapter 4] In planning and defining the terms for this project, I encountered some problems with the terminology of replication research. Many things that need to be considered for reproductions or replications are usually formulated with respect to experiments with participants, where sample sizes etc. matter. Replications are also often defined as repeating a study with different data, for example **(source: table in Röseler**). For this project, a replication of a study that leverages LLMs to assist in grammatical annotation for linguistic research, a lot of the terminology does not fit or apply. While I intend to use the same data as @morin2025, which I intend to replicate with another LLM, one can argue that using different models creates different data. Also, the models somehow represent participants in this setting, since they basically replace annotators who would otherwise do this task manually. *maybe aufgreifen in the conclusion!* *entweder hier noch auf data leakage eingehen oder später* Therefore, I had to adapt the theoretical framework as possible, and go from there. Since I plan on replicating @morin2025's approach very closely, use the data that is provided, and also adapt their prompting very closely, this project would probably be considered a *close replication*. Achieving a very close resemblance with the original study can be difficult for multiple reasons. Among others, original studies may not include sufficient detail in some respects [@röseler2025: Chapter 6.3]. In the case of replicating @morin2025, the authors share their data and a transcript of the conversation, while also explaining their approach in the paper, but the code with which the automated pipeline was implemented (or even the programming language, for example) is not shared. This is an important aspect to consider, since resembling the study in terms of implementing the pipeline itself is only possible to a limited extent.
 
-While the replication should resemble the original study very closely, this can be difficult to achieve for multiple reasons. Among others, original studies may not include sufficient detail in some respects [@röseler2025: Chapter 6.3]. In the case of replicating @morin2025, the authors share their data and a transcript of the conversation, while also explaining their approach in the paper, but the code with which the automated was implemented (or even the programming language, for example) is not shared. Therefore, resembling the study in terms of implementing the pipeline is only possible to a limited extent.
-
-# Planning and running the replication
-
-## Planning
+## Planning to replicate the method and piloting
 
 To plan my replication, I read the study by @morin2025 thoroughly, especially focusing on the pre-training and prompt engineering.
 
-Also, I downloaded the dataset from OSF and looked at the data using LibreOffice Calc.
+Further insight could be gained by going through the conversation transcript that @morin2025 provided with their data. It lists user prompts and answers of the model in a `docx.`-file. The conversation consists of the following parts:
 
-Another important step in planning the replication was to look at the conversation transcript, that @morin2025 provided with their data. It shows concrete prompts and answers of the model. The conversation consists of the following parts: **Pretraining** - First, the LLM gets a user prompt containing detailed instructions on how to classify the sentences, and is presented with examples for every instance and a step-by-step approach to classification. - It is instructed to look at 493 pretraining sentences in a dataset containing correct classifications, think about each classification step-by-step, and encouraged to ask questions. **Training** - A round of supervised classifications follows: The model is prompted to classify the first 100 sentences in batches of 25. Mistakes are corrected through user prompts. - After that, another dataset of 100 sentences is requested to be classified without the close supervision (and to be provided in tab-separated .csv-format). - All incorrect classifications are pasted into the next user prompt. The model is told its accuracy for the task and instructed to review the errors. - These reviews are not further commented, the model is simply told to keep lessons in mind. It is requested to classify step-by-step and consistently apply the insertion test, then given new data (EnTenTen_random_sample_101.csv), and told to do the full classification in one batch in .csv format. - It is told the accuracy rate (93%) and told it is good **Testing** - Provided with new data (EnTenTen_random_sample_102.csv) and told to follow the procedure that was successfully applied in the latest round of classifications. After classification, it is again told the accuracy.
+**Pretraining**
+
+-   First, the LLM gets a user prompt containing detailed instructions on how to classify the sentences, and is presented with examples for every instance and a step-by-step approach to classification.
+
+-   It is instructed to look at 493 pretraining sentences in a dataset containing correct classifications, think about each classification step-by-step, and encouraged to ask questions.
+
+**Training**
+
+-   A round of supervised classifications follows: The model is prompted to classify the first 100 sentences in batches of 25. Mistakes are corrected through user prompts.
+
+-   After that, another dataset of 100 sentences is requested to be classified without the close supervision (and to be provided in tab-separated .csv-format).
+
+-   All incorrect classifications are pasted into the next user prompt. The model is told its accuracy for the task and instructed to review the errors.
+
+-   **These reviews are not further commented,** the model is simply told to keep lessons in mind. It is requested to classify step-by-step and consistently apply the insertion test, then given new data (EnTenTen_random_sample_101.csv), and told to do the full classification in one batch in .csv format.
+
+-   It is told the accuracy rate (93%) and told it is good
+
+**Testing**
+
+-   Provided with new data (EnTenTen_random_sample_102.csv) and told to follow the procedure that was successfully applied in the latest round of classifications. After classification, it is again told the accuracy.
+
+## Piloting
+
+Since this approach is quite extensive and detailed, and there is no code to look into for aspects like e.g. how the datasets were implemented in the prompts, I decided to conduct a little pilot study to test a similar multi-turn-conversation.
+
+I used a small dataset I had annotated manually once for another project. The task was a sentiment analysis with a lot less detailed instructions. The goal of this pilot was not to follow @morin2025's approach exactly or to achieve a high accuracy, but rather to implement the steps of pretraining, training and testing and make sure the model can access the datasets. In the last round of testing, I actually overlooked one step of informing the model about the "new" accuracy of corrections, which might have improved accuracy in the end. This made me further aware of the exact process and glad I conducted a pilot study.
+
+## Deciding on a model
 
 For this project, I wanted to replicate the study by @morin2025 with the same approach and the same data, but use a different, and especially an open LLM for the task. **Since running LLMs locally via Ollama (source?) was only possible with rather small LLMs due to the available hardware, I used an API key via KI:connect.** I decided to use Mistral Small 3.2 24B Instruct 2506.
 
-few sentences about the LLM of choice with source
+*few sentences about the LLM of choice with source*
 
-**Decide on criteria for successful replication + maybe hypothesis**
+## Defining replication criteria and hypothesis
 
-## Running the replication
+# Running the replication
 
 Via the KI:connect API documentation <https://chat.kiconnect.nrw/app/api-docs/#tag/chatcompletions/post/v1chatcompletions>, I set up the LLM for usage with an API key, and tried out some prompts (use what for formulating prompts?). **Integrating the iterative nature of a multi-turn-conversation posed a challenge. Reading up on OpenAI's Conversation API <https://developers.openai.com/api/docs/guides/conversation-state>, which unfortunately does not exist for this model** (?)**, reading up on packages suited / using these packages, I tried to build something similar.**
 
