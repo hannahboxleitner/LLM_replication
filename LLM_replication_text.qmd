@@ -13,6 +13,8 @@ I aim to replicate a study by @morin2025, which presents a replicable method for
 
 This project is intended to embody the principles of Open Science in two respects: First, I want to contribute to the use and examination of open LLMs for analysis of linguistic data. While closed LLMs (like ChatGPT) are widely used in day-to-day life, their usage brings difficulties regarding data rights, privacy, etc. **(see presentation for citation)** among others. Many open alternatives are on the rise, but are not as widely used and investigated in studies as necessary **(source?)**. **Second**, I want to conduct a replication and thereby participate in the central aim of making linguistic research more cumulative and robust.
 
+**generalizability considering other models is a highly relevant question, especially in relation to open science.**
+
 # Methodological approach
 
 In planning this replication, I used the handbook by @röseler2025 as a guide for the research process. On a general note, the following steps are listed (and conducted in this replication study):
@@ -41,7 +43,7 @@ Include source for the dataset that can be downloaded (see project from last yea
 
 # Planning the replication
 
-## Decide on type of replication
+## Deciding on a type of replication
 
 **close replication?** [@röseler2025: Chapter 4] In planning and defining the terms for this project, I encountered some problems with the terminology of replication research. Many things that need to be considered for reproductions or replications are usually formulated with respect to experiments with participants, where sample sizes etc. matter. Replications are also often defined as repeating a study with different data, for example **(source: table in Röseler**). For this project, a replication of a study that leverages LLMs to assist in grammatical annotation for linguistic research, a lot of the terminology does not fit or apply. While I intend to use the same data as @morin2025, which I intend to replicate with another LLM, one can argue that using different models creates different data. Also, the models somehow represent participants in this setting, since they basically replace annotators who would otherwise do this task manually. *maybe aufgreifen in the conclusion!* *entweder hier noch auf data leakage eingehen oder später* Therefore, I had to adapt the theoretical framework as possible, and go from there. Since I plan on replicating @morin2025's approach very closely, use the data that is provided, and also adapt their prompting very closely, this project would probably be considered a *close replication*. Achieving a very close resemblance with the original study can be difficult for multiple reasons. Among others, original studies may not include sufficient detail in some respects [@röseler2025: Chapter 6.3]. In the case of replicating @morin2025, the authors share their data and a transcript of the conversation, while also explaining their approach in the paper, but the code with which the automated pipeline was implemented (or even the programming language, for example) is not shared. This is an important aspect to consider, since resembling the study in terms of implementing the pipeline itself is only possible to a limited extent.
 
@@ -81,35 +83,44 @@ I used a small dataset I had annotated manually once for another project. The ta
 
 ## Deciding on a model
 
-For this project, I wanted to replicate the study by @morin2025 with a different, and especially an open LLM for the task. Since running LLMs locally was only possible with rather small LLMs due to the available hardware, I used an API key via KI:connect.
+For this project, I wanted to replicate the study by @morin2025 with a different, and especially an open LLM for the task. The authors used Claude Sonnet 3.5, an LLM that is known for strong performance and often compared with ChatGPT, including in NLP studies [@morin2025: 3].
 
-The model chosen for this project is Mistral Small 3.2 24B Instruct 2506, which was released in 2025 under Apache 2.0 license. It is a minor update of [Mistral-Small-3.1-24B-Instruct-2503](https://huggingface.co/mistralai/Mistral-Small-3.1-24B-Instruct-2503), improved in the area of instruction following, repetition errors, and function calling. Even though this model is considered open source, one might take a closer look in terms of openness: It is evidently open in some respects (open weights, for example), but closed in others (e.g. no open code) [@mistrala]. However, considering available options for this project and that a certain size and performance was required for the task at hand, it is still the most suitable choice.
+The model chosen for this project is Mistral Small 3.2 24B Instruct 2506, which was released in 2025 under Apache 2.0 license. It is a minor update of [Mistral-Small-3.1-24B-Instruct-2503](https://huggingface.co/mistralai/Mistral-Small-3.1-24B-Instruct-2503), improved in the area of instruction following, repetition errors, and function calling. Even though this model is considered open source, one might take a closer look in terms of openness: It is evidently open in some respects (open weights, for example), but closed in others (e.g. no open code) [@mistrala]. Investigating how an open and smaller model performs on a linguistic annotation task in comparison with a rather well-known commercial model is not just of interest for this project, but also relevant for research on LLM usage in linguistics in general.
 
-Using the API documentation in [@ki:conne], I was able to get started on chat completions.
+Since running LLMs locally was only possible with very small LLMs due to the available hardware, I used an API key via KI:connect. Using the API documentation in [@ki:conne], I was able to get started on chat completions.
 
-Considering the concern of data leakage, it is important to note that the model was released in summer of 2025. **When it was trained exactly is unclear.** @morin2025, who used data from the NOW corpus and Sketch Engine’s EnTenTen21 corpus [@morin2025: 3], created their OSF-database also containing the annotated dataset used as the gold standard for comparison, in November 2024.
+Considering the concern of data leakage, it is important to note that the model was released in June 2025**.** @morin2025, who used data from the NOW corpus and Sketch Engine’s EnTenTen21 corpus for their study [@morin2025: 3], created their OSF-database also containing the annotated datasets used as the gold standard for comparison, in November 2024. **When and on which data the model was trained exactly is unclear, but there were definitely changes and fine-tuning on the Mistral model after the repository went public.**
 
 ## Defining replication criteria and hypothesis
 
 @morin2025 present a methodological pipeline leveraging an LLM for the automatic annotation of grammatical data, based on the case study of the evaluative *consider* construction in English. Their research questions are concerned with the frequency of the different variants of the *consider* construction. While they don't formulate a hypothesis in their paper, they state a twofold goal to 1) build a replicable methodological pipeline that can be repurposed and 2) to substantially improve the quality of annotation of future corpus studies [@morin2025:3].
 
-In view of the first goal, this paper will focus on the replication process itself. My research question is: Is this study replicable with another, open LLM? **While they mention generalizability towards other languages or other grammatical constructions, generalizability considering other models is a highly relevant question.**
+Keeping these concerns about the generalizability of the author's approach in mind, the present study addresses the following research question:Can the methodological pipeline proposed by @morin2025 be successfully replicated using a different large language model on the same linguistic classification task?
 
-To answer this research question, I need to make The authors state in their abstract to have reached "a model accuracy of over 90%" [@morin2025: 1]. While they include some other evaluation metrics, they mostly focus on accuracy in the rest of the paper. For the replication of this project, I therefore want to define reaching an **accuracy of over 90%** as the main **criterion** for a successful replication.
+To answer this research question, replicability needs to be measurable in this context. The authors state in their abstract to have reached "a model accuracy of over 90%" [@morin2025: 1], and lastly achieved an accuracy rate of 93% with their model. As one can see in the conversation transcript, the user prompt contains a desired accuracy level of 95% to illustrate to the model what constitutes a successful task completion.
 
-While attempting to reach this goal, the focus of this project - **with regard to principles of open science** - remains the replication process itself, which, as mentioned before, is supposed to be as close as possible to the methodological pipeline presented in @morin2025, including specifics like
+For this project, a successful replication is defined as achieving an accuracy ≥ 90% using the original dataset and methodological pipeline proposed by @morin2025.
+
+While attempting to reach this goal, the focus of this project - **with regard to principles of open science** - remains the replication itself, which, as mentioned before, is supposed to be as close as possible to the methodological pipeline presented in @morin2025, including specifics like
 
 -   using XML-tags in user prompts (e.g. for \<instructions\> classification instructions \</instructions\>)
 
 -   putting all the instruction inside user prompts (as suggested in the transcript) as opposed to implementing a system prompt
 
--   etc.
+-   and so on.
 
-Based on these considerations, I want to establish the following hypothesis for this project: Using the methodological pipeline and data from @morin2025 in a close replication with the open model Mistral Small 3.2 24B Instruct 2506, it is possible to reach an accuracy level of over 90%.
+Based on these considerations, I want to establish the following hypothesis for this project: Using the methodological pipeline and dataset from @morin2025, the open model *Mistral Small 3.2 24B Instruct 2506* will achieve an accuracy of **at least 90%** on the linguistic classification task when evaluated against the human gold standard.*\
+*
+
+As a secondary component of my analysis, inter-rater agreement was evaluated. Overall agreement across all annotators (Model 1, Model 2, and the human gold standard provided in the study data) was assessed using Fleiss' **Kappa,** and pairwise comparisons (every model against the human gold standard)using Cohen's **Kappa.**
+
+**e.g. Fleiss' Kappa** (see Larsson et al.) -\> **accounting for accidental agreement seems especially relevant in terms of LLMs, because there would be no real way of knowing if the models would simply guess.**
+
+Inter-rater agreement (also referred to as inter-annotator agreement, or inter-rater reliability) is often measured for purposes like improving annotation schemes or identifying difficulties in the source [@artstein2017: 298], **which is why it can be done at different stages of a study, e.g. before conducting the full-scale annotation.**
 
 **Relevant** **to your field of study and/or society more broadly**
 
-# Running the replication
+# Running the replication / Analysis
 
 (Via the KI:connect API documentation <https://chat.kiconnect.nrw/app/api-docs/#tag/chatcompletions/post/v1chatcompletions>, I set up the LLM for usage with an API key, and tried out some prompts (use what for formulating prompts?). **Integrating the iterative nature of a multi-turn-conversation posed a challenge. Reading up on OpenAI's Conversation API <https://developers.openai.com/api/docs/guides/conversation-state>, which unfortunately does not exist for this model** (?)**, reading up on packages suited / using these packages, I tried to build something similar.) -\> already in the planning section**
 
@@ -129,13 +140,27 @@ what went wrong or well
 
 Replication focus: Hypothesis, was the replication successful?
 
-is the approach indeed replicable?
+## Inter-rater agreement
+
+Aside from measuring the success of the replication with a desired level of accuracy, I also want to analyze inter-rater agreement. While a straightforward way to do this would be to count the number of items for which annotators provide identical labels, and report that number as a percentage of the total (so-called raw or observed agreement), accidental agreement is not accounted for in this approach, which impacts reliability (and reproducibility). Instead, I want to utilize a coefficient from the kappa/alpha family: This is considered to measure a more meaningful agreement through involving agreement by chance, resulting in a coefficient whose value is 1 when agreement is perfect, and 0 when agreement is at chance level [@artstein2017: 299-300]. Since with LLMs it seems every more likely that some amount of agreement is by chance, I think it important to account for this issue in measuring inter-rater agreement. **(does this have to be in hypothesis part? and here only the results of the analysis)**
+
+First, calculate Fleiss' kappa: suitable for comparing more than two annotators (Mistral, Claude, and human gold standard), and suitable when there are only two categories/labels [@artstein2017: 300].
+
+In a second part, I want to take into consideration Cohen's kappa, used to measure agreement between two raters. -\> for pairwise comparison (Claude and HGS; Mistral and HGS). -\> the purpose of including this measurement is to draw conclsuions about which model worked "better" for annotation (compared to the HGS).
+
+For interpretation: Landis & Koch (1977) -\> scale!
+
+## maybe: addition about data leakage, test with mini-dataset?
 
 # Discussion of outcomes in light of differences
+
+is the approach indeed replicable?
 
 Relevance!
 
 Generalizability, Opportunities
+
+point out how the terminology and study design is not suited yet for these kinds of studies
 
 # Reflection of methodological approach and difficulties
 
