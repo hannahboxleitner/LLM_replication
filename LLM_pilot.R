@@ -1,83 +1,13 @@
-# LLM Replication Project: Pilot study
+# Pilot study: Testing LLM pipeline with sentiment analysis
 
-# Load libraries necessary for the project
-library(httr)
-library(jsonlite)
-library(readr)    # for reading CSV files
-library(dplyr)    # for manipulating and summarizing data
+# In this file, a pilot study based on the approach in Morin & Marttinen Larsson (2025) is conducted, to test out the methodological pipeline with a much smaller dataset.
+# The model is used for a classification task as well, but a sentiment analysis with less complex instructions.
+# The data used for the pilot was collected and manually annotated for another, older project, which is completely unrelated to this study.
 
-# The API key is saved as an environment variable in a .renviron file outside of the project folder and called inside of the function
 
-# Assign conv function for conversation as a list of messages
-create_conversation <- function() {
-  list(messages = list())
-}
+# Load setup script 
+source("LLM_setup.R")
 
-conv <- create_conversation() # conv-object: resets conversation every time I run it
-
-# Function for adding message to conv object (with role and content)
-add_message <- function(conv, role, content) {
-  conv$messages <- append(conv$messages, list(list(
-    role = role,
-    content = content
-  )))
-  conv # return the updated conversation
-}
-
-# API call function: sends conversation to API and returns answer
-call_llm <- function(conv, api_key) {
-  
-  payload <- list(
-    model = "Mistral Small 3-2-24b Instruct KI:Inferenz.nrw",
-    messages = conv$messages
-  )
-  
-  response <- POST(
-    "https://chat.kiconnect.nrw/api/v1/chat/completions",
-    add_headers(Authorization = paste("Bearer", api_key)),
-    content_type_json(),
-    body = payload,
-    encode = "json"
-  )
-  
-  result <- content(response, as = "parsed", simplifyVector = TRUE)
-  
-  answer <- result$choices$message$content
-  
-  conv <- add_message(conv, "assistant", answer)
-  
-  list(
-    conversation = conv,
-    answer = answer
-  )
-}
-
-# Function for user-question (adds user question to the conversation and sends to API)
-ask_llm <- function(conv, question) {
-  
-  api_key <- Sys.getenv("MISTRAL_API_KEY")
-  
-  conv <- add_message(conv, "user", question)
-  
-  res <- call_llm(conv, api_key)
-  
-  res
-}
-
-# Testing a multi-turn conversation
-res <- ask_llm(conv, "What is linguistics?")
-conv <- res$conversation
-print(res$answer)
-
-res <- ask_llm(conv, "Yes,I would like more details on Sociolinguistics.")
-conv <- res$conversation
-print(res$answer)
-
-res <- ask_llm(conv, "Please summarize it in one sentence.")
-conv <- res$conversation
-print(res$answer)
-
-# Pilot study (sentiment analysis) with small dataset
 # 1. PRETRAINING
 
 # Load data
@@ -298,7 +228,7 @@ accuracy <- mean(comparison$sentiment_Hannah == comparison$sentiment_LLM)
 
 print(accuracy)
 
-# Write transcript without showing dataset (exchanged with placeholder)
+# Write transcript without showing dataset (exchanged with placeholder) - dataset names should be mentioned in prompts for clarity
 transcript <- sapply(conv$messages, function(msg) {
   content <- msg$content
   
@@ -311,7 +241,7 @@ transcript <- sapply(conv$messages, function(msg) {
 transcript_text <- paste(transcript, collapse = "\n\n")
 cat(transcript_text)
 writeLines(transcript_text, "pilot_data/pilot_complete.txt")
-# now need to mention the dataset name in the user prompt for clarity in transcript
+
 
 
 
