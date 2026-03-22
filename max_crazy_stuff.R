@@ -11,13 +11,14 @@ library(jsonlite)
 library(readr)
 library(dplyr)
 
+MISTRAL = "Mistral Small 3-2-24b Instruct KI:Inferenz.nrw"
+GPT = "OpenAI GPT OSS 120B KI:Inferenz.nrw"
+
 
 # Assign conv function for conversation as a list of messages
 create_conversation <- function() {
   list(messages = list())
 }
-
-conv <- create_conversation() # conv-object: resets conversation every time I run it
 
 # Function for adding message to conv object (with role and content)
 add_message <- function(conv, role, content) {
@@ -29,10 +30,10 @@ add_message <- function(conv, role, content) {
 }
 
 # API call function: sends conversation to API and returns answer
-call_llm <- function(conv, api_key) {
+call_llm <- function(conv, api_key, model) {
   
   payload <- list(
-    model = "Mistral Small 3-2-24b Instruct KI:Inferenz.nrw",
+    model = model,
     messages = conv$messages
   )
   
@@ -57,26 +58,29 @@ call_llm <- function(conv, api_key) {
 }
 
 # Function for user-question (adds user question to the conversation and sends to API)
-ask_llm <- function(conv, question) {
+ask_llm <- function(conv, question, model) {
   
   api_key <- Sys.getenv("MISTRAL_API_KEY")
   
   conv <- add_message(conv, "user", question)
   
-  res <- call_llm(conv, api_key)
+  res <- call_llm(conv, api_key, model)
+  writeLines(
+    paste(add_message(conv, "assistant", res$answer)$messages),
+    sprintf("transcripts/test_%s.txt", model)
+  )
   
   res
 }
 
+
+conv <- create_conversation() # conv-object: resets conversation every time I run it
+
 # Testing a multi-turn conversation
-#res <- ask_llm(conv, "What is linguistics?")
-#conv <- res$conversation
-#print(res$answer)
+res <- ask_llm(conv, "what is your name?", GPT)
+conv <- res$conversation
+print(res$answer)
 
-#res <- ask_llm(conv, "Yes,I would like more details on Sociolinguistics.")
-#conv <- res$conversation
-#print(res$answer)
-
-#res <- ask_llm(conv, "Please summarize it in one sentence.")
-#conv <- res$conversation
-#print(res$answer)
+res <- ask_llm(conv, "You can help me by telling me what the Top P parameter does in one sentence.", GPT)
+conv <- res$conversation
+print(res$answer)
