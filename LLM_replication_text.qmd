@@ -61,15 +61,15 @@ Further insight could be gained by going through the conversation transcript tha
 
 **Training**
 
--   A round of supervised classifications follows: The model is prompted to classify the first 100 sentences in batches of 25. Mistakes are corrected through user prompts.
+-   A round of supervised classifications follows: The model is prompted to classify the first 100 sentences (dataset: supervised_training_sketchengine_100.csv) in batches of 25. Mistakes are corrected through user prompts directly.
 
--   After that, another dataset of 100 sentences is requested to be classified without the close supervision (and to be provided in tab-separated .csv-format).
+-   Unsupervised training round 1: After that, another dataset of 100 sentences is requested to be classified without the close supervision (and to be provided in **tab-separated** .csv-format).
 
--   All incorrect classifications are pasted into the next user prompt. The model is told its accuracy for the task and instructed to review the errors.
+-   All incorrect classifications are pasted into the next user prompt. The model is told its accuracy for the task and instructed to review the errors. **After that, the reviews are not further commented by the authors,** the model is simply told to keep those lessons in mind.
 
--   **These reviews are not further commented,** the model is simply told to keep lessons in mind. It is requested to classify step-by-step and consistently apply the insertion test, then given new data (EnTenTen_random_sample_101.csv), and told to do the full classification in one batch in .csv format.
+-   **Unsupervised training round 2:** It is requested to classify step-by-step and consistently apply the insertion test, then given new data (EnTenTen_random_sample_101.csv), and told to do the full classification in one batch in .csv format.
 
--   It is told the accuracy rate (93%) and told it is good
+-   It is told the accuracy rate (93%) and told that it is good
 
 **Testing**
 
@@ -83,11 +83,15 @@ I used a small dataset I had annotated manually once for another project. The ta
 
 ## Deciding on a model
 
-For this project, I wanted to replicate the study by @morin2025 with a different, and especially an open LLM for the task. The authors used Claude Sonnet 3.5, an LLM that is known for strong performance and often compared with ChatGPT, including in NLP studies [@morin2025: 3].
+The aim of this project is to replicate the study by @morin2025 with different, and especially open LLMs for the task. The authors used Claude Sonnet 3.5, an LLM that is known for strong performance and often compared with ChatGPT, including in NLP studies [@morin2025: 3].
 
-The model chosen for this project is Mistral Small 3.2 24B Instruct 2506, which was released in 2025 under Apache 2.0 license. It is a minor update of [Mistral-Small-3.1-24B-Instruct-2503](https://huggingface.co/mistralai/Mistral-Small-3.1-24B-Instruct-2503), improved in the area of instruction following, repetition errors, and function calling. Even though this model is considered open source, one might take a closer look in terms of openness: It is evidently open in some respects (open weights, for example), but closed in others (e.g. no open code) [@mistrala]. Investigating how an open and smaller model performs on a linguistic annotation task in comparison with a rather well-known commercial model is not just of interest for this project, but also relevant for research on LLM usage in linguistics in general.
+The first model chosen for this project is Mistral Small 3.2 24B Instruct 2506, which was released in 2025 under Apache 2.0 license. It is a minor update of [Mistral-Small-3.1-24B-Instruct-2503](https://huggingface.co/mistralai/Mistral-Small-3.1-24B-Instruct-2503), improved in the area of instruction following, repetition errors, and function calling.
 
-Since running LLMs locally was only possible with very small LLMs due to the available hardware, I used an API key via KI:connect. Using the API documentation in [@ki:conne], I was able to get started on chat completions.
+2nd model: GPT -\> explain
+
+It is important to mention that in terms of reproducibility, it would be best to use models locally [@nilsreiter2025]. Since running LLMs locally was only possible with very small LLMs due to the available hardware, I used an API key via KI:connect instead. Using the API documentation in [@ki:conne], **I was able to get started on chat completions.**
+
+Even though these models are considered open source, one might always take a closer look in terms of openness: They are evidently open in some respects (open weights, for example), but closed in others (e.g. no open code) [@mistrala] **(second source!)**. Arguably, open weights are the most important aspect for reproducibility [@nilsreiter2025: 23]. While @morin2025 used a rather well-known, commercial, and closed model for their study, I want to compare this with the performance of two open ones. Mistral ... is a smaller, European model, while GPT OSS .. is an open version of ChatGPT (Ableger) and way bigger. Seeing how these two perform in comparison to the model tested in @morin2025 on a linguistic annotation task is **not just of interest for this project, but also relevant for research on LLM usage in linguistics in general.**
 
 Considering the concern of data leakage, it is important to note that the model was released in June 2025**.** @morin2025, who used data from the NOW corpus and Sketch Engine’s EnTenTen21 corpus for their study [@morin2025: 3], created their OSF-database also containing the annotated datasets used as the gold standard for comparison, in November 2024. **When and on which data the model was trained exactly is unclear, but there were definitely changes and fine-tuning on the Mistral model after the repository went public.**
 
@@ -119,6 +123,16 @@ As a secondary component of my analysis, inter-rater agreement was evaluated. Ov
 Inter-rater agreement (also referred to as inter-annotator agreement, or inter-rater reliability) is often measured for purposes like improving annotation schemes or identifying difficulties in the source [@artstein2017: 298], **which is why it can be done at different stages of a study, e.g. before conducting the full-scale annotation.**
 
 **Relevant** **to your field of study and/or society more broadly**
+
+## Considering reproducibility
+
+In the study I run, there is no inherent form of randomization present. Also, reproducibility in LLM studies can be tricky, especially if the models are run remotely via an API. But, making the study and the results as reproducible as possible, is still an important concern, and there are things that can be controlled.
+
+To enhance reproducibility, I fixed the generation parameters in the API call by setting *temperature* to 0, *top~p~* to 1, and using a constant random seed. Setting *temperature* to 0, meaning the model always chooses the most probable next token, removes random sampling and therefore makes additional constraints such as *top~k~* (sampling only from the k most probable tokens) unnecessary and potentially confounding. The number used as a random seed was derived from lotto numbers drawn on **March 25, 2026, which had not yet been disclosed at the time of pre-registration.**
+
+Even though these measures were taken to improve reproducibility, identical outputs across runs cannot be guaranteed, as some sources of variability within the API remain outside my control.
+
+Another thing that has to be mentioned here is the concern of data leakage. For my study, it is assumed that the models, functioning as several "annotators", independently label the data without knowledge of each other's work. It can only be *assumed* because there is a possibility that the models I used might have the gold standard provided in the original study as part of their training data, which would mean they would not be totally independent.
 
 # Running the replication / Analysis
 
@@ -154,7 +168,9 @@ For interpretation: Landis & Koch (1977) -\> scale!
 
 # Discussion of outcomes in light of differences
 
-is the approach indeed replicable?
+is the approach indeed replicable? -\> things like: there is no code or any information on how the pipeline was actually implemented and automated. That would have been really helpful, or would be helpful for further studies. Also, looking at the trnascript, some things were not really consistent. For example, while instructions were supposed to always be given in XML-tags, this was not used in between (e.g. "next batch" etc., see transcript).
+
+For the unsupervised training, @morin2025 ran two rounds. In their paper it is mentioned that this "iterative training and validation cycle was repeated until Claude achieved the desired level of accuracy, with each round of classifications always providing unseen data" [@morin2025: 6]. Since I wanted to replicate this study with the exact same data, I could not exactly follow this part, as I would have stopped after the second round of unsupervised training, even if the model would not have reached a high accuracy level.
 
 Relevance!
 

@@ -34,7 +34,10 @@ call_llm <- function(conv, api_key, model) {
   
   payload <- list(
     model = model,
-    messages = conv$messages
+    messages = conv$messages,
+    seed = 42,
+    temperature = 0,
+    top_p = 1.0
   )
   
   response <- POST(
@@ -77,10 +80,10 @@ ask_llm <- function(conv, question, model) {
 conv <- create_conversation() # conv-object: resets conversation every time I run it
 
 # Testing a multi-turn conversation
-res <- ask_llm(conv, "what is your name?", GPT)
+res <- ask_llm(conv, "Name one subfield of linguistics.", GPT)
 conv <- res$conversation
 print(res$answer)
 
-res <- ask_llm(conv, "You can help me by telling me what the Top P parameter does in one sentence.", GPT)
+res <- ask_llm(conv, "What is the most interesting aspect of this subfield?", GPT)
 conv <- res$conversation
 print(res$answer)
