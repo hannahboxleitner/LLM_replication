@@ -29,7 +29,7 @@ res <- ask_llm(conv, paste(
   "Example 2: I feel so much pain after the news. -> pain",
   "</examples>",
   sep = ""
-))
+), MISTRAL)
 conv <- res$conversation
 print(res$answer)
 
@@ -48,7 +48,7 @@ res <- ask_llm(conv, paste(
     collapse = "\n"
   ), # generate string from dataset to pass to LLM
   sep = "\n"
-))
+), MISTRAL)
 conv <- res$conversation
 print(res$answer)
 
@@ -88,7 +88,7 @@ res <- ask_llm(conv, paste(
     collapse = "\n"
   ),
   sep = "\n"
-))
+), MISTRAL)
 conv <- res$conversation
 print(res$answer)
 
@@ -102,7 +102,7 @@ res <- ask_llm(conv, paste(
     collapse = "\n"
   ),
   sep = "\n"
-))
+), MISTRAL)
 conv <- res$conversation
 print(res$answer)
 
@@ -139,7 +139,7 @@ res <- ask_llm(conv, paste(
     collapse = "\n"
   ),
   sep = "\n"
-))
+), MISTRAL)
 conv <- res$conversation
 print(res$answer)
 
@@ -161,10 +161,10 @@ res <- ask_llm(conv, paste(
   "your accuracy improved to 100%. that is really good!",
   "</instructions>",
   sep = ""
-))
+), MISTRAL)
 conv <- res$conversation
 print(res$answer)
-# Print transcript of pretraining conversation
+# Print transcript of conversation
 # Convert conversation into transcript and save as variable
 #transcript <- sapply(conv$messages, function(msg) {
 #  paste0(toupper(msg$role), ": ", msg$content)
@@ -190,7 +190,7 @@ res <- ask_llm(conv, paste(
   "Keep those lessons in mind.",
   "I will now give you new data from the dataset pilot_testing.csv below",
   "Please <thinking> classify each sentence >/thinking>.",
-  "Return your results as CSV with the columns:",
+  "Return your results ONLY as a CSV with the columns:",
   "text,sentiment",
   "Put the CSV inside <answer> </answer>.",
   "</instructions>",
@@ -201,30 +201,31 @@ res <- ask_llm(conv, paste(
     collapse = "\n"
   ),
   sep = "\n"
-))
+), MISTRAL)
 conv <- res$conversation
 print(res$answer)
 
 # To judge the output and compare to my annotated dataset, I need to clean the model output first
 library(readr)
 
-csv_text <- gsub("</?answer>", "", res$answer) # removes <answer> tags from output and replaces with ""
+csv_text <- res$answer |> 
+  gsub("</?answer>", "", x = _) |> 
+  trimws() # removes <answer> tags from output and replaces with "", removes spaces
 
 llm_results <- read_csv(csv_text) # save results as variable
 
 # Load my annotations
 Hannah_annotation <- read_csv("pilot_data/pilot_testing_annotated_Hannah.csv")
 
-# Merge predictions for comparison and name the columns
-comparison <- merge(Hannah_annotation, llm_results, by = "text")
+# Merge predictions for comparison and name columns (left_join should keep all predictions) ---
+comparison <- Hannah_annotation |> 
+  left_join(llm_results, by = "text", suffix = c("_human", "_llm"))
 
-names(comparison)[names(comparison) == "sentiment.x"] <- "sentiment_Hannah"
-names(comparison)[names(comparison) == "sentiment.y"] <- "sentiment_LLM"
-
-print(comparison)
+# save comparison output for further analysis
+write_csv(comparison, "pilot_data/comparison_output.csv")
 
 # Compute accuracy
-accuracy <- mean(comparison$sentiment_Hannah == comparison$sentiment_LLM)
+accuracy <- mean(comparison$sentiment_human == comparison$sentiment_llm)
 
 print(accuracy)
 
@@ -242,10 +243,28 @@ transcript_text <- paste(transcript, collapse = "\n\n")
 cat(transcript_text)
 writeLines(transcript_text, "pilot_data/pilot_complete.txt")
 
+# Evaluation of inter-rater agreement
+
+#install.packages("irr")
+library(irr)
+
+# Cohen's kappa (2 raters)
+
+cohens_kappa <- kappa2(
+  comparison[, c("sentiment_human", "sentiment_llm")]
+)
 
 
+cohens_kappa
+
+# Fleiss' kappa (for more than 2 raters, just to try function here)
+
+fleiss_kappa <- kappam.fleiss(
+  comparison[, c("sentiment_human", "sentiment_llm")]
+)
 
 
+fleiss_kappa
 
 ## maybe save every conversation as json log (for reproducibility purposes)
 #write_json(conv$messages, "conversation_log.json", pretty = TRUE)
