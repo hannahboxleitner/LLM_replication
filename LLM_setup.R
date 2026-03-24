@@ -68,10 +68,6 @@ ask_llm <- function(conv, question, model) {
   conv <- add_message(conv, "user", question)
   
   res <- call_llm(conv, api_key, model)
-  writeLines(
-    paste(add_message(conv, "assistant", res$answer)$messages),
-    sprintf("transcripts/test_%s.txt", model)
-  )
   
   res
 }
@@ -80,10 +76,10 @@ ask_llm <- function(conv, question, model) {
 conv <- create_conversation() # conv-object: resets conversation every time I run it
 
 # Testing a multi-turn conversation
-#res <- ask_llm(conv, "Name one subfield of linguistics.", GPT)
-#conv <- res$conversation
-#print(res$answer)
+res <- ask_llm(conv, "Name one subfield of linguistics.", GPT)
+conv <- res$conversation
+print(res$answer)
 
-#res <- ask_llm(conv, "What is the most interesting aspect of this subfield?", GPT)
-#conv <- res$conversation
-#print(res$answer)
+res <- ask_llm(conv, "What is the most interesting aspect of this subfield? Answer in one sentence.", GPT)
+conv <- res$conversation
+print(res$answer)
