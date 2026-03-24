@@ -69,17 +69,42 @@ ask_llm <- function(conv, question, model) {
   
   res <- call_llm(conv, api_key, model)
   
+  cat(
+    "\n\n----------------------------\n",
+    "USER:\n", question,
+    "\n\nMODEL:\n", res$answer,
+    file = log_file,
+    append = TRUE
+  ) # TESTED: for logging raw transcript
+  
   res
 }
 
 
 conv <- create_conversation() # conv-object: resets conversation every time I run it
 
-# Testing a multi-turn conversation
-res <- ask_llm(conv, "Name one subfield of linguistics.", GPT)
-conv <- res$conversation
-print(res$answer)
+# TESTED; NOT FINAL: file naming
 
-res <- ask_llm(conv, "What is the most interesting aspect of this subfield? Answer in one sentence.", GPT)
-conv <- res$conversation
-print(res$answer)
+run_type  <- "pilot"     # change later
+model_name <- "mistral"
+
+run_id <- paste0(
+  run_type, "_",
+  model_name, "_",
+  format(Sys.Date(), "%Y%m%d")
+)
+
+dir.create("transcripts", showWarnings = FALSE)
+
+log_file <- paste0("transcripts/", run_id, "_RAW.txt")
+clean_file <- paste0("transcripts/", run_id, "_CLEAN.txt")
+
+
+# Testing a multi-turn conversation
+#res <- ask_llm(conv, "Name one subfield of linguistics.", GPT)
+#conv <- res$conversation
+#print(res$answer)
+
+#res <- ask_llm(conv, "What is the most interesting aspect of this subfield? Answer in one sentence.", GPT)
+#conv <- res$conversation
+#print(res$answer)

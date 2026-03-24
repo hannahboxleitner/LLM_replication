@@ -52,27 +52,6 @@ res <- ask_llm(conv, paste(
 conv <- res$conversation
 print(res$answer)
 
-# Print transcript of pretraining conversation
-# Convert conversation into transcript and save as variable
-transcript <- sapply(conv$messages, function(msg) {
-  paste0(toupper(msg$role), ": ", msg$content)
-})
-
-# Collapse into one big string with line breaks
-transcript_text <- paste(transcript, collapse = "\n\n")
-
-# Print to console
-cat(transcript_text)
-# Save as plain text (and place in pilot folder)
-writeLines(transcript_text, "pilot_pretraining_transcript.txt")
-file.rename(
-  "pilot_pretraining_transcript.txt",
-  "pilot_data/pilot_pretraining_transcript.txt"
-)
-
-# Also save as JSON (to preserve structure)
-write_json(conv, "pilot_data/pilot_pretraining.json", pretty = TRUE, auto_unbox = TRUE)
-
 # 2. SUPERVISED TRAINING
 
 # Load data
@@ -229,7 +208,30 @@ accuracy <- mean(comparison$sentiment_human == comparison$sentiment_llm)
 
 print(accuracy)
 
-# Write transcript without showing dataset (exchanged with placeholder) - dataset names should be mentioned in prompts for clarity
+# NOT FINAL: writing clean transcript after whole conversation (2nd version)
+
+raw_text <- paste(readLines(log_file), collapse = "\n")
+
+clean_text <- gsub(
+  "(Sentence:.*?)(\\n|$)",
+  "",
+  raw_text
+)
+
+# collapse multiple blank lines
+clean_text <- gsub("\\n{3,}", "\n\n", clean_text)
+
+# optionally add a single marker where large blocks were
+clean_text <- gsub(
+  "USER:\n\\s*",
+  "USER:\n[DATASET REMOVED]\n",
+  clean_text
+)
+
+writeLines(clean_text, clean_file)
+
+
+# (1st version): Write transcript without showing dataset (exchanged with placeholder) - dataset names should be mentioned in prompts for clarity
 transcript <- sapply(conv$messages, function(msg) {
   content <- msg$content
   
