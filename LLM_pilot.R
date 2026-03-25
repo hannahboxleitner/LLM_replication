@@ -269,7 +269,7 @@ fleiss_kappa <- kappam.fleiss(
 fleiss_kappa
 
 
-#testing other stuff
+#testing other stuff (REMOVE LATER)
 getwd()
 list.files()
 
