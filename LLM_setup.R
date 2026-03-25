@@ -1,7 +1,7 @@
 # LLM Setup
 
-# This script contains everything necessary to set up the LLM for usage in multi-turn conversations.
-# To avoid repetition and unnecessarily long scripts, it will be used in both the pilot study ("LLM_pilot.R") and the actual replication ("LLM_replication.R")
+# This script contains everything necessary to set up the LLMs for usage in multi-turn conversations.
+# To avoid repetition and unnecessarily long scripts, it will be called in both the pilot study ("LLM_pilot.R") and the actual replications ("GPT_replication.R" and "Mistral_replication.R")
 # The API key is saved as an environment variable in a .renviron file outside of the project folder and called inside of the function.
 
 
@@ -83,24 +83,23 @@ ask_llm <- function(conv, question, model) {
 
 conv <- create_conversation() # conv-object: resets conversation every time I run it
 
-# TESTED; NOT FINAL: file naming
 
-run_type  <- "pilot"     # change later
+# TESTED; NOT FINAL: File naming for transcript
+
 model_name <- "mistral"
 
 run_id <- paste0(
-  run_type, "_",
   model_name, "_",
   format(Sys.Date(), "%Y%m%d")
 )
 
 dir.create("transcripts", showWarnings = FALSE)
 
-log_file <- paste0("transcripts/", run_id, "_RAW.txt")
-clean_file <- paste0("transcripts/", run_id, "_CLEAN.txt")
+log_file <- paste0("transcripts/", run_id, "_RAW.txt") # for checking model output during conversation/analysis
+clean_file <- paste0("transcripts/", run_id, "_CLEAN.txt") # for whole transcript
 
 
-# Testing a multi-turn conversation
+# Testing multi-turn conversation
 #res <- ask_llm(conv, "Name one subfield of linguistics.", GPT)
 #conv <- res$conversation
 #print(res$answer)
