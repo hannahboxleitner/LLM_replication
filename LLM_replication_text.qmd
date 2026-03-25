@@ -85,7 +85,7 @@ I used a small dataset I had annotated manually once for another project. The ta
 
 ## LLMs
 
-The aim of this project is to replicate the study by @morin2025 with different, and especially open LLMs for the task. The authors used Claude Sonnet 3.5, an LLM that is known for strong performance and often compared with ChatGPT, including in NLP studies [@morin2025: 3].
+The aim of this project is to replicate the study by @morin2025 with different, and especially open LLMs. The authors used Claude Sonnet 3.5, an LLM that is known for strong performance and often compared with ChatGPT, including in NLP studies [@morin2025: 3].
 
 The first model chosen for this project is Mistral Small 3.2 24B Instruct 2506, which was released in 2025 under Apache 2.0 license. It is a minor update of [Mistral-Small-3.1-24B-Instruct-2503](https://huggingface.co/mistralai/Mistral-Small-3.1-24B-Instruct-2503), improved in the area of instruction following, repetition errors, and function calling.
 
@@ -118,7 +118,7 @@ While attempting to reach this goal, the focus of this project - **with regard t
 Based on these considerations, I want to establish the following hypothesis for this project: Using the methodological pipeline and dataset from @morin2025, the open model *Mistral Small 3.2 24B Instruct 2506* will achieve an accuracy of **at least 90%** on the linguistic classification task when evaluated against the human gold standard.*\
 *
 
-As a secondary component of my analysis, inter-rater agreement was evaluated. Overall agreement across all annotators (Model 1, Model 2, and the human gold standard provided in the study data) was assessed using Fleiss' **Kappa,** and pairwise comparisons (every model against the human gold standard)using Cohen's **Kappa.**
+As a secondary component of my analysis, inter-rater agreement was evaluated. Overall agreement across all annotators (Model 1, Model 2, and the human gold standard provided in the study data) was assessed using Fleiss' **Kappa,** and pairwise comparisons (every model against the human gold standard) using Cohen's **Kappa.**
 
 **e.g. Fleiss' Kappa** (see Larsson et al.) -\> **accounting for accidental agreement seems especially relevant in terms of LLMs, because there would be no real way of knowing if the models would simply guess.**
 
@@ -142,9 +142,7 @@ Another thing that has to be mentioned here is the concern of data leakage. For 
 
 **The code was modified to be suitable for multi-turn conversations. For methodological consistency, I tried to keep the process as close to the one shown in the transcript of the conversation in @morin2025's data. For example, while the very long initial user prompt (containing detailed instructions for step-by-step classification with examples) could also have been implemented as a system prompt in the code, I also included it in the chat, as proposed by @morin2025.**
 
-**testing with smaller things -\> maybe do a test run with my own dataset: things I did differently in the pilot**
-
--\> e.g. I did not define the desired accuracy level -\> will do in the study.; the instructions were way less detailed, the kind of classification task was different, etc.
+To run this study, I built a setup script that basically everything that was necessary for *all* conversations (including the pilot). For the analysis, I created two separate R scripts, one for each model. The data by @morin2025 was loaded for these conversations. Since for some of the datasets only the annotated versions were provided in the author's repository, I needed to extract the sentences before providing them to the LLM for classification. This was all handled programmatically during the analysis.
 
 # Results of the replication
 
