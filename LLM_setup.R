@@ -8,8 +8,7 @@
 # Load libraries
 library(httr)
 library(jsonlite)
-library(readr)
-library(dplyr)
+library(tidyverse) # for dplyr and readr
 
 MISTRAL = "Mistral Small 3-2-24b Instruct KI:Inferenz.nrw"
 GPT = "OpenAI GPT OSS 120B KI:Inferenz.nrw"
