@@ -86,7 +86,7 @@ conv <- create_conversation() # conv-object: resets conversation every time I ru
 
 # TESTED; NOT FINAL: File naming for transcript
 
-model_name <- "mistral"
+model_name <- "GPT" # change
 
 run_id <- paste0(
   model_name, "_",
