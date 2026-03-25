@@ -1,20 +1,18 @@
 # Replication: OpenAI GPT OSS 120B
 
-# The methodological approach presented by Morin & Marttinen Larsson (2025) is recreated with the code in this script.
-# This script contains the conversation, which is divided into pretraining, training and testing of the model, and also contains analysis and evaluation.
-
+# With this code, I intend to create a methodological pipeline similar to the one proposed by Morin & Marttinen Larsson (2025).
+# This script contains the conversation with the model, which is divided into pretraining, training and testing of the model, and also contains analysis and evaluation.
+# The setup of the model (including API call) and the data import of the data provided by the original authors is to be found in separate scripts, which are called here.
 
 # Load setup script
 source("LLM_setup.R")
 
-# Load libraries
-library(here)
-
+# Load data import script
+source("Data_import.R")
 
 # 1. PRETRAINING
 
-# Load the pretraining data
-pretraining_set <- read_csv2(here("data", "Pretraining_data_493.csv"))
+pretraining_set
 
 # First instruction prompt
 #res <- ask_llm(conv, paste(
@@ -47,8 +45,7 @@ pretraining_set <- read_csv2(here("data", "Pretraining_data_493.csv"))
 
 # 2. SUPERVISED TRAINING
 
-# Load data for supervised training
-sup_training_set <- read_csv2(here("data", "Supervised_training_sketchengine_100.csv"))
+sup_training_set
 
 # Prompt with data
 #res <- ask_llm(conv, paste(
@@ -67,8 +64,7 @@ sup_training_set <- read_csv2(here("data", "Supervised_training_sketchengine_100
 
 # 3. UNSUPERVISED TRAINING
 
-# Load data for unsupervised training (1)
-unsup_training_set1 -> read_csv2(here("data", "Test1_sketchengine_100.csv"))
+unsup_training_set1
 
 # Prompt with data
 #res <- ask_llm(conv, paste(
@@ -84,25 +80,15 @@ unsup_training_set1 -> read_csv2(here("data", "Test1_sketchengine_100.csv"))
 #conv <- res$conversation
 #print(res$answer)
 
-# Load data for unsupervised training (2)
-unsup_training_set2 <- read_csv2(here("data", "EnTenTen_random_sample_101.csv")) |>
-  select(Consider_construction) |>
-  rename(Sentence = Consider_construction)
+unsup_training_set2
 
-summary(unsup_training_set2) # check if renaming worked
 
 # Prompt
 
 
 # 4. TESTING
 
-# Load data for testing
-
-testing_set <- read_csv2(here("data", "EnTenTen_random_sample_102.csv")) |>
-  select(Consider_construction) |>
-  rename(Sentence = Consider_construction)
-
-summary(testing_set)
+testing_set
 
 # Prompt
 
@@ -140,14 +126,8 @@ summary(testing_set)
 #gpt_results <- read_tsv(tsv_text) |>
 #  rename(GPT_classification = Classification) # save results as vraibale and rename column for analysis
 
-# Load human gold standard annotations
-#human_gold_standard <- read_csv2(
-#  here("data", "EnTenTen_random_sample_102.csv")
-#) |>
-#  select(
-#    Sentence = Consider_construction,
-#    Human_classification = Matti_classification
-#  )
+# (in other script) human gold standard annotations
+human_gold_standard
 
 # Merge predictions for comparison and name columns (left_join should keep all predictions)
 #comparison <- human_gold_standard |>
