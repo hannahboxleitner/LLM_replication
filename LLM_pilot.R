@@ -268,5 +268,10 @@ fleiss_kappa <- kappam.fleiss(
 
 fleiss_kappa
 
-## maybe save every conversation as json log (for reproducibility purposes)
-#write_json(conv$messages, "conversation_log.json", pretty = TRUE)
+
+#testing other stuff
+getwd()
+list.files()
+
+
+read_delim("data/Pretraining_data_493.csv", delim = ";")

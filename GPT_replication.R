@@ -5,5 +5,15 @@
 
 
 # Load setup script
+source("LLM_setup.R")
 
-# Load data
+# Load libraries
+library(here)
+
+# 1. PRETRAINING
+
+
+
+# Load pretraining data
+# Prompt
+
