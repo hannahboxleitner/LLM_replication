@@ -1,5 +1,5 @@
 ---
-title: "Term paper: Replication of an LLM study by Morin & Larsson (2025)"
+title: "Using (open) LLMs for linguistic annotation tasks: Replication of a study by Morin & Marttinen Larsson (2025)"
 author: Hannah Boxleitner
 format: html
 bibliography: references.bib
@@ -7,7 +7,7 @@ bibliography: references.bib
 
 # Introduction
 
-In the last decades, Researchers in corpus linguistics gained access to increasingly massive corpora of natural language in different languages. This poses great opportunities, but also necessitates manual cleaning and processing of large amounts of data [@morin2025: 1]. The rise of large language models (LLMs) is therefore a rather interesting development for corpus linguistic research, making it possible to handle larger datasets and corpora automatically. In recent years, many papers testing LLMs for assisting in linguistic research have been published **(sources)**.
+In the last decades, researchers in corpus linguistics gained access to increasingly massive corpora of natural language in different languages. This poses great opportunities, but also necessitates manual cleaning and processing of large amounts of data [@morin2025: 1]. The rise of large language models (LLMs) is therefore a rather interesting development for corpus linguistic research, making it possible to handle larger datasets and corpora automatically. In recent years, many papers testing LLMs for assisting in linguistic research have been published **(sources)**.
 
 I aim to replicate a study by @morin2025, which presents a replicable method for leveraging LLMs for assistance in linguistic grammatical annotation. While the study was conducted with the model Claude Sonnet 3.5, I will attempt to replicate it using the same data, but with an open LLM (Mistral) in R.
 
@@ -47,7 +47,7 @@ Include source for the dataset that can be downloaded (see project from last yea
 
 **close replication?** [@röseler2025: Chapter 4] In planning and defining the terms for this project, I encountered some problems with the terminology of replication research. Many things that need to be considered for reproductions or replications are usually formulated with respect to experiments with participants, where sample sizes etc. matter. Replications are also often defined as repeating a study with different data, for example **(source: table in Röseler**). For this project, a replication of a study that leverages LLMs to assist in grammatical annotation for linguistic research, a lot of the terminology does not fit or apply. While I intend to use the same data as @morin2025, which I intend to replicate with another LLM, one can argue that using different models creates different data. Also, the models somehow represent participants in this setting, since they basically replace annotators who would otherwise do this task manually. *maybe aufgreifen in the conclusion!* *entweder hier noch auf data leakage eingehen oder später* Therefore, I had to adapt the theoretical framework as possible, and go from there. Since I plan on replicating @morin2025's approach very closely, use the data that is provided, and also adapt their prompting very closely, this project would probably be considered a *close replication*. Achieving a very close resemblance with the original study can be difficult for multiple reasons. Among others, original studies may not include sufficient detail in some respects [@röseler2025: Chapter 6.3]. In the case of replicating @morin2025, the authors share their data and a transcript of the conversation, while also explaining their approach in the paper, but the code with which the automated pipeline was implemented (or even the programming language, for example) is not shared. This is an important aspect to consider, since resembling the study in terms of implementing the pipeline itself is only possible to a limited extent.
 
-## Planning to replicate the method and piloting
+## Planning the methodological pipeline
 
 To plan my replication, I read the study by @morin2025 thoroughly, especially focusing on the pre-training and prompt engineering.
 
@@ -75,13 +75,15 @@ Further insight could be gained by going through the conversation transcript tha
 
 -   Provided with new data (EnTenTen_random_sample_102.csv) and told to follow the procedure that was successfully applied in the latest round of classifications. After classification, it is again told the accuracy.
 
+All of these steps were incorporated in the replication. I created a setup script that includes the API call and the basis for a multi-turn conversation with the LLM. The analyses (one with each open LLM) were then conducted in separate scripts.
+
 ## Piloting
 
-Since this approach is quite extensive and detailed, and there is no code to look into for aspects like e.g. how the datasets were implemented in the prompts, I decided to conduct a little pilot study to test a similar multi-turn-conversation.
+Since the methodological approach proposed by @morin2025 is quite extensive and detailed, and there is no code to look into for aspects like e.g. how the datasets were implemented in the prompts, I decided to conduct a little pilot study before the actual replication, to test a similar multi-turn-conversation. This script was run and altered several times in preparation for the analysis.
 
 I used a small dataset I had annotated manually once for another project. The task was a sentiment analysis with a lot less detailed instructions. The goal of this pilot was not to follow @morin2025's approach exactly or to achieve a high accuracy, but rather to implement the steps of pretraining, training and testing and make sure the model can access the datasets. In the last round of testing, I actually overlooked one step of informing the model about the "new" accuracy of corrections, which might have improved accuracy in the end. This made me further aware of the exact process and glad I conducted a pilot study.
 
-## Deciding on a model
+## LLMs
 
 The aim of this project is to replicate the study by @morin2025 with different, and especially open LLMs for the task. The authors used Claude Sonnet 3.5, an LLM that is known for strong performance and often compared with ChatGPT, including in NLP studies [@morin2025: 3].
 
@@ -95,7 +97,7 @@ Even though these models are considered open source, one might always take a clo
 
 Considering the concern of data leakage, it is important to note that the model was released in June 2025**.** @morin2025, who used data from the NOW corpus and Sketch Engine’s EnTenTen21 corpus for their study [@morin2025: 3], created their OSF-database also containing the annotated datasets used as the gold standard for comparison, in November 2024. **When and on which data the model was trained exactly is unclear, but there were definitely changes and fine-tuning on the Mistral model after the repository went public.**
 
-## Defining replication criteria and hypothesis
+## Replication criteria and hypotheses
 
 @morin2025 present a methodological pipeline leveraging an LLM for the automatic annotation of grammatical data, based on the case study of the evaluative *consider* construction in English. Their research questions are concerned with the frequency of the different variants of the *consider* construction. While they don't formulate a hypothesis in their paper, they state a twofold goal to 1) build a replicable methodological pipeline that can be repurposed and 2) to substantially improve the quality of annotation of future corpus studies [@morin2025:3].
 
