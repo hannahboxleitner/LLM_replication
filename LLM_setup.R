@@ -74,7 +74,7 @@ ask_llm <- function(conv, question, model) {
     "\n\nMODEL:\n", res$answer,
     file = log_file,
     append = TRUE
-  ) # TESTED: for logging raw transcript
+  ) # for logging raw transcript
   
   res
 }
