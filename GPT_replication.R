@@ -139,20 +139,29 @@ print(res$answer)
 # 3.1 UNSUPERVISED TRAINING 1
 
 # Prompt with data
-#res <- ask_llm(conv, paste(
-#  "<instructions>", 
-#  "Return ONLY tab-separated values with columns:Sentence<TAB>Classification",
-#  "<instructions>"
-#  paste(
-#    apply(unsup_training_set1, 1, function(row) {
-#      paste0("Sentence: ", row["Sentence"])
-#    }),
-#    collapse = "\n"
-#  ), 
-#  sep = "\n"
-#), GPT)
-#conv <- res$conversation
-#print(res$answer)
+res <- ask_llm(conv, paste(
+  "<instructions> Now you will classify 100 sentences without supervision from the dataset <dataset> Test1_sketchengine_100.csv </dataset>. Think step-by-step for each classification <thinking> </thinking>. The labels available to you are “evaluative,” “non-evaluative,” and “?”. Please provide your classification in tab separated .csv format in one large batch <answer> </answer>. </instructions>",
+  "Each row contains multiple sentences separated by </s><s>.",
+  "You MUST identify the ONE sentence containing 'consider' and classify it.",
+  "",
+  "IMPORTANT RULES:",
+  "1. Do NOT skip any row.",
+  "2. Return EXACTLY one classification per id.",
+  "3. The number of output rows MUST equal the number of input rows.",
+  "4. Do NOT modify or shorten the id.",
+  "Return ONLY tab-separated values with columns:",
+  "id<TAB>Classification",
+  "</instructions>",
+  paste(
+    apply(unsup_training_set1, 1, function(row) {
+      paste0("id: ", row["id"], " | Sentence: ", row["Sentence"])
+    }),
+    collapse = "\n"
+  ),
+  sep = "\n"
+), GPT)
+conv <- res$conversation
+print(res$answer)
 
 # Gather feedback for unsupervised training 1
 # Read and save model output
@@ -160,11 +169,11 @@ tsv_unsup1 <- res$answer |>
   gsub("</?answer>", "", x = _) |>
   trimws()
 
-unsup1_gpt_results <- read_tsv(tsv_unsup1)
+unsup1_gpt_results <- read_tsv(tsv_unsup1, col_names = c("id", "Classification"))
 
 # Merge and compare accuracy
 comparison_unsup1 <- unsup1_solution |>
-  left_join(unsup1_gpt_results, by = "Sentence")
+  left_join(unsup1_gpt_results, by = "id")
 
 accuracy_unsup1 <- mean(
   comparison_unsup1$Classification_Matti == comparison_unsup1$Classification
@@ -176,13 +185,21 @@ print(accuracy_unsup1)
 errors_unsup1 <- comparison_unsup1 |>
   filter(Classification_Matti != Classification)
 
-cat(errors_unsup1, sep = "\n")
+cat(errors_unsup1$Sentence, sep = "\n")
 
-# Prompt feedback
+# Prompt feedback: accuracy and sentences
 
-#base
 res <- ask_llm(conv, paste(
-  "", 
+  "status of wild relatives is, overall, worse than for birds and mammals generally. </s><s> Whereas 25% of all mammal species are considered threatened with extinction, more than half of mammals that are wild relatives of domesticated mammals are threatened
+that resembled my developing aesthetic. </s><s> A few cookbooks kept ending up on top of the pile. </s><s> (If you don't own these books, consider this is an unabashed endorsement.) </s><s> The Canal House series – a favorite of mine since the books first appeared, with
+2006 in Telecom Order CRTC 2006-294 and Telecom Order CRTC 2006-295, respectively. </s><s> In these Orders, the Commission considered that CDN and DNA services at DS-1 speed were acceptable as substitute services. </s><s> Reports of a giant monster with glowing
+<s> Large animals such as horses or sheep or large numbers of domestic animals, such as a cattery, or a kennel of dogs, are not considered pets. </s><s> Personal Motor Vehicule (PMV) (véhicule automobile personnel - VAP) - for purposes of shipment, means a sedan,
+of the people are not neglected or badly treated (Falconer, 2006). </s><s> The criminal justice system has to include or consider the values considered as important by the society. </s><s> Then the social justice system will be implemented through
+. </s><s> Hopes For The Next 4 Years: Philadelphia City Official Wishes For Racial Justice </s><s> On Inauguration Day, All Things Considered revisits some of its previous guests to find out what they hope for in the next four years. </s><s> Among them is Philadelphia
+allow you admittance to all subjects so your youngster has one spot to go for entertainment only and learning. </s><s> As you consider the free web based learning games accessible, you need to ensure you pick a site that has what your kid needs. </s><s> This
+from problem formulation to overall risk estimation. </s><s> On-line forum and AHTEG experts tried to cover all 'points to consider' which could be relevant to RA process and helpful for risks' estimation and evaluation, and Parties to the Protocol",
+  "You have reached an accuracy of 92%",
+  "Let's review the errors. I have pasted all the sentences you have got wrong",
   sep = "\n"
 ), GPT)
 conv <- res$conversation
@@ -190,9 +207,29 @@ print(res$answer)
 
 # 3.2 UNSUPERVISED TRAINING 2
 
-unsup_training_set2
-
 # Prompt
+res <- ask_llm(conv, paste(
+  "Keep those lessons in mind. I will now give you new data. In your classification, you need to <thinking> Classify step-by-step</thinking> and <instruction> consistently apply insertion test </instruction>",
+  "Each row contains multiple sentences separated by </s><s>. <Instructions> You MUST identify the ONE sentence containing 'consider' and classify it.",
+  "IMPORTANT RULES:",
+  "1. Do NOT skip any row.",
+  "2. Return EXACTLY one classification per id.",
+  "3. The number of output rows MUST equal the number of input rows.",
+  "4. Do NOT modify or shorten the id.",
+  "Return ONLY tab-separated values with columns:",
+  "id<TAB>Classification",
+  "</instructions>",
+  paste(
+    apply(unsup_training_set2, 1, function(row) {
+      paste0("id: ", row["id"], " | Sentence: ", row["Sentence"])
+    }),
+    collapse = "\n"
+  ),
+  sep = "\n"
+), GPT)
+conv <- res$conversation
+print(res$answer)
+
 # define classification labels again
 
 # Gather feedback (only accuracy) for unsupervised training 2
@@ -201,11 +238,11 @@ tsv_unsup2 <- res$answer |>
   gsub("</?answer>", "", x = _) |>
   trimws()
 
-unsup2_gpt_results <- read_tsv(tsv_unsup2)
+unsup2_gpt_results <- read_tsv(tsv_unsup2, col_names = c("id", "Classification"))
 
 # Merge and compare accuracy
 comparison_unsup2 <- unsup2_solution |>
-  left_join(unsup2_gpt_results, by = "Sentence")
+  left_join(unsup2_gpt_results, by = "id")
 
 accuracy_unsup2 <- mean(
   comparison_unsup2$classification_Matti == comparison_unsup2$Classification

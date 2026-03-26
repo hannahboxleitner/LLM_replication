@@ -158,11 +158,15 @@ I tried to stay as close to the prompts represented by the authors' transcript a
 
 Notes DURING GPT run:
 
--   pretraining -\> model found a few instances where the rules did not apply in its opinion and wanted to correct it
+-   pretraining -\> model found a few instances where the rules did not apply in its opinion and wanted to correct it.
 
 -   there were some problems with the model not being able to read the data/find the right sentences. In supervised training, it missed a sentence containing a "consider"-construction several times. I tried to fix this problem by making clear adjustments to the prompt. The original model also seemed to have some minor troubles with this dataset, e.g. in one sentence (100 of supervised) it placed the considering wrong and could not analyze the sentence. The authors did not address this in their prompts.
 
+-   While during supervised training this did not pose that much of a problem, because every sentence was corrected anyway, it definitely did in unsupervised training. Because of this issue, I adjusted my prompt to focus on the "id", and told the model explicitly to match the number of sentences exactly and not skip any rows or miss/change ids. I still included the exact prompt for unsupervised training that @morin2025 used according to their transcript, but I added some extra rules.
+
 -   There was an interesting distinction during supervised training, looking at the transcript the authors provided of their conversation with Claude: When they prompted corrections, the model usually responded in terms of "You're absolutely right! Let me correct these!". GPT, while somewhat open to discussion, often stuck to its classification and explained why.
+
+-   During the whole experiment, I tried to stay close to the methodological pipeline in the transcript. In some cases, I had to make changes to the prompt, and in others, the results just turned out different. For example, the model in the study seemed to be better in reacting to not so specififc prompts.
 
 # Results of the replication
 

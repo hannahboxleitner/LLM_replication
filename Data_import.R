@@ -22,6 +22,7 @@ unsup1_solution <- read_csv2(
   here("data", "Test1_sketchengine_100_solution.csv")
 ) |>
   select(
+    id,
     Sentence,
     Classification_Matti
   )
@@ -38,6 +39,7 @@ unsup2_solution <- read_csv2(
   here("data", "EnTenTen_random_sample_101.csv")
 ) |>
   select(
+    id,
     Sentence = Consider_construction,
     classification_Matti
   )
