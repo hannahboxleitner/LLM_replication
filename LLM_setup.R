@@ -11,7 +11,7 @@ library(jsonlite)
 library(tidyverse) # for dplyr and readr
 
 MISTRAL = "Mistral Small 3-2-24b Instruct KI:Inferenz.nrw"
-GPT = "OpenAI GPT OSS 120B KI:Inferenz.nrw"
+GPT = "OpenAI GPT OSS 120b KI:Inferenz.nrw"
 
 
 # Assign conv function for conversation as a list of messages
@@ -46,7 +46,6 @@ call_llm <- function(conv, api_key, model) {
     body = payload,
     encode = "json"
   )
-  
   result <- content(response, as = "parsed", simplifyVector = TRUE)
   
   answer <- result$choices$message$content

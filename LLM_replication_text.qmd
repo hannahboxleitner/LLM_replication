@@ -156,6 +156,14 @@ Another thing that has to be mentioned here is the concern of data leakage. For 
 
 I tried to stay as close to the prompts represented by the authors' transcript as possible throughout the replication. There were some minor alterations, for example being more explicit with the model about the output in some cases. **For example,** instead of only telling the model to put out its classifications in tab-separated format, I instructed it to specific column names for easier comparison, which I needed to give the model feedback: "Return ONLY tab-separated values with columns: Sentence<TAB>Classification".
 
+Notes DURING GPT run:
+
+-   pretraining -\> model found a few instances where the rules did not apply in its opinion and wanted to correct it
+
+-   there were some problems with the model not being able to read the data/find the right sentences. In supervised training, it missed a sentence containing a "consider"-construction several times. I tried to fix this problem by making clear adjustments to the prompt. The original model also seemed to have some minor troubles with this dataset, e.g. in one sentence (100 of supervised) it placed the considering wrong and could not analyze the sentence. The authors did not address this in their prompts.
+
+-   There was an interesting distinction during supervised training, looking at the transcript the authors provided of their conversation with Claude: When they prompted corrections, the model usually responded in terms of "You're absolutely right! Let me correct these!". GPT, while somewhat open to discussion, often stuck to its classification and explained why.
+
 # Results of the replication
 
 As mentioned in the pre-registration ,accuracy was calculated as follows: formula
