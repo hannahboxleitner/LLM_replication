@@ -28,8 +28,10 @@ unsup1_solution <- read_csv2(
   )
 
 # Load data for unsupervised training (2) and rename column for consistency
-unsup_training_set2 <- read_csv2(here("data", "EnTenTen_random_sample_101.csv")) |>
-  select(Consider_construction) |>
+unsup_training_set2 <- read_csv2(
+  here("data", "EnTenTen_random_sample_101.csv")
+) |>
+  select(id, Consider_construction) |>
   rename(Sentence = Consider_construction)
 
 summary(unsup_training_set2) # check if renaming worked
