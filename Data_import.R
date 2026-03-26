@@ -15,7 +15,7 @@ pretraining_set <- read_csv2(here("data", "Pretraining_data_493.csv"))
 sup_training_set <- read_csv2(here("data", "Supervised_training_sketchengine_100.csv"))
 
 # Load data for unsupervised training (1)
-unsup_training_set1 -> read_csv2(here("data", "Test1_sketchengine_100.csv"))
+unsup_training_set1 <- read_csv2(here("data", "Test1_sketchengine_100.csv"))
 
 # Load solution data for feedback in unsupervised training (1)
 unsup1_solution <- read_csv2(
