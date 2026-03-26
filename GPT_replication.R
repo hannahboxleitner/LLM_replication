@@ -43,7 +43,7 @@ pretraining_set
 #print(res$answer)
 
 
-# 2. SUPERVISED TRAINING
+# 2. SUPERVISED TRAINING (in batches)
 
 sup_training_set
 
@@ -64,11 +64,15 @@ sup_training_set
 
 # 3. UNSUPERVISED TRAINING
 
+# 3.1 UNSUPERVISED TRAINING 1
+
 unsup_training_set1
 
 # Prompt with data
 #res <- ask_llm(conv, paste(
-#  "<instructions>",
+#  "<instructions>", 
+#  "Return ONLY tab-separated values with columns:Sentence<TAB>Classification",
+#  "<instructions>"
 #  paste(
 #    apply(unsup_training_set1, 1, function(row) {
 #      paste0("Sentence: ", row["Sentence"])
@@ -80,10 +84,60 @@ unsup_training_set1
 #conv <- res$conversation
 #print(res$answer)
 
+# Gather feedback for unsupervised training 1
+# Read and save model output
+tsv_unsup1 <- res$answer |>
+  gsub("</?answer>", "", x = _) |>
+  trimws()
+
+unsup1_gpt_results <- read_tsv(tsv_unsup1)
+
+# Merge and compare accuracy
+comparison_unsup1 <- unsup1_solution |>
+  left_join(unsup1_gpt_results, by = "Sentence")
+
+accuracy_unsup1 <- mean(
+  comparison_unsup1$Classification_Matti == comparison_unsup1$Classification
+)
+
+print(accuracy_unsup1)
+
+# Get wrong cases
+errors_unsup1 <- comparison_unsup1 |>
+  filter(Classification_Matti != Classification)
+
+cat(errors_unsup1, sep = "\n")
+
+# Prompt feedback
+
+
+
+# 3.2 UNSUPERVISED TRAINING 2
+
 unsup_training_set2
 
-
 # Prompt
+# define classification labels again
+
+# Gather feedback (only accuracy) for unsupervised training 2
+# Read and save output
+tsv_unsup2 <- res$answer |>
+  gsub("</?answer>", "", x = _) |>
+  trimws()
+
+unsup2_gpt_results <- read_tsv(tsv_unsup2)
+
+# Merge and compare accuracy
+comparison_unsup2 <- unsup2_solution |>
+  left_join(unsup2_gpt_results, by = "Sentence")
+
+accuracy_unsup2 <- mean(
+  comparison_unsup2$classification_Matti == comparison_unsup2$Classification
+)
+
+print(accuracy_unsup2)
+
+# Prompt feedback
 
 
 # 4. TESTING
@@ -117,7 +171,7 @@ testing_set
 
 # EVALUATION
 
-# Clean model output
+# Clean and save model output
 
 #tsv_text <- res$answer |>
 #  gsub("</?answer>", "", x = _) |>

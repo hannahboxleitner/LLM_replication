@@ -77,6 +77,8 @@ Further insight could be gained by going through the conversation transcript tha
 
 All of these steps were incorporated in the replication. I created a setup script that includes the API call and the basis for a multi-turn conversation with the LLM. The analyses (one with each open LLM) were then conducted in separate scripts.
 
+When looking at the datasets that @morin2025 provided in their repository, there were some aspects I needed to consider. For example, the file naming was not very intuitive or informative regarding the methodological pipeline. For some training or testing rounds, the classifications done by Claude or the human annotator were provided in different files, for others, there was only one file containing everything. Also, the column names varied throughout he files (for example, "Sentence" vs. "Consider-construction", or "Claude_classification" vs. "Classification_Claude"). While this would call for some data cleaning before running the analyses, all of these concerns were handled programmatically **and only changed in the R environment**, while the authors' files remained unchanged.
+
 ## Piloting
 
 Since the methodological approach proposed by @morin2025 is quite extensive and detailed, and there is no code to look into for aspects like e.g. how the datasets were implemented in the prompts, I decided to conduct a little pilot study before the actual replication, to test a similar multi-turn-conversation. This script was run and altered several times in preparation for the analysis.
@@ -91,11 +93,11 @@ The first model chosen for this project is Mistral Small 3.2 24B Instruct 2506, 
 
 2nd model: GPT -\> explain
 
-It is important to mention that in terms of reproducibility, it would be best to use models locally [@nilsreiter2025]. Since running LLMs locally was only possible with very small LLMs due to the available hardware, I used an API key via KI:connect instead. Using the API documentation in [@ki:conne], **I was able to get started on chat completions.**
+It is important to mention that in terms of reproducibility, it would be best to use models locally [@nilsreiter2025]. Since running LLMs locally was only possible with very small LLMs due to the available hardware, I used an API key via KI:connect instead. Based onn the API documentation in [@ki:conne], **I was able to get started on chat completions.**
 
 Even though these models are considered open source, one might always take a closer look in terms of openness: They are evidently open in some respects (open weights, for example), but closed in others (e.g. no open code) [@mistrala] **(second source!)**. Arguably, open weights are the most important aspect for reproducibility [@nilsreiter2025: 23]. While @morin2025 used a rather well-known, commercial, and closed model for their study, I want to compare this with the performance of two open ones. Mistral ... is a smaller, European model, while GPT OSS .. is an open version of ChatGPT (Ableger) and way bigger. Seeing how these two perform in comparison to the model tested in @morin2025 on a linguistic annotation task is **not just of interest for this project, but also relevant for research on LLM usage in linguistics in general.**
 
-Considering the concern of data leakage, it is important to note that the model was released in June 2025**.** @morin2025, who used data from the NOW corpus and Sketch Engine’s EnTenTen21 corpus for their study [@morin2025: 3], created their OSF-database also containing the annotated datasets used as the gold standard for comparison, in November 2024. **When and on which data the model was trained exactly is unclear, but there were definitely changes and fine-tuning on the Mistral model after the repository went public.**
+Considering the concern of data leakage, it is important to note that the Mistral model was released in June 2025, **and the GPT model** **in ...** @morin2025, who used data from the NOW corpus and Sketch Engine’s EnTenTen21 corpus for their study [@morin2025: 3], created their OSF-database also containing the annotated datasets used as the gold standard for comparison, in November 2024. **When and on which data the model was trained exactly is unclear, but there were definitely changes and fine-tuning on the Mistral model after the repository went public.**
 
 ## Replication criteria and hypotheses
 
@@ -146,9 +148,11 @@ Another thing that has to be mentioned here is the concern of data leakage. For 
 
 **When importing the data that @morin2025 provided in their repository, some minor preprocessing** became necessary before running the replication. For some datasets, only annotated versions were available in the repository. Also, the authors switched the name of the column containing the sentences from "Sentences" to "Consider_construction" along the way. I extracted the relevant sentence-level input from the original files using R-based preprocessing (selecting the sentence column and renaming it to a standardized ‘Sentence’ variable). This ensured that only stimulus text (without any annotations) was provided to the model in a clean way, without altering the original data files.
 
+I tried to stay as close to the prompts represented by the authors' transcript as possible throughout the replication. There were some minor alterations, for example being more explicit with the model about the output in some cases. **For example,** instead of only telling the model to put out its classifications in tab-separated format, I instructed it to specific column names for easier comparison, which I needed to give the model feedback: "Return ONLY tab-separated values with columns: Sentence<TAB>Classification".
+
 # Results of the replication
 
-accuracy
+As mentioned in the pre-registration ,accuracy was calculated as follows: formula
 
 accuracy compared to the original study
 
