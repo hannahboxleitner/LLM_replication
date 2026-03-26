@@ -1,5 +1,5 @@
 # Data import
-# Data from repository by Morin &Marttinen Larsson (2025)
+# Data from repository by Morin & Marttinen Larsson (2025)
 
 # This script contains all data imports and data preprocessing necessary for the replication study.
 
