@@ -34,7 +34,7 @@ call_llm <- function(conv, api_key, model) {
   payload <- list(
     model = model,
     messages = conv$messages,
-    seed = 42,
+    seed = 712,
     temperature = 0,
     top_p = 1.0
   )
@@ -83,7 +83,7 @@ ask_llm <- function(conv, question, model) {
 conv <- create_conversation() # conv-object: resets conversation every time I run it
 
 
-# TESTED; NOT FINAL: File naming for transcript
+# File naming for transcript
 
 model_name <- "GPT" # change
 

@@ -1,8 +1,8 @@
 # Replication: OpenAI GPT OSS 120B
 
-# With this code, I intend to create a methodological pipeline similar to the one proposed by Morin & Marttinen Larsson (2025).
+# With this code, I intended to create a methodological pipeline similar to the one proposed by Morin & Marttinen Larsson (2025).
 # This script contains the conversation with the model, which is divided into pretraining, training and testing of the model, and also contains analysis and evaluation.
-# The setup of the model (including API call) and the data import of the data provided by the original authors is to be found in separate scripts, which are called here.
+# The setup of the model (including API call) and the data import are called here from other R scripts.
 
 # Load setup script
 source("LLM_setup.R")
