@@ -43,14 +43,12 @@ print(res$answer)
 
 # 2. SUPERVISED TRAINING (in batches)
 
-sup_training_set
-
 # Prompt with data
 res <- ask_llm(conv, paste(
   "Training: <instructions> Now we will classify 100 sentences together from the dataset <dataset> Supervised_training_sketchengine_100.csv </dataset>. Work in batches of 25 sentences at a time. Think step-by-step about each classification, and for each classification I want you to include <thinking> </thinking> and your <answer> </answer>. </instructions>",
   paste(
     apply(sup_training_set, 1, function(row) {
-      paste0("Sentence: ", row["Sentence"])
+      paste0("id: ", row["id"], " | Sentence: ", row["Sentence"])
     }),
     collapse = "\n"
   ), 
@@ -61,11 +59,7 @@ print(res$answer)
 
 # Feedback prompt (1st batch)
 res <- ask_llm(conv, paste(
-  "Sentence #7 shows too little context to be sure", 
-  "Sentence #10 you only registered 'Aurora' as a sentence, but this line contains the sentence 'The Aurora R10 chassis is moderately sized, and it could justify being bigger considering the power inside.'",
-  "#17 is wrong because 1. 'Considered for' means 'evaluated for possibility' 2. About contemplation of action 3. No evaluative complement",
-  "#21 is wrong because 1. 'Considered' means 'thought about as option' 2. About contemplation of treatment 3. No evaluation being made",
-  "#25 is wrong because 1. 'Considered' means 'thought about' 2. About contemplation of ideas 3. No evaluation being made",
+  "Sentence #7 shows too little context to be sure",
   sep = "\n"
 ), GPT)
 conv <- res$conversation
@@ -81,39 +75,13 @@ print(res$answer)
 
 # Next Feedback (2nd batch)
 res <- ask_llm(conv, paste(
-  "Only sentences containing the verb “consider” are relevant for classification, every line is numbered with an id and contains one such sentence. Please stick to the numbering according to the id.", 
-  "For example, #26 contains the sentence 'The FAA has not considered the proposed spaceport's impacts on those properties.'",
-  "Please classify this batch again.",
-  sep = "\n"
-), GPT)
-conv <- res$conversation
-print(res$answer)
-
-# Next feedback and 3rd batch
-res <- ask_llm(conv, paste(
   "#27 is incorrect: 'considered that as it was sufficient' wouldn't work here. 'that' only works as an evaluative when 'that' is used as a demonstrative pronoun.",
-  "Your other classifications were correct.",
-  "You missed #29 'The above 1839 reference to 'unbridled masturbation...that...ought to be considered [a] species of insanity''",
-  "You missed 'The concluding discussion considers patterns in the distribution of complements...' in #42",
-  "you missed #48 'whether a public authority may include the costs of maintaining the information in its cost recovery charge to the requester was considered in East Sussex County Council'",
-  "you repeated #23 and labeled it #47 in your classifications",
-  "Please continue with the next batch. Classify all 'consider'-constructions that occur in batch 51-75 and refer to the id numbering.",
   sep = "\n"
 ), GPT)
 conv <- res$conversation
 print(res$answer)
 
-# Feedback
-res <- ask_llm(conv, paste(
-  "#68 'let the point be **considered** that it was from good' is incorrect: 1. 'Considered' introduces a thought/point 2. Insertion test does not work, 3. it is about examining an idea",
-  "#73 'Researchers **consider** that the concept of a land' is incorrect: 'consider that' introduces a thought/belief and 'that' is used a conjunction, not a demonstartive pronoun",
-  "The rest of the classifications are correct.",
-  sep = "\n"
-), GPT)
-conv <- res$conversation
-print(res$answer)
-
-# Last batch
+# 3rd batch
 res <- ask_llm(conv, paste(
   "Please continue with the next batch.",
   sep = "\n"
@@ -123,12 +91,17 @@ print(res$answer)
 
 # Feedback
 res <- ask_llm(conv, paste(
-  "#82 and #90 are ambiguous.",
-  "#83 is wrong: 'most of the Treaties that will be **considered** in this article' is non-evaluative, it is about examination",
-  "You missed #91 '**Considering** this from the perspective of access to education for our members.' The numbering of 91-99 is not consistent with the ids in the dataset",
-  "id #93 'For anglo-saxon or non-European investors, the dominant role of the civil code in local business law must be carefully **considered**' is incorrect, is about examination",
-  "id #97 'Position... is **considered** while determining' is incorrect: 1. 'considered' means 'taken into account' 2. insertion test fails 3. is about examination.",
+  "#68 is incorrect: 1. 'Considered' introduces a thought/point 2. Insertion test does not work, 3. it is about examining an idea",
   sep = "\n"
+), GPT)
+conv <- res$conversation
+print(res$answer)
+
+# Feedback
+res <- ask_llm(conv, paste(
+  "#82 and #90 are ambiguous.",
+  "#95 is incorrect: 1. 'considered' means 'examined/studied', 2. insertion test fails, 3. about examination",
+sep = "\n"
 ), GPT)
 conv <- res$conversation
 print(res$answer)
@@ -140,14 +113,6 @@ print(res$answer)
 # Prompt with data
 res <- ask_llm(conv, paste(
   "<instructions> Now you will classify 100 sentences without supervision from the dataset <dataset> Test1_sketchengine_100.csv </dataset>. Think step-by-step for each classification <thinking> </thinking>. The labels available to you are “evaluative,” “non-evaluative,” and “?”. Please provide your classification in tab separated .csv format in one large batch <answer> </answer>. </instructions>",
-  "Each row contains multiple sentences separated by </s><s>.",
-  "You MUST identify the ONE sentence containing 'consider' and classify it.",
-  "",
-  "IMPORTANT RULES:",
-  "1. Do NOT skip any row.",
-  "2. Return EXACTLY one classification per id.",
-  "3. The number of output rows MUST equal the number of input rows.",
-  "4. Do NOT modify or shorten the id.",
   "Return ONLY tab-separated values with columns:",
   "id<TAB>Classification",
   "</instructions>",
@@ -184,22 +149,17 @@ print(accuracy_unsup1)
 
 # Get wrong cases
 errors_unsup1 <- comparison_unsup1 |>
-  filter(Classification_Matti != Classification)
+  filter(Classification_Matti != GPT_classification)
 
 cat(errors_unsup1$Sentence, sep = "\n")
 
-# Prompt feedback: accuracy and sentences
-
+# Prompt feedback: accuracy and wrong sentences
 res <- ask_llm(conv, paste(
-  "status of wild relatives is, overall, worse than for birds and mammals generally. </s><s> Whereas 25% of all mammal species are considered threatened with extinction, more than half of mammals that are wild relatives of domesticated mammals are threatened
-that resembled my developing aesthetic. </s><s> A few cookbooks kept ending up on top of the pile. </s><s> (If you don't own these books, consider this is an unabashed endorsement.) </s><s> The Canal House series – a favorite of mine since the books first appeared, with
+  "that resembled my developing aesthetic. </s><s> A few cookbooks kept ending up on top of the pile. </s><s> (If you don't own these books, consider this is an unabashed endorsement.) </s><s> The Canal House series – a favorite of mine since the books first appeared, with
 2006 in Telecom Order CRTC 2006-294 and Telecom Order CRTC 2006-295, respectively. </s><s> In these Orders, the Commission considered that CDN and DNA services at DS-1 speed were acceptable as substitute services. </s><s> Reports of a giant monster with glowing
-<s> Large animals such as horses or sheep or large numbers of domestic animals, such as a cattery, or a kennel of dogs, are not considered pets. </s><s> Personal Motor Vehicule (PMV) (véhicule automobile personnel - VAP) - for purposes of shipment, means a sedan,
-of the people are not neglected or badly treated (Falconer, 2006). </s><s> The criminal justice system has to include or consider the values considered as important by the society. </s><s> Then the social justice system will be implemented through
-. </s><s> Hopes For The Next 4 Years: Philadelphia City Official Wishes For Racial Justice </s><s> On Inauguration Day, All Things Considered revisits some of its previous guests to find out what they hope for in the next four years. </s><s> Among them is Philadelphia
-allow you admittance to all subjects so your youngster has one spot to go for entertainment only and learning. </s><s> As you consider the free web based learning games accessible, you need to ensure you pick a site that has what your kid needs. </s><s> This
-from problem formulation to overall risk estimation. </s><s> On-line forum and AHTEG experts tried to cover all 'points to consider' which could be relevant to RA process and helpful for risks' estimation and evaluation, and Parties to the Protocol",
-  "You have reached an accuracy of 92%",
+instead continued to introduce beautifully designed products at premium prices. </s><s> So, while I don't view design being considered in all areas of business as a 'new' concept, I am more than encouraged to see international corporations discussing the
+allow you admittance to all subjects so your youngster has one spot to go for entertainment only and learning. </s><s> As you consider the free web based learning games accessible, you need to ensure you pick a site that has what your kid needs. </s><s> This",
+  "You have reached an accuracy of 96%",
   "Let's review the errors. I have pasted all the sentences you have got wrong",
   sep = "\n"
 ), GPT)
@@ -211,15 +171,9 @@ print(res$answer)
 # Prompt
 res <- ask_llm(conv, paste(
   "Keep those lessons in mind. I will now give you new data. In your classification, you need to <thinking> Classify step-by-step</thinking> and <instruction> consistently apply insertion test </instruction>",
-  "Each row contains multiple sentences separated by </s><s>. <Instructions> You MUST identify the ONE sentence containing 'consider' and classify it.",
-  "IMPORTANT RULES:",
-  "1. Do NOT skip any row.",
-  "2. Return EXACTLY one classification per id.",
-  "3. The number of output rows MUST equal the number of input rows.",
-  "4. Do NOT modify or shorten the id.",
-  "Return ONLY tab-separated values with columns:",
+  "<instructions> Return the full classification in one batch. Return ONLY tab-separated values with columns:",
   "id<TAB>Classification",
-  "</instructions>",
+  "</instructions>,",
   paste(
     apply(unsup_training_set2, 1, function(row) {
       paste0("id: ", row["id"], " | Sentence: ", row["Sentence"])
@@ -230,8 +184,6 @@ res <- ask_llm(conv, paste(
 ), GPT)
 conv <- res$conversation
 print(res$answer)
-
-# define classification labels again
 
 # Gather feedback (only accuracy) for unsupervised training 2
 # Read and save output
@@ -254,63 +206,68 @@ accuracy_unsup2 <- mean(
 print(accuracy_unsup2)
 
 # Prompt feedback
-
+res <- ask_llm(conv, paste(
+  "You got a 93% accuracy! that is really good.",
+  sep = "\n"
+), GPT)
+conv <- res$conversation
+print(res$answer)
 
 # 4. TESTING
 
 testing_set
 
-# Prompt
+# Testing prompt and dataset
+res <- ask_llm(conv, paste(
+  "Now we're proceeding from training and validation to testing. I will provide you with a new dataset. <instructions> Classify the data following the procedure that you have applied successfully in the latest round of classifications.</instructions>",
+  "<instructions> Return the full classification in one batch. Return ONLY tab-separated values with columns:",
+  "id<TAB>Classification",
+  "</instructions>,",
+  paste(
+    apply(testing_set, 1, function(row) {
+      paste0("id: ", row["id"], " | Sentence: ", row["Sentence"])
+    }),
+    collapse = "\n"
+  ),
+  sep = "\n"
+), GPT)
+conv <- res$conversation
+print(res$answer)
 
-# Give the testing dataset and instruct including format
-#res <- ask_llm(conv, paste(
-#  "<instructions>",
-#  "Keep those lessons in mind.",
-#  "I will now give you new data from the dataset x below",
-#  "Please <thinking> classify each sentence >/thinking>.",
-#  "Return your results ONLY as a TSV with the columns:",
-#  "id,GPT_classification",
-#  "Put the TSV inside <answer> </answer>.",
-#  "</instructions>",
-#  paste(
-#    apply(testing_data, 1, function(row) {
-#      paste0("Sentence: ", row["Sentence"])
-#    }),
-#    collapse = "\n"
-#  ),
-#  sep = "\n"
-#), GPT)
-#conv <- res$conversation
-#print(res$answer)
-
-# Print clean transcript
 
 # EVALUATION
 
 # Clean and save model output
 
-#tsv_text <- res$answer |>
-#  gsub("</?answer>", "", x = _) |>
-#  trimws()
+tsv_test <- res$answer |>
+  gsub("</?answer>", "", x = _) |>
+  trimws()
 
-#gpt_results <- read_tsv(tsv_text) |>
-#  rename(GPT_classification = Classification) # save results as vraibale and rename column for analysis
+test_gpt_results <- read_tsv(tsv_test, col_names = c("id", "GPT_classification"))
 
-# ncol(gpt_results) # check number of columns
+ncol(test_gpt_results) # check number of columns
 
-# (in other script) human gold standard annotations
-human_gold_standard
+# Comapre with human gold standard annotations and compute accuracy
+#human_gold_standard
 
-# Merge predictions for comparison and name columns (left_join should keep all predictions)
-#comparison <- human_gold_standard |>
-#  left_join(gpt_results, by = "Sentence") # save comparison output for further analysis
+comparison_test <- human_gold_standard |>
+  left_join(test_gpt_results, by = "id")
 
+accuracy_test <- mean(
+  comparison_test$Human_classification == comparison_test$GPT_classification
+)
 
-#write_csv2(comparison, "NEWFOLDER/x.csv") # put in semicolon separated format for comparison with author's table
+print(accuracy_test)
 
-# Compute accuracy
-#accuracy <- mean(
-#  comparison$Human_classification == comparison$GPT_classification
-#)
+# Save as csv.
+write_csv2(comparison_test, "replication_data/GPT_replication_results.csv") # put in semicolon separated format for comparison with author's table
 
-#print(accuracy)
+# Final prompt
+res <- ask_llm(conv, paste(
+  "thank you. you have reached a 94% accuracy on an hold-out evaluation test. that's good work.",
+  sep = "\n"
+), GPT)
+conv <- res$conversation
+print(res$answer)
+
+# Print clean transcript??
