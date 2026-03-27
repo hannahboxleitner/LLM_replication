@@ -269,5 +269,3 @@ res <- ask_llm(conv, paste(
 ), GPT)
 conv <- res$conversation
 print(res$answer)
-
-# Print clean transcript??
