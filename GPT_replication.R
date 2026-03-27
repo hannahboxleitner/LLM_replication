@@ -134,7 +134,6 @@ conv <- res$conversation
 print(res$answer)
 
 # 3. UNSUPERVISED TRAINING
-#how to match "Sentence"??, specifiy to not change ids!
 
 # 3.1 UNSUPERVISED TRAINING 1
 
@@ -169,14 +168,16 @@ tsv_unsup1 <- res$answer |>
   gsub("</?answer>", "", x = _) |>
   trimws()
 
-unsup1_gpt_results <- read_tsv(tsv_unsup1, col_names = c("id", "Classification"))
+unsup1_gpt_results <- read_tsv(tsv_unsup1, col_names = c("id", "GPT_classification"))
+
+#ncol(unsup1_gpt_results) # check columns
 
 # Merge and compare accuracy
 comparison_unsup1 <- unsup1_solution |>
   left_join(unsup1_gpt_results, by = "id")
 
 accuracy_unsup1 <- mean(
-  comparison_unsup1$Classification_Matti == comparison_unsup1$Classification
+  comparison_unsup1$Classification_Matti == comparison_unsup1$GPT_classification
 )
 
 print(accuracy_unsup1)
@@ -238,14 +239,16 @@ tsv_unsup2 <- res$answer |>
   gsub("</?answer>", "", x = _) |>
   trimws()
 
-unsup2_gpt_results <- read_tsv(tsv_unsup2, col_names = c("id", "Classification"))
+unsup2_gpt_results <- read_tsv(tsv_unsup2, col_names = c("id", "GPT_classification"))
+
+ncol(unsup2_gpt_results) # check if columns are correct
 
 # Merge and compare accuracy
 comparison_unsup2 <- unsup2_solution |>
   left_join(unsup2_gpt_results, by = "id")
 
 accuracy_unsup2 <- mean(
-  comparison_unsup2$classification_Matti == comparison_unsup2$Classification
+  comparison_unsup2$classification_Matti == comparison_unsup2$GPT_classification
 )
 
 print(accuracy_unsup2)
@@ -266,7 +269,7 @@ testing_set
 #  "I will now give you new data from the dataset x below",
 #  "Please <thinking> classify each sentence >/thinking>.",
 #  "Return your results ONLY as a TSV with the columns:",
-#  "Sentence,Classification",
+#  "id,GPT_classification",
 #  "Put the TSV inside <answer> </answer>.",
 #  "</instructions>",
 #  paste(
@@ -292,6 +295,8 @@ testing_set
 
 #gpt_results <- read_tsv(tsv_text) |>
 #  rename(GPT_classification = Classification) # save results as vraibale and rename column for analysis
+
+# ncol(gpt_results) # check number of columns
 
 # (in other script) human gold standard annotations
 human_gold_standard

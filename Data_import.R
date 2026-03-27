@@ -48,16 +48,17 @@ unsup2_solution <- read_csv2(
 
 # Load data for testing
 testing_set <- read_csv2(here("data", "EnTenTen_random_sample_102.csv")) |>
-  select(Consider_construction) |>
+  select(id, Consider_construction) |>
   rename(Sentence = Consider_construction)
 
-summary(testing_set)
+summary(testing_set) # check
 
 # Load human gold standard annotations (for testing set)
 human_gold_standard <- read_csv2(
   here("data", "EnTenTen_random_sample_102.csv")
 ) |>
   select(
+    id,
     Sentence = Consider_construction,
     Human_classification = Matti_classification
   )
