@@ -268,10 +268,3 @@ fleiss_kappa <- kappam.fleiss(
 
 fleiss_kappa
 
-
-#testing other stuff (REMOVE LATER)
-getwd()
-list.files()
-
-
-read_delim("data/Pretraining_data_493.csv", delim = ";")

@@ -235,7 +235,7 @@ conv <- res$conversation
 print(res$answer)
 
 
-# EVALUATION
+# EVALUATION (and final prompt)
 
 # Clean and save model output
 
@@ -269,3 +269,16 @@ res <- ask_llm(conv, paste(
 ), GPT)
 conv <- res$conversation
 print(res$answer)
+
+
+
+# Pairwise comparison: Cohen's kappa
+# Load the irr library
+library(irr)
+
+# Cohen's kappa (2 raters)
+cohens_kappa_gpt_human <- kappa2(
+  comparison_test[, c("Human_classification", "GPT_classification")]
+)
+
+print(cohens_kappa_gpt_human)

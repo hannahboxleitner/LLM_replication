@@ -158,23 +158,37 @@ I tried to stay as close to the prompts represented by the authors' transcript a
 
 Notes DURING GPT run:
 
--   pretraining -\> model found a few instances where the rules did not apply in its opinion and wanted to correct it. 
-Interestingly, there was a typo in the prompt copied to the transcript: "<instructions> Classify sentences containing the verb “consider” as either ‘non-evaluative’ or ‘non-evaluative’. </instructions>" The first model pointed out this mistake in the first answer, and made clear that it must be incorrect because everything else in the prompt is centered around the contrast between 'evaluative' and 'non-evaluative'. Since this is what the authors provided from their conversation, I must assume this is what was they prompted to their model. Regarding the motivation to replicate closely and get comparable results, I decided to keep the original typo and not clarify it. I will report on differences in detection and/or performance. **Maybe there will be the opportunity to analyze how models handle imperfect instructions.**
+-   pretraining -\> model found a few instances where the rules did not apply in its opinion and wanted to correct it. Interestingly, there was a typo in the prompt copied to the transcript: "<instructions> Classify sentences containing the verb “consider” as either ‘non-evaluative’ or ‘non-evaluative’. </instructions>" The first model pointed out this mistake in the first answer, and made clear that it must be incorrect because everything else in the prompt is centered around the contrast between 'evaluative' and 'non-evaluative'. Since this is what the authors provided from their conversation, I must assume this is what was they prompted to their model. Regarding the motivation to replicate closely and get comparable results, I decided to keep the original typo and not clarify it. I will report on differences in detection and/or performance. **Maybe there will be the opportunity to analyze how models handle imperfect instructions.**
 
 -   there were some problems with the model not being able to read the data/find the right sentences. Every line (assigned to an id) contained not just one sentence with a consider-construction, but snippets from other sentences as well. In supervised training, the GPT model missed a sentences containing a "consider"-construction several times. I tried to fix this problem by making clear adjustments to the prompt. The original model also seemed to have some minor troubles with this dataset, e.g. in one sentence (100 of supervised) it placed the considering wrong and could not analyze the sentence. The authors did not address this in their prompts.
-- Another difference seen in supervised training. A sentence not understandable, (n. 100), both models deemed it incoherent/garbled, but Claude categorized it ? while GPT defaulted to non-evaluative, reasoning there was no clear instance of consider in it.
+
+-   Another difference seen in supervised training. A sentence not understandable, (n. 100), both models deemed it incoherent/garbled, but Claude categorized it ? while GPT defaulted to non-evaluative, reasoning there was no clear instance of consider in it.
 
 -   **While during supervised training this did not pose that much of a problem, because every sentence was corrected anyway, it definitely did in unsupervised training. Because of this issue, I adjusted my prompt to focus on the "id"**
 
 -   There was an interesting distinction during supervised training, looking at the transcript the authors provided of their conversation with Claude: When they prompted corrections, the model usually responded in terms of "You're absolutely right! Let me correct these!". GPT, while somewhat open to discussion, often stuck to its classification and explained why.
-- In all cases where I needed to compare the classifications to the ones in the datsets, I specified additionally the format: "Return ONLY tab-separated values with columns:","id<TAB>Classification". This also made sense because Claude tened to end its answers with sentences like "Please provide the new dataset and I will classify it in tab-separated .csv format.", while GPT did not, which is why I included these informations in the prompt. This did not change the message in the prompt at all, it simply enforces that the model output was clear and comparable.
-- In testing round, GPT reached 0.9411765 accuracy. (rounded to 94%)
+
+-   In all cases where I needed to compare the classifications to the ones in the datsets, I specified additionally the format: "Return ONLY tab-separated values with columns:","id<TAB>Classification". This also made sense because Claude tened to end its answers with sentences like "Please provide the new dataset and I will classify it in tab-separated .csv format.", while GPT did not, which is why I included these informations in the prompt. This did not change the message in the prompt at all, it simply enforces that the model output was clear and comparable.
+
+-   In testing round, GPT reached 0.9411765 accuracy. (rounded to 94%)
 
 -   During the whole experiment, I tried to stay close to the methodological pipeline in the transcript. In some cases, I had to make changes to the prompt, and in others, the results just turned out different.
 
 # Results of the replication
 
 As mentioned in the pre-registration ,accuracy was calculated as follows: formula
+
+Replication with GPT (27/03/2026):
+
+Accuracy (compared to HGS in authors' set): 94%
+
+-\> hypothesis For Cohen's kappa (IRR between GPT and HGS):
+
+Cohen's Kappa for 2 Raters (Weights: unweighted)
+
+Subjects = 102 Raters = 2 Kappa = 0.877 z = 8.86 p-value = 0
+
+-\> (**interpret with Landig scale - citation**)
 
 accuracy compared to the original study
 
