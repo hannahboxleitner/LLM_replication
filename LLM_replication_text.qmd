@@ -174,6 +174,14 @@ Notes DURING GPT run:
 
 -   During the whole experiment, I tried to stay close to the methodological pipeline in the transcript. In some cases, I had to make changes to the prompt, and in others, the results just turned out different.
 
+Notes Mistral run (30.03.2026)
+
+-   (not mentioned anywhere else: 493 sentences are actually 485)
+
+-   pretraining with mistral: instead of asking questions, it re-classified all the sentences and used non-evaluative in almost every case; also, it did not mention the mistake in the user prompt
+
+-   Supervised traing: very interesting compared to GPT; Mistral was wrong in a lot more cases; In the beginning (first two batches/rounds of supervised classification) there was a strong tendency to classify constructions as evaluative when they were not (e.g. in the first 25 sentences of the ST, it classified six cases as evaluative that Claude had (rightfully) not/were actually non-evaluative), when later in the third batch, it was oftentimes the other way around: Mistral classified sentences as non-evaluative when they were actually not.
+
 # Results of the replication
 
 As mentioned in the pre-registration ,accuracy was calculated as follows: formula
