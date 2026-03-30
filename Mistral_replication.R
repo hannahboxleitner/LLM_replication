@@ -131,6 +131,116 @@ res <- ask_llm(conv, paste(
 conv <- res$conversation
 print(res$answer)
 
+# 3. UNSUPERVISED TRAINING
+
+# 3.1 UNSUPERVISED TRAINING 1
+
+# Prompt with data
+res <- ask_llm(conv, paste(
+  "<instructions> Now you will classify 100 sentences without supervision from the dataset <dataset> Test1_sketchengine_100.csv </dataset>. Think step-by-step for each classification <thinking> </thinking>. The labels available to you are “evaluative,” “non-evaluative,” and “?”. Please provide your classification in tab separated .csv format in one large batch <answer> </answer>. </instructions>",
+  "Return ONLY tab-separated values with columns:",
+  "id<TAB>Classification",
+  "</instructions>",
+  paste(
+    apply(unsup_training_set1, 1, function(row) {
+      paste0("id: ", row["id"], " | Sentence: ", row["Sentence"])
+    }),
+    collapse = "\n"
+  ),
+  sep = "\n"
+), MISTRAL)
+conv <- res$conversation
+print(res$answer)
+
+# Gather feedback for unsupervised training 1
+# Read and save model output: Needed to be adjusted because of formatting issues in model output
+tsv_unsup1 <- res$answer |>
+  gsub("</?answer>", "", x = _) |>  
+  gsub("```", "", x = _) |>          # remove code block markers
+  trimws() |>
+  gsub(" {2,}", "\t", x = _)         # convert spaces to tabs
+
+# remove any lines before the headers
+lines <- strsplit(tsv_unsup1, "\n")[[1]]
+table_lines <- lines[grep("^(id|[0-9])", lines)]
+tsv_clean <- paste(table_lines, collapse = "\n")
+
+# read as TSV and save as variable
+unsup1_mistral_results <- read_tsv(I(tsv_clean))
+
+# rename second column (for consistency)
+names(unsup1_mistral_results)[2] <- "Mistral_classification"
+
+#ncol(unsup1_mistral_results) # check columns
+
+# Merge and compare accuracy
+comparison_unsup1 <- unsup1_solution |>
+  left_join(unsup1_mistral_results, by = "id")
+
+accuracy_unsup1 <- mean(
+  comparison_unsup1$Classification_Matti == comparison_unsup1$Mistral_classification
+)
+
+print(accuracy_unsup1)
+
+# Get wrong cases
+errors_unsup1 <- comparison_unsup1 |>
+  filter(Classification_Matti != Mistral_classification)
+
+cat(errors_unsup1$Sentence, sep = "\n")
+
+
+# Prompt feedback: accuracy and wrong sentences
+res <- ask_llm(conv, paste(
+  "adopted, would essentially create a firearm or weapons exception to the Fourth Amendment. </s><s> This sweeping argument was considered by the Florida Supreme Court and was correctly rejected. </s><s> The purpose of a police stop and frisk is to prevent criminal
+<s> Some possible starting points are described in the getting started section. </s><s> early to rise </s><s> Hear from Craig and people he considers to be the wisest, most successful, all-round people in the world, with both great personal and professional lives. </s>
+water in Kirkuk. </s><s> The climate of Kirkuk is semi-arid with cold rainy winter and hot dry summer. </s><s> Floods caused by rain are considered as the main source of Kirkuk's groundwater despite the availability of surface water. </s><s> (Al-Tameemi, 2020, S. 2) </s><s> 
+to my only friends here, Karen and Mike. </s><s> I told her how wonderful I thought that Grandma was, and that I had told her that I considered her part of my family. </s><s> I wanted very much for Mother to meet her, and I hoped that they would be friends. </s><s> I went back to my
+[6], and a few cases of immediate-type allergy to Goji berries were recently reported in Spain [12,13]. </s><s> While LTP is considered responsible for the reactions [12], our data suggest that other allergens, such as high-molecular-weight allergens
+Froman, representing the Obama Administration, vetoed the ban. </s><s> In a letter explaining the veto, Froman said he considered the potential harm the sales ban would cause to consumers (limiting consumer choice) and the U.S. economy. </s><s> The
+Korea. </s><s> The so-called Iran Nuclear Deal is an example of hard diplomatic efforts that led to an agreement which is widely considered successful. </s><s> While the context between Iran and North Korea is quite different, the fact that hostile nations were able
+with the newest safety features available. </s><s> Remember, some of these features may be optional. </s><s> As I said earlier, I consider stability control to be a 'must have' feature. </s><s> And, since stability control depends upon the computer and wheel
+the wet field where rice is planted, but in South Asia it is used to refer to the rice itself. </s><s> Brown rice and rice gruel, considered by some to be fit only for poor people, is called by the Chinese word, congee. </s><s> The Female Grain </s><s> Rabinowitz tells us that in
+status of wild relatives is, overall, worse than for birds and mammals generally. </s><s> Whereas 25% of all mammal species are considered threatened with extinction, more than half of mammals that are wild relatives of domesticated mammals are threatened
+version 5.42. </s><s> Happy Holidays Dexter and Quade. </s><s> Version 5.50 Release Candidate... </s><s> We fixed the remaining issues we considered to be critical and are making this build available as a possible release candidate. </s><s> The download link and more details
+processes. </s><s> A false feeling of well being exists, because the pituitary gland is over-stimulated. </s><s> This gland is considered the master gland because it sends hormones to the other glands...the thyroid, adrenals, reproductive glands, and the
+spend money addressing bovine TB? </s><s> Why is it necessary to spend money addressing bovine TB when bovine TB is currently considered to be a very small risk to human health? </s><s> Prof Christl Donnelly replied to this on the BBC's Farming Live program on 28th
+descriptors, each eight bytes in length. </s><s> The IDT is created and maintained by the operating system and is thus considered a CPU data structure, but it also falls under the control of the operating system. </s><s> If the operating system messes up the
+, in spite of the insistence of the Mexican officers; and that they proceeded to take an official record of the event and considered the act finished. </s><s> 41. </s><s> At no time was the Commission informed of the grounds for considering this person as the probable
+  Christian. </s><s> We destroy the moral standing of the bible and Christianity and that is the real heresy and blasphemy. </s><s> We may consider it Christian and biblical to condemn what we see as the sin of homosexuality but we bring judgment on ourselves to be
+  you with your vicious companion? </s><s> Again no answer, but inward and increasing annoyance, of which Mr. Bellingham considered Ruth the cause. </s><s> At length he spoke-- </s><s> Mother, you are not helping me in my difficulty. </s><s> I have no desire to banish you, nor
+  instead continued to introduce beautifully designed products at premium prices. </s><s> So, while I don't view design being considered in all areas of business as a 'new' concept, I am more than encouraged to see international corporations discussing the
+of the people are not neglected or badly treated (Falconer, 2006). </s><s> The criminal justice system has to include or consider the values considered as important by the society. </s><s> Then the social justice system will be implemented through
+. </s><s> Parayana Krama (Prescribed Methods of Reading/Chanting) </s><s> Devi Mahatmya is a story but each of its slokas are considered to be mantras. </s><s> There are two methods of how to start reading Devi Mahatmya. </s><s> The first one is called Tryangam and consists
+ADA's 'business necessity' standard. </s><s> Consistent with the ADA standard, employers should ensure that the tests are considered accurate and reliable. </s><s> For example, employers may review information from the U.S. Food and Drug Administration
+  of the new. </s><s> FACUA-Consumers in Action hopes that the Government open an investigation about that facts. </s><s> FACUA considers it unacceptable that the Minister of Public works does not accomodate consumer associations in their coordination
+  . </s><s> The Supreme Court is supposed to decide on who can build on it. </s><s> Both religions consider it sacred. </s><s> (6:43) </s><s> All Things Considered , June 24, 1998, Moscow Business -- NPR's Anne Garrels reports on the new Moscow -- a glitzy metropolis of foreign cars,
+there is some controversy regarding whether the canine split products produce acceptable pain relief. </s><s> It should be considered an adjunct to supplement more reliable pain relievers in this species. </s><s> This medication helps reduce what is called 
+measure. </s><s> [1, 2] Dunn's driving on the shoulder for a thousand feet and shouting to Sullivan may or may not be considered as creating an emergency of the same duration, but, in any event, the peril was not one created by Dunn alone without
+  allow you admittance to all subjects so your youngster has one spot to go for entertainment only and learning. </s><s> As you consider the free web based learning games accessible, you need to ensure you pick a site that has what your kid needs. </s><s> This
+  you hated this year as the best in their field. </s><s> The Redbox Movie Awards 2011: for when even the People's Choice Awards are considered 'too highbrow'. </s><s> A wonderfully intimate project. </s><s> A warm and wonderfully universal love story that comes across
+), when weighing increased bleeding risk against reduced thrombosis issues. </s><s> However, Dr Patel said he preferred to consider the mortality rate as the key benefit: There are only a handful of interventions in cardiovascular medicine that can
+the course of your mortgage. </s><s> Jumbo loan: Any loan above the conventional loan limits set by Fannie Mae and Freddie Mac is considered a jumbo loan. </s><s> Current limits are $548,250 to $822,375, depending on where the property is located. </s><s> You can finance up to
+gap in the Pew study concerned genetically modified foods, which 88% of scientists but only 37% of the general public consider safe to eat. </s><s> Another big gap: 68% of scientists versus 28% of the general public think foods grown with pesticides are
+whole grain symbol, which tells you how many grams of whole grain each serving contains. </s><s> Sixteen grams per serving is considered an excellent source and 8 grams is a good source. </s><s> If there is no symbol, read the label, and pick foods listing whole
+sometimes been criticized because we do not emphasize a follow-up program for students. </s><s> Jesus and the apostles did not consider follow-up vital to successful evangelism. </s><s> Instead, Jesus expected true disciples to follow Him. </s><s> When He witnessed to
+terms of their effects upon an individual at first encounter and without the influence of pain. </s><s> The latter influence is considered insignificant in the case of the surface temperature measurements. </s><s> Therefore, when considering this question the
+rest of my post will be just of theoretical nature. </s><s> I want to compare 4-wide with and without an odd clear beforehand. </s><s> I consider the 2 following builds pretty much optimal for 7-high builds (I am assuming a line was already cleared because they ca
+, requires an article would include is an, because without is, there seems to have worked. </s><s> The values category was considered a form of association should encompass or exclude the jews while including or % of the house style. </s><s> Ikegami, eiko. </s><s> All
+, than that there is a God), cannot all be correct, just like not all answers to 2+2=? are correct. </s><s> Well, they might have considered it a toss-up between 'pure' unbelief and self-interested hypocrisy and heresy, which certainly are not the same as
+identity as an overseas collectivity is somewhat precarious: The status of the island </s><s> within the French republic is considered provisional and will be reviewed in 2010. </s><s> Ethnic Relations. </s><s> Mahorans, who have family ties to the inhabitants of the
+the Sultan Omar Ali Saifuddien Mosque with its marble minarets and gold domes. </s><s> See the Water Village (Kampong Ayer), considered the Venice of the East, where more than 30,000 residents living in stilt houses. </s><s> 0 Princess Cruises will make maiden
+thus can be found when considering the application of McLuhan's ideas in the context of Compendium. </s><s> McLuhan is considered a revolutionary in some quarters in considering how different technological inventions were extending the reach of
+satisfaction and loyalty. </s><s> It will also guarantee the development of Zoomlion's hoisting machinery. </s><s> Zoomlion is considered the 'cradle' of China's hoisting machinery industry. </s><s> From laying the foundation of tower crane technology in China,
+to hire a great web developer, like the ones employed by Ramotion. </s><s> You have to remember always that your brand should be considered as one of the top providers of great products or services. </s><s> Then, through an integrated digital marketing strategy,",
+  "You have reached an accuracy of 59%",
+  "Let's review the errors. I have pasted all the sentences you have got wrong",
+  sep = "\n"
+), MISTRAL)
+conv <- res$conversation
+print(res$answer)
+
+
 # Answer prompt
 #res <- ask_llm(conv, paste(
   "Yes, continue",

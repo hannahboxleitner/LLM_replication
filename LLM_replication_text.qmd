@@ -180,7 +180,9 @@ Notes Mistral run (30.03.2026)
 
 -   pretraining with mistral: instead of asking questions, it re-classified all the sentences and used non-evaluative in almost every case; also, it did not mention the mistake in the user prompt
 
--   Supervised traing: very interesting compared to GPT; Mistral was wrong in a lot more cases; In the beginning (first two batches/rounds of supervised classification) there was a strong tendency to classify constructions as evaluative when they were not (e.g. in the first 25 sentences of the ST, it classified six cases as evaluative that Claude had (rightfully) not/were actually non-evaluative), when later in the third batch, it was oftentimes the other way around: Mistral classified sentences as non-evaluative when they were actually not.
+-   Supervised traing: very interesting compared to GPT; Mistral was wrong in a lot more cases; In the beginning (first two batches/rounds of supervised classification) there was a strong tendency to classify constructions as evaluative when they were not (e.g. in the first 25 sentences of the ST, it classified six cases as evaluative that Claude had (rightfully) not/were actually non-evaluative), when later in the third batch, it was oftentimes the other way around: Mistral classified sentences as non-evaluative when they were actually not. In the third batch (where Mistral classified all remaining 50 sentences instead of only 25) of the supervised training, it classified 0 sentences as evaluative.
+
+-   Accuracy in first round of unsupervised training was 59%
 
 # Results of the replication
 
