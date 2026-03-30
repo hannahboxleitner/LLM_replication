@@ -84,7 +84,7 @@ conv <- create_conversation() # conv-object: resets conversation every time I ru
 
 # File naming for transcript
 
-model_name <- "GPT" # change
+model_name <- "Mistral" # change
 
 run_id <- paste0(
   model_name, "_",
@@ -93,15 +93,15 @@ run_id <- paste0(
 
 dir.create("transcripts", showWarnings = FALSE)
 
-log_file <- paste0("transcripts/", run_id, "_RAW.txt") # for checking model output during conversation/analysis
-clean_file <- paste0("transcripts/", run_id, "_CLEAN.txt") # for whole transcript
+log_file <- paste0("transcripts/", run_id, "_RAW.txt") # for generating transcript/checking model output during conversation/analysis
+
 
 
 # Testing multi-turn conversation
-#res <- ask_llm(conv, "Name one subfield of linguistics.", GPT)
+#res <- ask_llm(conv, "Name one subfield of linguistics.", MISTRAL)
 #conv <- res$conversation
 #print(res$answer)
 
-#res <- ask_llm(conv, "What is the most interesting aspect of this subfield? Answer in one sentence.", GPT)
+#res <- ask_llm(conv, "What is the most interesting aspect of this subfield? Answer in one sentence.", MISTRAL)
 #conv <- res$conversation
 #print(res$answer)
