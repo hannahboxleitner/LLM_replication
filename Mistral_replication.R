@@ -301,13 +301,69 @@ res <- ask_llm(conv, paste(
 conv <- res$conversation
 print(res$answer)
 
-# Answer prompt
-#res <- ask_llm(conv, paste(
-#  "",
-#  sep = "\n"
-#), MISTRAL)
-#conv <- res$conversation
-#print(res$answer)
+# 4. TESTING
+
+# Testing prompt and dataset
+res <- ask_llm(conv, paste(
+  "Now we're proceeding from training and validation to testing. I will provide you with a new dataset. <instructions> Classify the data following the procedure that you have applied successfully in the latest round of classifications.</instructions>",
+  "<instructions> Return the full classification in one batch. Return ONLY tab-separated values with columns:",
+  "id\tClassification",
+  "Output exactly what is asked. Do NOT include anything else — no text, no comments, no code formatting.",
+  "</instructions>,",
+  paste(
+    apply(testing_set, 1, function(row) {
+      paste0("id: ", row["id"], " | Sentence: ", row["Sentence"])
+    }),
+    collapse = "\n"
+  ),
+  sep = "\n"
+), MISTRAL)
+conv <- res$conversation
+print(res$answer)
+
+# EVALUATION (and final prompt)
+
+# Clean and save model output
+tsv_test <- res$answer |>
+  gsub("</?answer>", "", x = _) |>
+  gsub("```", "", x = _) |>
+  trimws()
+
+# Filter
+lines <- strsplit(tsv_test, "\n")[[1]]
+table_lines <- lines[grep("^(id|[0-9])", lines)]
+tsv_clean <- paste(table_lines, collapse = "\n")
+
+# Read and save tsv
+test_mistral_results <- read_tsv(
+  I(tsv_clean),
+  col_names = c("id", "Mistral_classification")
+) |>
+  mutate(id = as.numeric(id)) |>
+  filter(!is.na(id))  # remove the header row
+
+# Compare with human gold standard annotations and compute accuracy
+
+comparison_test <- human_gold_standard |>
+  left_join(test_mistral_results, by = "id")
+
+accuracy_test <- mean(
+  comparison_test$Human_classification == comparison_test$Mistral_classification
+)
+
+print(accuracy_test)
+
+# Save as csv.
+write_csv2(comparison_test, "replication_data/Mistral_replication_results.csv") # put in semicolon separated format for comparison with author's table
+
+
+# Final prompt
+res <- ask_llm(conv, paste(
+  "",
+  sep = "\n"
+), MISTRAL)
+conv <- res$conversation
+print(res$answer)
 
 
 # base

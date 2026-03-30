@@ -215,8 +215,6 @@ print(res$answer)
 
 # 4. TESTING
 
-testing_set
-
 # Testing prompt and dataset
 res <- ask_llm(conv, paste(
   "Now we're proceeding from training and validation to testing. I will provide you with a new dataset. <instructions> Classify the data following the procedure that you have applied successfully in the latest round of classifications.</instructions>",
@@ -247,7 +245,7 @@ test_gpt_results <- read_tsv(tsv_test, col_names = c("id", "GPT_classification")
 
 ncol(test_gpt_results) # check number of columns
 
-# Comapre with human gold standard annotations and compute accuracy
+# Compare with human gold standard annotations and compute accuracy
 #human_gold_standard
 
 comparison_test <- human_gold_standard |>
