@@ -269,7 +269,6 @@ conv <- res$conversation
 print(res$answer)
 
 
-
 # Pairwise comparison: Cohen's kappa
 # Load the irr library
 library(irr)

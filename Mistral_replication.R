@@ -356,20 +356,21 @@ print(accuracy_test)
 # Save as csv.
 write_csv2(comparison_test, "replication_data/Mistral_replication_results.csv") # put in semicolon separated format for comparison with author's table
 
-
 # Final prompt
 res <- ask_llm(conv, paste(
-  "",
+  "Thank you. You have reached an accuracy of 67%.",
   sep = "\n"
 ), MISTRAL)
 conv <- res$conversation
 print(res$answer)
 
+# Pairwise comparison: Cohen's kappa
+# Load the irr library
+library(irr)
 
-# base
-res <- ask_llm(conv, paste(
-  "",
-  sep = "\n"
-), MISTRAL)
-conv <- res$conversation
-print(res$answer)
+# Cohen's kappa (2 raters)
+cohens_kappa_mistral_human <- kappa2(
+  comparison_test[, c("Human_classification", "Mistral_classification")]
+)
+
+print(cohens_kappa_mistral_human)

@@ -3734,3 +3734,10 @@ id	Classification
 101	non-evaluative
 102	evaluative
 ```
+
+----------------------------
+ USER:
+ Thank you. You have reached an accuracy of 67%. 
+
+MODEL:
+ Understood. I'll continue to refine my approach to reach the 95% accuracy goal.

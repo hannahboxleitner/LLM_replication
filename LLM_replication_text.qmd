@@ -194,13 +194,26 @@ Replication with GPT (27/03/2026):
 
 Accuracy (compared to HGS in authors' set): 94%
 
--\> hypothesis For Cohen's kappa (IRR between GPT and HGS):
+-\> hypothesis
+
+For Cohen's kappa (IRR between GPT and HGS):
 
 Cohen's Kappa for 2 Raters (Weights: unweighted)
 
 Subjects = 102 Raters = 2 Kappa = 0.877 z = 8.86 p-value = 0
 
 -\> (**interpret with Landig scale - citation**)
+
+Replication with Mistral (30/03/2026):
+
+Accuracy in testing round (compared to HGS): 67% -\> hypothesis failed
+
+\
+Cohen's Kappa for 2 Raters (Weights: unweighted) Subjects = 102 Raters = 2 Kappa = 0.173 z = 2.56 p-value = 0.0106
+
+```         
+ Cohen's Kappa for 2 Raters (Weights: unweighted)   Subjects = 102     Raters = 2      Kappa = 0.173           z = 2.56    p-value = 0.0106 
+```
 
 accuracy compared to the original study
 
