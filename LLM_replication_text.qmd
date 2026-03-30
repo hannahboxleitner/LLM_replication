@@ -184,6 +184,8 @@ Notes Mistral run (30.03.2026)
 
 -   Accuracy in first round of unsupervised training was 59%
 
+-   Accuracy in the second round of unsupervised training was 76%. In this case, one might argue that the model would actually need to get detailed feedback on these classifications and maybe even more training before proceeding to testing. Since I am replicating a study and also wanted to stay consistent with the analysis of the first model (GPT), I still proceeded to testing. But, I also stayed consistent with the authors evaluating the final accuracy of this round: While @morin2025 gave the feedback "you got a 93% accuracy! that is very good." I adjusted the evaluation to the actual accuracy level and pointed out the target that had been defined in the initial instruction prompt: "You got a 76% accuracy, which is an improvement compared to the previous round (59%). The goal remains at least 95%."
+
 # Results of the replication
 
 As mentioned in the pre-registration ,accuracy was calculated as follows: formula

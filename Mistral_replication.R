@@ -160,7 +160,7 @@ tsv_unsup1 <- res$answer |>
   trimws() |>
   gsub(" {2,}", "\t", x = _)         # convert spaces to tabs
 
-# remove any lines before the headers
+# remove any lines before the headers/keep only header and rows starting with a number
 lines <- strsplit(tsv_unsup1, "\n")[[1]]
 table_lines <- lines[grep("^(id|[0-9])", lines)]
 tsv_clean <- paste(table_lines, collapse = "\n")
@@ -240,14 +240,74 @@ to hire a great web developer, like the ones employed by Ramotion. </s><s> You h
 conv <- res$conversation
 print(res$answer)
 
+# 3.2 UNSUPERVISED TRAINING 2
 
-# Answer prompt
-#res <- ask_llm(conv, paste(
-  "Yes, continue",
+# Prompt
+res <- ask_llm(conv, paste(
+  "Keep those lessons in mind. I will now give you new data. In your classification, you need to <thinking> Classify step-by-step</thinking> and <instruction> consistently apply insertion test </instruction>",
+  "<instructions>",
+  "Return the full classification in one batch.",
+  "Return ONLY tab-separated values with columns:",
+  "id\tClassification",
+  "Do not include explanations, code blocks, or any extra text.",
+  "</instructions>",
+  paste(
+    apply(unsup_training_set2, 1, function(row) {
+      paste0("id: ", row["id"], " | Sentence: ", row["Sentence"])
+    }),
+    collapse = "\n"
+  ),
   sep = "\n"
 ), MISTRAL)
 conv <- res$conversation
 print(res$answer)
+
+# Gather feedback (only accuracy) for unsupervised training 2
+# Read and save output
+
+# Clean and save model output
+tsv_unsup2 <- res$answer |>
+  gsub("</?answer>", "", x = _) |>
+  gsub("```", "", x = _) |>
+  trimws()
+
+# as before: keep only headers and rows that start with a number
+lines <- strsplit(tsv_unsup2, "\n")[[1]]
+table_lines <- lines[grep("^(id|[0-9])", lines)]
+tsv_clean <- paste(table_lines, collapse = "\n")
+
+unsup2_mistral_results <- read_tsv(I(tsv_clean))
+
+# rename second column
+names(unsup2_mistral_results)[2] <- "Mistral_classification"
+
+#ncol(unsup2_mistral_results) # check columns
+
+# Merge and compare accuracy
+comparison_unsup2 <- unsup2_solution |>
+  left_join(unsup2_mistral_results, by = "id")
+
+accuracy_unsup2 <- mean(
+  comparison_unsup2$classification_Matti == comparison_unsup2$Mistral_classification
+)
+
+print(accuracy_unsup2)
+
+# Give feedback
+res <- ask_llm(conv, paste(
+  "You got a 76% accuracy, which is an improvement compared to the previous round (59%). The goal remains at least 95%. Please acknowledge this in one short line.",
+  sep = "\n"
+), MISTRAL)
+conv <- res$conversation
+print(res$answer)
+
+# Answer prompt
+#res <- ask_llm(conv, paste(
+#  "",
+#  sep = "\n"
+#), MISTRAL)
+#conv <- res$conversation
+#print(res$answer)
 
 
 # base
