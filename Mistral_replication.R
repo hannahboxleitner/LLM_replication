@@ -3,6 +3,7 @@
 # With this code, I intended to create a methodological pipeline similar to the one proposed by Morin & Marttinen Larsson (2025). It was already used for replication with another (GPT) model.
 # This script contains the conversation with the model, which is divided into pretraining, training and testing of the model, and also contains analysis and evaluation.
 # The setup of the model (including API call) and the data import are called here from other R scripts.
+# Important note: This script also contains additional evaluations regarding inter-rater agreement.
 
 # Load setup script
 source("LLM_setup.R")
@@ -374,3 +375,6 @@ cohens_kappa_mistral_human <- kappa2(
 )
 
 print(cohens_kappa_mistral_human)
+
+
+# Evaluation of inter-rater agreement

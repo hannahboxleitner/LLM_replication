@@ -87,9 +87,9 @@ Further insight could be gained by going through the conversation transcript tha
 
 -   Provided with new data (EnTenTen_random_sample_102.csv) and told to follow the procedure that was successfully applied in the latest round of classifications. After classification, it is again told the accuracy.
 
-All of these steps were incorporated in the replication. With the the KI:connect API documentation [@ki:conne] and some further reading on conversations and giving previous context in prompts [@conversa], I was able to set up the LLMs for usage with an API key, and integrating the iterative processes for a multi-turn-conversation.I created a setup script that includes the API call and the basis for conversation with the LLMs. The analyses (one with each open LLM) were then conducted in separate scripts.
+All of these steps were incorporated in the replication. With the the KI:connect API documentation [@ki:conne] and some further reading on conversations and giving previous context in prompts [@conversa], I was able to set up the LLMs for usage with an API key, and integrating the iterative processes for a multi-turn-conversation. I created a setup script that includes the API call and the basis for conversation with the LLMs. The analyses (one with each open LLM) were then conducted in separate scripts.
 
-When looking at the datasets that @morin2025 provided in their repository, there were some minor inconsistencies I needed to take into account. For example, the file naming was sometimes not very intuitive or informative regarding the methodological pipeline. For some training or testing rounds, the classifications done by Claude or the human annotator were provided in different files, for otherparts of the process, there was only one file containing everything. Also, the column names varied throughout he files (for example, "Sentence" vs. "Consider-construction", or "Claude_classification" vs. "Classification_Claude"). While this would usually call for some data cleaning before running the analyses, all of these concerns were only handled programmatically in the R environment, while the files downloaded from the author's repository remained unchanged. For the data import and preprocessing of datasets I also used a separate R script.
+When looking at the datasets that @morin2025 provided in their repository, there were some minor inconsistencies I needed to take into account. The file naming was sometimes not very intuitive or informative regarding the methodological pipeline. For some training or testing rounds, the classifications done by Claude or the human annotator were provided in different files from only the sentences, for other parts of the process, there was only one file containing everything. Also, the column names varied throughout the files (for example, "Sentence" vs. "Consider-construction", or "Claude_classification" vs. "Classification_Claude"). While this would usually call for some data cleaning before running the analyses, all of these concerns were only handled programmatically in the R environment, while the files downloaded from the author's repository remained unchanged. For the data import and preprocessing of datasets I also used a separate R script.
 
 ## Piloting
 
@@ -154,55 +154,67 @@ Even though these measures were taken to improve reproducibility, identical outp
 
 Another thing that has to be mentioned here is the concern of **data leakage (where??)**. For my study, it is assumed that the models, functioning as several "annotators", independently label the data without knowledge of each other's work. It can only be *assumed* because there is a possibility that the models I used might have the gold standard provided in the original study as part of their training data, which would mean they would not be totally independent.
 
-# Running the replication / Analysis
+# Analysis
 
-The code was modified to be suitable for multi-turn conversations. For methodological consistency, I tried to keep the process as close to the one shown in the transcript of the conversation in @morin2025's repository. For example, while the very long initial user prompt (containing detailed instructions for step-by-step classification with examples) could also have been implemented as a system prompt in the code, I also included it in the chat, as proposed by @morin2025.
+When I ran the replication, I tried to keep the process as close to the one shown in the transcript of the conversation in @morin2025's repository to ensure methodological consistency. **For example, while the very long initial user prompt (containing detailed instructions for step-by-step classification with examples) could also have been implemented as a system prompt in the code, I also included it in the chat, as proposed by @morin2025.**
 
-**To run this study, I built 4 separate R scripts: A setup script that includes everything that was necessary for *all* conversations (including the API call). Then, there is a data import script. For the analysis, I created two separate R scripts, one for each model. The data by needed to be loaded for these conversations.**
+**When importing the data that @morin2025 provided in their repository, there were some minor inconsistencies that necessitated some preprocessing** before running the replication. For example, some datasets in the repository contained only annotated versions. **Also, the authors switched the name of the column containing the sentences from "Sentences" to "Consider_construction" along the way. I extracted the relevant sentence-level input from the original files using R-based preprocessing (selecting the sentence column and renaming it to a standardized ‘Sentence’ variable). This ensured that only stimulus text (without any annotations) was provided to the model in a clean way, without altering the original data files.**
 
-**When importing the data that @morin2025 provided in their repository, there were some minor inconsistencies that necessitated some preprocessing** before running the replication. For some datasets, only annotated versions were available in the repository. Also, the authors switched the name of the column containing the sentences from "Sentences" to "Consider_construction" along the way. I extracted the relevant sentence-level input from the original files using R-based preprocessing (selecting the sentence column and renaming it to a standardized ‘Sentence’ variable). This ensured that only stimulus text (without any annotations) was provided to the model in a clean way, without altering the original data files.
+I tried to stay as close to the prompts represented by the authors' transcript as possible throughout the replication. Deviations mostly concerned specific instructions regarding the model output, for example adding "Return ONLY tab-separated values with columns: Sentence<TAB>Classification" to an otherwise similar prompt. I was careful to not alter things related to the content of the classification task. I now want to give some further insight into the analyses conducted with each model:
 
-I tried to stay as close to the prompts represented by the authors' transcript as possible throughout the replication. There were some minor alterations, for example being more explicit with the model about the output in some cases. **For example,** instead of only telling the model to put out its classifications in tab-separated format, I instructed it to specific column names for easier comparison, which I needed to give the model feedback: "Return ONLY tab-separated values with columns: Sentence<TAB>Classification".
+## Replication with GPT model
 
-Notes DURING GPT run:
+The first analysis was run with the model OpenAI GPT OSS 120B. The code used for this was mostly based on what was already tested in the pilot. Generally, the GPT run went rather smoothly, and the model seemed to be suitable for this task. I want to point out some interesting observations in regard to model behavior:
 
--   pretraining -\> model found a few instances where the rules did not apply in its opinion and wanted to correct it. Interestingly, there was a typo in the prompt copied to the transcript: "<instructions> Classify sentences containing the verb “consider” as either ‘non-evaluative’ or ‘non-evaluative’. </instructions>" The first model pointed out this mistake in the first answer, and made clear that it must be incorrect because everything else in the prompt is centered around the contrast between 'evaluative' and 'non-evaluative'. Since this is what the authors provided from their conversation, I must assume this is what was they prompted to their model. Regarding the motivation to replicate closely and get comparable results, I decided to keep the original typo and not clarify it. I will report on differences in detection and/or performance. **Maybe there will be the opportunity to analyze how models handle imperfect instructions.**
+-   In the initial, very extensive instruction prompt that @morin2025 provide with their conversation transcript, there is an error at one point: "<instructions> Classify sentences containing the verb “consider” as either ‘non-evaluative’ or ‘non-evaluative’. </instructions>". Since this is what the authors provided from their conversation, I must assume this is what was they prompted to their model. With the motivation to replicate closely and get comparable results, I decided to keep the original typo and not clarify it. The GPT model pointed out this mistake in the first answer, and made clear that it must be incorrect because everything else in the prompt is centered around the contrast between 'evaluative' and 'non-evaluative'. I found this very interesting, since neither the model in the original study nor the Mistral model in the second analysis for this paper seemed to pick up on this mistake, or at least did not mention it in their answers. While this is not the focus of this paper, I think it raises interesting further questions about how models handle imperfect instructions.
 
--   there were some problems with the model not being able to read the data/find the right sentences. Every line (assigned to an id) contained not just one sentence with a consider-construction, but snippets from other sentences as well. In supervised training, the GPT model missed a sentences containing a "consider"-construction several times. I tried to fix this problem by making clear adjustments to the prompt. The original model also seemed to have some minor troubles with this dataset, e.g. in one sentence (100 of supervised) it placed the considering wrong and could not analyze the sentence. The authors did not address this in their prompts.
-
--   Another difference seen in supervised training. A sentence not understandable, (n. 100), both models deemed it incoherent/garbled, but Claude categorized it ? while GPT defaulted to non-evaluative, reasoning there was no clear instance of consider in it.
-
--   **While during supervised training this did not pose that much of a problem, because every sentence was corrected anyway, it definitely did in unsupervised training. Because of this issue, I adjusted my prompt to focus on the "id"**
+-   **Another difference seen in supervised training. A sentence not understandable, (n. 100), both models deemed it incoherent/garbled, but Claude categorized it ? while GPT defaulted to non-evaluative, reasoning there was no clear instance of consider in it**
 
 -   There was an interesting distinction during supervised training, looking at the transcript the authors provided of their conversation with Claude: When they prompted corrections, the model usually responded in terms of "You're absolutely right! Let me correct these!". GPT, while somewhat open to discussion, often stuck to its classification and explained why.
 
--   In all cases where I needed to compare the classifications to the ones in the datsets, I specified additionally the format: "Return ONLY tab-separated values with columns:","id<TAB>Classification". This also made sense because Claude tened to end its answers with sentences like "Please provide the new dataset and I will classify it in tab-separated .csv format.", while GPT did not, which is why I included these informations in the prompt. This did not change the message in the prompt at all, it simply enforces that the model output was clear and comparable.
+-   In all cases where I needed to compare the classifications to the ones in the datasets, I additionally specified the format: "Return ONLY tab-separated values with columns:","id<TAB>Classification". This made sense to adjust because while Claude tended to end its answers with sentences like "Please provide the new dataset and I will classify it in tab-separated .csv format.", GPT did not show this behavior, which is why I felt the need to include these informations in the prompt. This did not change the message in the prompt at all, it simply enforced that the model output was clear and comparable.
 
--   In testing round, GPT reached 0.9411765 accuracy. (rounded to 94%)
+-   The accuracy level that GPT achieved in the training rounds was very high already, and interestingly, the first round of unsupervised training was better than the final one (96% in first, 93% in second round). Accuracy was rounded to two decimal points.
 
--   During the whole experiment, I tried to stay close to the methodological pipeline in the transcript. In some cases, I had to make changes to the prompt, and in others, the results just turned out different.
+## Replication with Mistral model
 
-Notes Mistral run (30.03.2026)
+The second analysis was run with Mistral Small 3.2 24B Instruct 2506. Overall, the model, **granted it is a lot smaller than the other two**, seemed not as well-suited for the task. I will clarify this by sharing some observations throughout the analysis:
 
--   (not mentioned anywhere else: 493 sentences are actually 485)
+-   As already mentioned above, Mistral did not mention the typo in the initial prompt. Instead of looking at the pretraining dataset and asking questions in case of uncertainties (as asked), it re-classified all sentences in the pretraining dataset again and assigned 'non-evaluative' in 489 out of 493 cases.
 
--   pretraining with mistral: instead of asking questions, it re-classified all the sentences and used non-evaluative in almost every case; also, it did not mention the mistake in the user prompt
+-   The supervised training went a lot differently than in the first analysis (GPT) and in the conversation transcript provided about Claude. Mistral was wrong in a lot more cases, which were all corrected in the user prompts, and showed some patterns in mistakes: For the first two batches of 25 sentences, there was a strong tendency to classify constructions as 'evaluative' when they were not, when later in the second half (last 50 sentences), it was the other way around: Mistral mostly made the mistake of classifying sentences as 'non-evaluative' when they were actually 'evaluative'.
 
--   Supervised traing: very interesting compared to GPT; Mistral was wrong in a lot more cases; In the beginning (first two batches/rounds of supervised classification) there was a strong tendency to classify constructions as evaluative when they were not (e.g. in the first 25 sentences of the ST, it classified six cases as evaluative that Claude had (rightfully) not/were actually non-evaluative), when later in the third batch, it was oftentimes the other way around: Mistral classified sentences as non-evaluative when they were actually not. In the third batch (where Mistral classified all remaining 50 sentences instead of only 25) of the supervised training, it classified 0 sentences as evaluative.
+-   For the unsupervised training, the accuracy in first round was 59%, and 76% in the second round. In this case, one might argue that the model would actually need to get detailed feedback on these classifications and maybe even additional rounds of training before proceeding to testing. Since the goal of this study is to replicate and not to reach a certain accuracy level, and I also needed to stay consistent with the analysis of the first model (GPT), I still proceeded to testing. While @morin2025 gave the feedback "you got a 93% accuracy! that is very good." after the last round of training, I adjusted the evaluation to the achieved accuracy level and pointed out the target that had been defined in the initial instruction prompt: "You got a 76% accuracy, which is an improvement compared to the previous round (59%). The goal remains at least 95%."
 
--   Accuracy in first round of unsupervised training was 59%
+# Results
 
--   Accuracy in the second round of unsupervised training was 76%. In this case, one might argue that the model would actually need to get detailed feedback on these classifications and maybe even more training before proceeding to testing. Since I am replicating a study and also wanted to stay consistent with the analysis of the first model (GPT), I still proceeded to testing. But, I also stayed consistent with the authors evaluating the final accuracy of this round: While @morin2025 gave the feedback "you got a 93% accuracy! that is very good." I adjusted the evaluation to the actual accuracy level and pointed out the target that had been defined in the initial instruction prompt: "You got a 76% accuracy, which is an improvement compared to the previous round (59%). The goal remains at least 95%."
+## Accuracy
 
-# Results of the replication
-
-As mentioned in the pre-registration ,accuracy was calculated as follows: formula
+The main measure for the success of this replication was the accuracy level that could be achieved with the two investgated open models using the methodological approach proposed by @morin2025. As mentioned in the preregistration, accuracy was calculated as follows: Accuracy = (number of correct predictions) / (total number of predictions).
 
 Replication with GPT (27/03/2026):
 
-Accuracy (compared to HGS in authors' set): 94%
+Accuracy (compared to HGS in authors' set): 94% (In testing round, GPT reached 0.9411765 accuracy. (rounded to 94%))
 
 -\> hypothesis
+
+Replication with Mistral (30/03/2026):
+
+Accuracy in testing round (compared to HGS): 67% -\> hypothesis failed
+
+accuracy compared to the original study
+
+what went wrong or well
+
+## Inter-rater agreement
+
+Aside from measuring the success of the replication with a desired level of accuracy, I also want to analyze inter-rater agreement. While a straightforward way to do this would be to count the number of items for which annotators provide identical labels, and report that number as a percentage of the total (so-called raw or observed agreement), accidental agreement is not accounted for in this approach, which impacts reliability (and reproducibility). Instead, I want to utilize a coefficient from the kappa/alpha family: This is considered to measure a more meaningful agreement through involving agreement by chance, resulting in a coefficient whose value is 1 when agreement is perfect, and 0 when agreement is at chance level [@artstein2017: 299-300]. Since with LLMs it seems every more likely that some amount of agreement is by chance, I think it important to account for this issue in measuring inter-rater agreement. **(does this have to be in hypothesis part? and here only the results of the analysis)**
+
+First, calculate Fleiss' kappa: suitable for comparing more than two annotators (Mistral, Claude, and human gold standard), and suitable when there are only two categories/labels [@artstein2017: 300]. **muss das weiter oben geplant/diskutiert werden? hier nur Ergebnisse (und Interpretation? oder im nächsten step?)**
+
+In a second part, I want to take into consideration Cohen's kappa, used to measure agreement between two raters. -\> for pairwise comparison (Claude and HGS; Mistral and HGS). -\> the purpose of including this measurement is to draw conclsuions about which model worked "better" for annotation (compared to the HGS).
+
+For interpretation: Landis & Koch (1977) -\> scale!
 
 For Cohen's kappa (IRR between GPT and HGS):
 
@@ -212,9 +224,7 @@ Subjects = 102 Raters = 2 Kappa = 0.877 z = 8.86 p-value = 0
 
 -\> (**interpret with Landig scale - citation**)
 
-Replication with Mistral (30/03/2026):
-
-Accuracy in testing round (compared to HGS): 67% -\> hypothesis failed
+Interpretation according to [@landis1977: 165]
 
 \
 Cohen's Kappa for 2 Raters (Weights: unweighted) Subjects = 102 Raters = 2 Kappa = 0.173 z = 2.56 p-value = 0.0106
@@ -223,21 +233,7 @@ Cohen's Kappa for 2 Raters (Weights: unweighted) Subjects = 102 Raters = 2 Kappa
  Cohen's Kappa for 2 Raters (Weights: unweighted)   Subjects = 102     Raters = 2      Kappa = 0.173           z = 2.56    p-value = 0.0106 
 ```
 
-accuracy compared to the original study
-
-what went wrong or well
-
 Replication focus: Hypothesis, was the replication successful?
-
-## Inter-rater agreement
-
-Aside from measuring the success of the replication with a desired level of accuracy, I also want to analyze inter-rater agreement. While a straightforward way to do this would be to count the number of items for which annotators provide identical labels, and report that number as a percentage of the total (so-called raw or observed agreement), accidental agreement is not accounted for in this approach, which impacts reliability (and reproducibility). Instead, I want to utilize a coefficient from the kappa/alpha family: This is considered to measure a more meaningful agreement through involving agreement by chance, resulting in a coefficient whose value is 1 when agreement is perfect, and 0 when agreement is at chance level [@artstein2017: 299-300]. Since with LLMs it seems every more likely that some amount of agreement is by chance, I think it important to account for this issue in measuring inter-rater agreement. **(does this have to be in hypothesis part? and here only the results of the analysis)**
-
-First, calculate Fleiss' kappa: suitable for comparing more than two annotators (Mistral, Claude, and human gold standard), and suitable when there are only two categories/labels [@artstein2017: 300].
-
-In a second part, I want to take into consideration Cohen's kappa, used to measure agreement between two raters. -\> for pairwise comparison (Claude and HGS; Mistral and HGS). -\> the purpose of including this measurement is to draw conclsuions about which model worked "better" for annotation (compared to the HGS).
-
-For interpretation: Landis & Koch (1977) -\> scale!
 
 ## maybe: addition about data leakage
 
