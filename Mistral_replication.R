@@ -365,11 +365,11 @@ res <- ask_llm(conv, paste(
 conv <- res$conversation
 print(res$answer)
 
-# Pairwise comparison: Cohen's kappa
+# Pairwise comparison: Cohen's κ
 # Load the irr library
 library(irr)
 
-# Cohen's kappa (2 raters)
+# Cohen's κ (2 raters)
 cohens_kappa_mistral_human <- kappa2(
   comparison_test[, c("Human_classification", "Mistral_classification")]
 )
@@ -377,4 +377,21 @@ cohens_kappa_mistral_human <- kappa2(
 print(cohens_kappa_mistral_human)
 
 
-# Evaluation of inter-rater agreement
+# Further evaluation of inter-rater agreement
+
+# Cohen's κ between Claude and human gold standard
+
+cohens_kappa_claude_human <- kappa2(
+  test_original_study[, c("Human_classification", "Claude_classification")]
+)
+
+print(cohens_kappa_claude_human)
+
+# Overall agreement: Fleiss' κ
+ratings <- comparison_all |>
+  select(Human_classification,
+         GPT_classification,
+         Mistral_classification,
+         Claude_classification)
+
+kappam.fleiss(ratings)

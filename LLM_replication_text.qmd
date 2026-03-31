@@ -115,7 +115,7 @@ Considering the concern of data leakage, it is important to note that the Mistra
 
 @morin2025 present a methodological pipeline leveraging an LLM for the automatic annotation of grammatical data, based on the case study of the evaluative *consider* construction in English. Their research questions are concerned with the frequency of the different variants of the *consider* construction. While they don't formulate a hypothesis in their paper, they state a twofold goal to 1) build a replicable methodological pipeline that can be repurposed and 2) to substantially improve the quality of annotation of future corpus studies [@morin2025:3].
 
-Keeping these concerns about the generalizability of the author's approach in mind, the present study addresses the following research question:Can the methodological pipeline proposed by @morin2025 be successfully replicated using a different large language model on the same linguistic classification task?
+Keeping these concerns about the generalizability of the author's approach in mind, the present study addresses the following research question: Can the methodological pipeline proposed by @morin2025 be successfully replicated using different large language models for the same linguistic classification task?
 
 To answer this research question, replicability needs to be measurable in this context. The authors state in their abstract to have reached "a model accuracy of over 90%" [@morin2025: 1], and lastly achieved an accuracy rate of 93% with their model. As one can see in the conversation transcript, the user prompt contains a desired accuracy level of 95% to illustrate to the model what constitutes a successful task completion.
 
@@ -129,18 +129,19 @@ While attempting to reach this goal, the focus of this project - **with regard t
 
 -   and so on.
 
-Based on these considerations, I want to establish the following hypothesis for this project:
+Based on these considerations, the following hypothesis were established for this project:
 
 1.  Using the methodological pipeline and dataset from @morin2025, the open model *OpenAI GPT OSS 120B* will achieve an accuracy of **at least 90%** on the linguistic classification task when evaluated against the human gold standard **in the original study.**
 
-2.  Using the methodological pipeline and dataset from @morin2025, the open model *Mistral Small 3.2 24B Instruct 2506* will achieve an accuracy of **at least 90%** on the linguistic classification task when evaluated against the human gold standard in the **original study**.*\
-    *
+2.  Using the methodological pipeline and dataset from @morin2025, the open model *Mistral Small 3.2 24B Instruct 2506* will achieve an accuracy of **at least 90%** on the linguistic classification task when evaluated against the human gold standard in the **original study**.
 
-As a secondary component of my analysis, inter-rater agreement was evaluated. Overall agreement across all annotators (Model 1, Model 2, and the human gold standard provided in the study data) was assessed using Fleiss' **Kappa,** and pairwise comparisons (every model against the human gold standard) using Cohen's **Kappa.**
+Aside from measuring the success of the replication with a desired level of accuracy, I also wanted to analyze inter-rater agreement. While a straightforward way to do this would be to count the number of items for which annotators provide identical labels, and report that number as a percentage of the total (so-called raw or observed agreement), accidental agreement is not accounted for in this approach, which impacts reliability (and reproducibility). Instead, I wanted to utilize a coefficient from the kappa/alpha family: This is considered to measure a more meaningful agreement through involving agreement by chance, resulting in a coefficient whose value is 1 when agreement is perfect, and 0 when agreement is at chance level [@artstein2017: 299-300]. Since with LLMs it seems every more likely that some amount of agreement is by chance, it is important to account for this issue in measuring inter-rater agreement.
+
+Two coefficients were used to measure inter-rater agreement. Cohen's κ was used for pairwise comparison, measuring agreement between two raters (each model against the human gold standard presented in the paper). Fleiss' κwas used to assess overall agreement across all annotators (Model 1, Model 2, Model 3, and the human gold standard provided in the study data). Inter-rater agreement (also referred to as inter-annotator agreement, or inter-rater reliability) is often measured for purposes like improving annotation schemes or identifying difficulties in the source [@artstein2017: 298], but in this case simply serves the purpose of drawing conclusions about which model worked "better" for annotation.
+
+**Fleiss' kappa: suitable for comparing more than two annotators (Mistral, Claude, and human gold standard), and suitable when there are only two categories/labels** [@artstein2017: 300].
 
 **e.g. Fleiss' Kappa** (see Larsson et al.) -\> **accounting for accidental agreement seems especially relevant in terms of LLMs, because there would be no real way of knowing if the models would simply guess.**
-
-Inter-rater agreement (also referred to as inter-annotator agreement, or inter-rater reliability) is often measured for purposes like improving annotation schemes or identifying difficulties in the source [@artstein2017: 298], **which is why it can be done at different stages of a study, e.g. before conducting the full-scale annotation.**
 
 **Relevant** **to your field of study and/or society more broadly**
 
@@ -192,6 +193,8 @@ The second analysis was run with Mistral Small 3.2 24B Instruct 2506. Overall, t
 
 The main measure for the success of this replication was the accuracy level that could be achieved with the two investgated open models using the methodological approach proposed by @morin2025. As mentioned in the preregistration, accuracy was calculated as follows: Accuracy = (number of correct predictions) / (total number of predictions).
 
+**table**
+
 Replication with GPT (27/03/2026):
 
 Accuracy (compared to HGS in authors' set): 94% (In testing round, GPT reached 0.9411765 accuracy. (rounded to 94%))
@@ -208,15 +211,13 @@ what went wrong or well
 
 ## Inter-rater agreement
 
-Aside from measuring the success of the replication with a desired level of accuracy, I also want to analyze inter-rater agreement. While a straightforward way to do this would be to count the number of items for which annotators provide identical labels, and report that number as a percentage of the total (so-called raw or observed agreement), accidental agreement is not accounted for in this approach, which impacts reliability (and reproducibility). Instead, I want to utilize a coefficient from the kappa/alpha family: This is considered to measure a more meaningful agreement through involving agreement by chance, resulting in a coefficient whose value is 1 when agreement is perfect, and 0 when agreement is at chance level [@artstein2017: 299-300]. Since with LLMs it seems every more likely that some amount of agreement is by chance, I think it important to account for this issue in measuring inter-rater agreement. **(does this have to be in hypothesis part? and here only the results of the analysis)**
+**Table!**
 
-First, calculate Fleiss' kappa: suitable for comparing more than two annotators (Mistral, Claude, and human gold standard), and suitable when there are only two categories/labels [@artstein2017: 300]. **muss das weiter oben geplant/diskutiert werden? hier nur Ergebnisse (und Interpretation? oder im nächsten step?)**
+### Cohen's κ
 
-In a second part, I want to take into consideration Cohen's kappa, used to measure agreement between two raters. -\> for pairwise comparison (Claude and HGS; Mistral and HGS). -\> the purpose of including this measurement is to draw conclsuions about which model worked "better" for annotation (compared to the HGS).
+Cohen's κ was calculated for pairwise comparisons (each model against the human gold standard).
 
-For interpretation: Landis & Koch (1977) -\> scale!
-
-For Cohen's kappa (IRR between GPT and HGS):
+For Cohen's kappa (IRR between **GPT** and HGS):
 
 Cohen's Kappa for 2 Raters (Weights: unweighted)
 
@@ -226,14 +227,28 @@ Subjects = 102 Raters = 2 Kappa = 0.877 z = 8.86 p-value = 0
 
 Interpretation according to [@landis1977: 165]
 
-\
+Cohen's kappa (**Mistral** and HGS)\
 Cohen's Kappa for 2 Raters (Weights: unweighted) Subjects = 102 Raters = 2 Kappa = 0.173 z = 2.56 p-value = 0.0106
 
 ```         
  Cohen's Kappa for 2 Raters (Weights: unweighted)   Subjects = 102     Raters = 2      Kappa = 0.173           z = 2.56    p-value = 0.0106 
 ```
 
+Cohen's kappa (Claude and HGS):
+
+```         
+print(cohens_kappa_claude_human)  Cohen's Kappa for 2 Raters (Weights: unweighted)   Subjects = 102     Raters = 2      Kappa = 0.857           z = 8.67    p-value = 0 
+```
+
 Replication focus: Hypothesis, was the replication successful?
+
+### Fleiss' κ
+
+Fleiss' κ was calculated to measure overall agreement between all raters.
+
+```         
+ Fleiss' Kappa for m Raters   Subjects = 102     Raters = 4      Kappa = 0.517           z = 12.8    p-value = 0
+```
 
 ## maybe: addition about data leakage
 

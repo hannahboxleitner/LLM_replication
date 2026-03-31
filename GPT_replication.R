@@ -269,11 +269,11 @@ conv <- res$conversation
 print(res$answer)
 
 
-# Pairwise comparison: Cohen's kappa
+# Pairwise comparison: Cohen's κ
 # Load the irr library
 library(irr)
 
-# Cohen's kappa (2 raters)
+# Cohen's κ (2 raters)
 cohens_kappa_gpt_human <- kappa2(
   comparison_test[, c("Human_classification", "GPT_classification")]
 )

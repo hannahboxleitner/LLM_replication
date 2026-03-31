@@ -62,3 +62,45 @@ human_gold_standard <- read_csv2(
     Sentence = Consider_construction,
     Human_classification = Matti_classification
   )
+
+# EVALUATION
+# Inter-rater-agreement
+
+# Load original study's test results for comparisons
+test_original_study <- read_csv2(
+  here("data", "EnTenTen_random_sample_102.csv")
+) |> 
+  select(
+    id,
+    Sentence = Consider_construction,
+    Claude_classification,
+    Human_classification = Matti_classification,
+    
+  )
+
+# Create csv with all raters for Fleiss' κ
+# Get GPT results
+test_gpt <- read_csv2(
+  here("replication_data", "GPT_replication_results.csv")
+) |> 
+  select(
+    id,
+    GPT_classification
+  )
+
+# Get Mistral results
+test_mistral <- read_csv2(
+  here("replication_data", "Mistral_replication_results.csv")
+) |> 
+  select(
+    id,
+    Mistral_classification
+  )
+
+# merge with original study's results
+comparison_all <- test_original_study |> 
+  left_join(test_gpt, by = "id") |> 
+  left_join(test_mistral, by = "id")
+
+# Save as csv.
+write_csv2(comparison_all, "replication_data/comparison_all_results.csv")
