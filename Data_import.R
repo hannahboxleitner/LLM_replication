@@ -97,7 +97,7 @@ test_mistral <- read_csv2(
     Mistral_classification
   )
 
-# merge with original study's results
+# Merge with original study's results
 comparison_all <- test_original_study |> 
   left_join(test_gpt, by = "id") |> 
   left_join(test_mistral, by = "id")
