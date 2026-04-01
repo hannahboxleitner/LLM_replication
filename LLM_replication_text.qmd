@@ -39,11 +39,13 @@ This study aims to replicate the analysis published in:
 
 > Morin, Cameron, and Matti Marttinen Larsson. 2025. “Large Corpora and Large Language Models: A Replicable Method for Automating Grammatical Annotation.” *Linguistics Vanguard* 11 (1): 501–10. <https://doi/10.1515/lingvan-2024-0228>.
 
-The target study by @morin2025 focuses on the verb *consider*, which can be found in a number of larger grammatical constructions, one of which is an evaluative use, introducing an evaluation or judgement.
+The target study by @morin2025 focuses on the verb *consider*, which can be found in a number of larger grammatical constructions, one of which is an evaluative use. While *consider* often appears as a cognition verb, meaning 'think about' or 'take into account' (e.g. 'considering a job offer'), it can also be used in terms of introducing an evaluation or judgement. There are three variants of evaluative *consider* constructions:
 
-**insert screenshots p. 2**
+a.  Cain is ***considered*** a master of American hard boiled crime fiction (…)
+b.  By the way, I also ***consider*** Zelda II ***as*** one of my favorites (…)
+c.  Since he ***considers*** himself ***to be*** a man of God, one would think he would know that it is clearly stated in the Bible that a Christian is NEVER to question the faith of another [@morin2025: 2].
 
-The relationship between the three variants is unclear and it has been suggested that the *consider + as* construction might be becoming less and less common. Searching for this construction in the EnTenTen21 corpus (**source**), the authors encountered the problem that the evaluative construction coexists with another prominent use of consider as a cognition verb **(include example?)**, and out of a random sample of 200 CONSIDER tokens, only 11.5% were found to be true positives and therefore of interest for the research question [@morin2025: 2]. For a corpus-based study addressing this methodological challenge, @morin2025 make use of LLMs for cleaning and annotation tasks, and outline how to automatically annotate large quantities of evaluative *consider* constructions, based on the key processes of prompt engineering, training, and evaluation. For this task, the LLM Claude Sonnet 3.5 and data from the NOW corpus ans Sketch Engine's EnTenTen21 corpus was used [@morin2025: 3].
+The relationship between these three variants is unclear and it has been suggested that the *consider + as* construction might be becoming less and less common. Searching for evaluative constructions in the EnTenTen21 corpus (**source**), the authors encountered the problem that out of a random sample of 200 *consider* tokens, only 11.5% were found to be true positives and therefore of interest for the research question [@morin2025: 2]. For a corpus-based study addressing this methodological challenge, @morin2025 make use of LLMs for cleaning and annotation tasks, and outline how to automatically annotate large quantities of evaluative *consider* constructions, based on the key processes of prompt engineering, training, and evaluation. For this task, the LLM Claude Sonnet 3.5 and data from the NOW corpus ans Sketch Engine's EnTenTen21 corpus was used [@morin2025: 3].
 
 **short summary of the study and the results!**
 
@@ -63,7 +65,7 @@ In view of all these aspects, both in terms of the original study and the theore
 
 To plan my replication, I read the study by @morin2025 thoroughly, especially focusing on the pre-training and prompt engineering.
 
-Further insight could be gained by going through the conversation transcript that @morin2025 provided with their data. It lists user prompts and answers of the model in a `docx.`-file. The conversation consists of the following parts:
+Further insight could be gained by going through the conversation transcript that @morin2025 provided with their data in the repository. It lists the user prompts and answers of the model in a `docx.`-file. The conversation consists of the following parts:
 
 **Pretraining**
 
@@ -109,7 +111,7 @@ It is important to mention that in terms of reproducibility, it would be best to
 
 Even though these models are considered open source, one might always take a closer look in terms of openness: They are evidently open in some respects (open weights, for example), but closed in others (e.g. no open code) [@mistrala] **(second source!)**. Arguably, open weights are the most important aspect for reproducibility [@nilsreiter2025: 23]. While @morin2025 used a rather well-known, commercial, and closed model for their study, I want to compare this with the performance of two open ones. Mistral ... is a smaller, European model, while GPT OSS .. is an open version of ChatGPT (Ableger) and way bigger. Seeing how these two perform in comparison to the model tested in @morin2025 on a linguistic annotation task is **not just of interest for this project, but also relevant for research on LLM usage in linguistics in general.**
 
-What needs to be considered in terms of the models is the concern of data leakage. The Mistral model used for this study was released in June 2025, and the GPT model in August 2025[@saurav2025]. @morin2025, who used data from the NOW corpus and Sketch Engine’s EnTenTen21 corpus for their study [@morin2025: 3], created their OSF-database containing the (annotated) datasets in November 2024. When and on which data the models were trained exactly remains unclear, but since they were released after the repository went public, the possibility of data leakage cannot be ruled out.
+What needs to be considered in terms of the models is the concern of **data leakage**. For my study, it is assumed that the models, functioning as several "annotators", independently label the data without knowledge of each other's work. It can only be *assumed* because there is a possibility that the models I used might have the gold standard provided in the original study as part of their training data, which would mean they would not be totally independent. The Mistral model used for this study was released in June 2025 [@mistral], and the GPT model in August 2025[@saurav2025]. @morin2025, who used data from the NOW corpus and Sketch Engine’s EnTenTen21 corpus for their study [@morin2025: 3], created their OSF-database containing the (annotated) datasets in November 2024. When and on which data the models were trained exactly remains unclear, but since they were released after the repository went public, the possibility of data leakage cannot be ruled out.
 
 ## Replication criteria and hypotheses
 
@@ -117,17 +119,11 @@ What needs to be considered in terms of the models is the concern of data leakag
 
 Keeping these concerns about the generalizability of the author's approach in mind, the present study addresses the following research question: Can the methodological pipeline proposed by @morin2025 be successfully replicated using different large language models for the same linguistic classification task?
 
-To answer this research question, replicability needs to be measurable in this context. The authors state in their abstract to have reached "a model accuracy of over 90%" [@morin2025: 1], and lastly achieved an accuracy rate of 93% with their model. As one can see in the conversation transcript, the user prompt contains a desired accuracy level of 95% to illustrate to the model what constitutes a successful task completion.
+To answer this research question, replicability needs to be measurable. The authors state in their abstract to have reached "a model accuracy of over 90%" [@morin2025: 1], and lastly achieved an accuracy rate of 93% with their model. As one can see in the conversation transcript, the user prompt contains a desired accuracy level of 95% to illustrate to the model what constitutes a successful task completion.
 
-For this project, a successful replication is defined as achieving an accuracy ≥ 90% using the original dataset and methodological pipeline proposed by @morin2025.
+On the basis of that, in this project a successful replication is defined as achieving an accuracy of ≥ 90% using the original dataset and methodological pipeline proposed by @morin2025.
 
-While attempting to reach this goal, the focus of this project - **with regard to principles of open science** - remains the replication itself, which, as mentioned before, is supposed to be as close as possible to the methodological pipeline presented in @morin2025, including specifics like
-
--   using XML-tags in user prompts (e.g. for \<instructions\> classification instructions \</instructions\>)
-
--   putting all the instruction inside user prompts (as suggested in the transcript) as opposed to implementing a system prompt
-
--   and so on.
+While attempting to reach this goal, the focus of this project remains the replication itself, which, as mentioned before, is supposed to be as close as possible to the methodological pipeline presented in @morin2025. This includes specifics like using XML-tags in user prompts (e.g. for \<instructions\>) or putting all the instruction inside user prompts (as suggested in the transcript) as opposed to implementing a system prompt. Since the authors did not make their code public, there are aspects I have no information about (e.g. how their exact pipeline looked, how they implemented the datasets, or how they conducted evaluations to give feedback to the model in between training rounds), but the basic content of the prompts remains unchanged.
 
 Based on these considerations, the following hypothesis were established for this project:
 
@@ -143,25 +139,17 @@ Two coefficients were used to measure inter-rater agreement. Cohen's κ was used
 
 **e.g. Fleiss' Kappa** (see Larsson et al.) -\> **accounting for accidental agreement seems especially relevant in terms of LLMs, because there would be no real way of knowing if the models would simply guess.**
 
-**Relevant** **to your field of study and/or society more broadly**
-
 ## Considering reproducibility
 
 There was no inherent form of randomization present in this study design. Also, reproducibility in LLM studies can be tricky, especially if the models are run remotely via an API. But, making the study and the results as reproducible as possible is still an important concern, and there are certain things that can be controlled.
 
-To enhance reproducibility, I fixed the generation parameters in the API call by setting *temperature* to 0, *top~p~* to 1, and using a constant random seed. Setting *temperature* to 0, meaning the model always chooses the most probable next token, removes random sampling and therefore makes additional constraints such as *top~k~* (sampling only from the k most probable tokens) unnecessary and potentially confounding. The number used as a random seed was derived from lotto numbers drawn on **March 25, 2026, which had not yet been disclosed at the time of pre-registration.**
+To enhance reproducibility, I fixed the generation parameters in the API call by setting *temperature* to 0, *top~p~* to 1, and using a constant random seed. Setting *temperature* to 0, meaning the model always chooses the most probable next token, removes random sampling and therefore makes additional constraints such as *top~k~* (sampling only from the k most probable tokens) unnecessary and potentially confounding. The number used as a random seed was derived from lotto numbers drawn on March 25, 2026, which had not yet been disclosed at the time of pre-registration.
 
 Even though these measures were taken to improve reproducibility, identical outputs across runs cannot be guaranteed, as some sources of variability within the API remain outside my control.
 
-Another thing that has to be mentioned here is the concern of **data leakage (where??)**. For my study, it is assumed that the models, functioning as several "annotators", independently label the data without knowledge of each other's work. It can only be *assumed* because there is a possibility that the models I used might have the gold standard provided in the original study as part of their training data, which would mean they would not be totally independent.
-
 # Analysis
 
-When I ran the replication, I tried to keep the process as close to the one shown in the transcript of the conversation in @morin2025's repository to ensure methodological consistency. **For example, while the very long initial user prompt (containing detailed instructions for step-by-step classification with examples) could also have been implemented as a system prompt in the code, I also included it in the chat, as proposed by @morin2025.**
-
-**When importing the data that @morin2025 provided in their repository, there were some minor inconsistencies that necessitated some preprocessing** before running the replication. For example, some datasets in the repository contained only annotated versions. **Also, the authors switched the name of the column containing the sentences from "Sentences" to "Consider_construction" along the way. I extracted the relevant sentence-level input from the original files using R-based preprocessing (selecting the sentence column and renaming it to a standardized ‘Sentence’ variable). This ensured that only stimulus text (without any annotations) was provided to the model in a clean way, without altering the original data files.**
-
-I tried to stay as close to the prompts represented by the authors' transcript as possible throughout the replication. Deviations mostly concerned specific instructions regarding the model output, for example adding "Return ONLY tab-separated values with columns: Sentence<TAB>Classification" to an otherwise similar prompt. I was careful to not alter things related to the content of the classification task. I now want to give some further insight into the analyses conducted with each model:
+When I ran the replication, I tried to keep the process as close to the one shown in the transcript of the conversation in @morin2025's repository to ensure methodological consistency. Where possible, I pasted the exact user prompts word for word. Of course, the feedback prompts and provided corrections etc. needed to be adjusted from model to model. For the supervised training, I also used the explanations provided in @morin2025'sconversation transcript in my corrections, to ensure that the models went into the next round with similar information. Additions to the user prompts mostly consisted of specific instructions regarding the model output, for example adding "Return ONLY tab-separated values with columns: Sentence<TAB>Classification" to an otherwise similar prompt. I was careful to not alter things related to the content of the classification task. I now want to give some further insight into the analyses conducted with each model:
 
 ## Replication with GPT model
 
@@ -186,6 +174,8 @@ The second analysis was run with Mistral Small 3.2 24B Instruct 2506. Overall, t
 -   The supervised training went a lot differently than in the first analysis (GPT) and in the conversation transcript provided about Claude. Mistral was wrong in a lot more cases, which were all corrected in the user prompts, and showed some patterns in mistakes: For the first two batches of 25 sentences, there was a strong tendency to classify constructions as 'evaluative' when they were not, though in the second half of supervised training (last 50 sentences), it was the other way around: Mistral mostly made the mistake of classifying sentences as 'non-evaluative' when they were actually 'evaluative'.
 
 -   For the unsupervised training, the achieved accuracy in the first round was 59%, and 76% in the second round. In this case, one might argue that the model would actually need more feedback and additional rounds of training before proceeding to testing. Since the focus of this study was to replicate and not to reach a certain accuracy level, and I also needed to stay consistent with the analysis of the first model (GPT), I still proceeded to testing. While @morin2025 gave the feedback "you got a 93% accuracy! that is very good." after the last round of training, I adjusted the evaluation to the achieved accuracy level and pointed out the target that had been defined in the initial instruction prompt: "You got a 76% accuracy, which is an improvement compared to the previous round (59%). The goal remains at least 95%."
+
+-   Aside from the actual classifications and achieved accuracy, it seemed that Mistral had problems to understand the instructions or at least to react as instructed (e.g. re-classifying instead of asking questions, classifying a batch of 50 sentences instead of 25, asking for the next batch of 25 after it was already finished with the whole dataset, and so on).
 
 # Results
 
@@ -246,28 +236,62 @@ Replication focus: Hypothesis, was the replication successful?
 
 ### Fleiss' κ
 
-Fleiss' κ was calculated to measure overall agreement between all four raters. With a value of κ = 0.517, this constitutes a "moderate" agreement.
+Fleiss' κ was calculated to measure overall agreement between all four raters (GPT, Mistral, Claude, and the human gold standard). The value of κ = 0.517 indicates a "moderate" agreement [@landis1977: 165].
 
 ```         
  Fleiss' Kappa for m Raters   Subjects = 102     Raters = 4      Kappa = 0.517           z = 12.8    p-value = 0
 ```
 
-## maybe: addition about data leakage
+# Discussion of outcomes
 
-# Discussion of outcomes in light of differences
+In this chapter, I want to interpret and discuss the results, and reflect on the methodology. Looking at the accuracy levels that were achieved after training the models, there is a clear difference between the two investigated ones: While GPT achieved the desired level of \< 90% and showed comparable and even slightly better performance than Claude in the original study, Mistral missed the mark by quite a lot. Inter-rater agreement metrics support these observations: In pairwise comparisons, GPT showed a strong agreement with the human gold standard, while the Cohen's κ for Mistral indicates that the agreement is only slightly better than agreement by chance. The result for Fleiss' κ basically summarizes these observations: The moderate Fleiss’ κ (κ = 0.517) reflects a mixed pattern of agreement: strong alignment between the human annotator and two of the models, contrasted with only slight agreement for the third model, which lowers overall consistency.
 
-is the approach indeed replicable? -\> things like: there is no code or any information on how the pipeline was actually implemented and automated. That would have been really helpful, or would be helpful for further studies. Also, looking at the trnascript, some things were not really consistent. For example, while instructions were supposed to always be given in XML-tags, this was not used in between (e.g. "next batch" etc., see transcript).
+For the unsupervised training, @morin2025 ran two rounds. In their paper it is mentioned that this "iterative training and validation cycle was repeated until Claude achieved the desired level of accuracy, with each round of classifications always providing unseen data" [@morin2025: 6]. Since I wanted to replicate this study with the exact same data, I could not exactly follow this idea and stopped training after the second round as well, even though Mistral had not reached the desired accuracy level. While more training might have helped Mistral to yield better results, there were many signs during analysis **(see Replication with Mistral)** that suggest that the model is simply not as suited for this task. If the model would have reached the desired accuracy level at some point (after additional training rounds) remains unclear.
 
-For the unsupervised training, @morin2025 ran two rounds. In their paper it is mentioned that this "iterative training and validation cycle was repeated until Claude achieved the desired level of accuracy, with each round of classifications always providing unseen data" [@morin2025: 6]. Since I wanted to replicate this study with the exact same data, I could not exactly follow this part, as I would have stopped after the second round of unsupervised training, even if the model would not have reached a high accuracy level.
+With this, some methodological limitations become apparent: With the goal of following the approach in the original study closely and use the exact same data, I was not able to further adjust the training to a model as needed. The (close) replicability of the approach evidently depends on the comparability of the models. This is an important aspect considering the original study, titled: "Large corpora and large language models: a replicable method for automating grammatical annotation" [@morin2025]. With GPT, a strong model of comparable size to the one used in the original study, the presented method for automating grammatical annotation was indeed replicable. With a smaller model not as appropriate for the task, it was not possible to replicate successfully.
 
-Relevance!
+This brings to my next point:
 
-Generalizability, Opportunities
+-   Interpret your results
 
-point out how the terminology and study design is not suited yet for these kinds of studies
+<!-- -->
 
-# Reflection of methodological approach and difficulties
+-    Reflect on **what worked and what didn’t**
+
+<!-- -->
+
+-    Discuss **limitations of your methodology**
+
+<!-- -->
+
+-    Explain **unexpected outcomes**
+
+-   implications
 
 # Conclusion
 
+The results suggest that the approach presented by @morin2025, in principle, is replicable with open LLMs. I think the fact that there were was no publicly available code and, in some aspects, not much information on how the pipeline was actually automated and implemented, and a very successful replication with GPT was still possible, speaks for the generalizability of the approach and results presented in @morin2025. Though, the findings in this study also show that the model itself plays an important part: With the smaller Mistral model, the approach could *not* be successfully replicated.
+
+There are many reasons why open models should be further investigated and optimized, especially in studies that put emphasis on open science practices. For further studies on the use of LLMs for linguistic tasks, I still think it would be helpful to also publish code with a paper.
+
+-   Short and focused
+
+<!-- -->
+
+-    A summary of key findings
+
+-   answer to research question
+
+<!-- -->
+
+-    Final takeaway
+
+<!-- -->
+
+-    Possibly brief outlook/future work
+
 How do open LLMs perform in comparison and why is it crucial that we support and optimize them?
+
+how needed are these studies, what could be done better (e.g. making code public etc.)
+
+why we need more research on LLMs and esp open ones
