@@ -7,7 +7,7 @@ bibliography: references.bib
 
 # Introduction
 
-In the last decades, researchers in corpus linguistics have gained access to increasingly massive corpora of natural language in different languages. This poses great opportunities, but also necessitates manual cleaning and processing of large amounts of data [@morin2025: 1]. The rise of large language models (LLMs) is therefore a rather interesting development for corpus linguistic research, making it possible to handle larger datasets and corpora automatically. In recent years, a rising number of papers testing LLMs for assisting in linguistic research have been published **(sources)**.
+In the last decades, researchers in corpus linguistics have gained access to increasingly massive corpora of natural language. This poses great opportunities, but also necessitates manual cleaning and processing of large amounts of data [@morin2025: 1]. The rise of large language models (LLMs) is therefore a rather interesting development for corpus linguistic research, making it possible to handle larger datasets and corpora automatically. In recent years, a rising number of papers testing LLMs for assistance in linguistic research have been published, [e.g. @yu2024; @heseltine2024]. While LLMs show promising results for labeling tasks, there is further exploration needed to effectively leverage them for linguistic data annotation [@lidiiaostyakova2025: 131].
 
 I aim to replicate a study by @morin2025, which presents a replicable method for leveraging LLMs for assistance in linguistic grammatical annotation. While the original study was conducted with Anthropic's model Claude 3.5 Sonnet [@morin2025: 4], I will attempt to replicate their methodological pipeline using the same data, but with two open LLMs. The analysis will be conducted in R.
 
@@ -191,11 +191,11 @@ The main measure for the success of this replication was the accuracy level in t
 
 : Achieved accuracy in classification task
 
-[^1]: This result is not derived from the analyses in this study, but simply taken over from the informations in the original study [@morin2025: 6].
+[^1]: This result is not derived from the analyses in this study, but taken from the information in the original study [@morin2025: 6].
 
 The hypotheses established for this project were that, using the methodological pipeline and dataset from @morin2025, the open models *OpenAI GPT OSS 120B* (Hypothesis 1) / *Mistral Small 3.2 24B Instruct 2506* (Hypothesis 2) will achieve an accuracy of **at least 90%** on the linguistic classification task when evaluated against the human gold standard in the original study.
 
-Hypothesis 1 is therefore supported by the results presented in the table above, while hypothesis 2 is not. Although the performance of Mistral improved over the course of the training, the predefined target of at least 90% was not achieved. The model tested in the original study (Claude 3.5 Sonnet) had achieved an accuracy level of 93% [@morin2025: 6].
+Hypothesis 1 is therefore supported by the results presented in the table above, while hypothesis 2 is not. Although the performance of Mistral improved over the course of the training, the predefined target of at least 90% was not achieved. The model tested in the original study (Claude 3.5 Sonnet) had achieved an accuracy level of 93% [@morin2025: 6]. Looking at the actual numbers (in brackets), GPT's classifications aligned with the human gold standard in one more case compared to Claude.
 
 ## Inter-rater agreement
 
@@ -215,36 +215,17 @@ Cohen's κ was calculated for pairwise comparisons (each model against the human
 
 I explicitly want to focus on the p-value here. While the κ coefficient measures how strong the agreement is, the p-value measures if there is any agreement beyond chance. For the other two models, the p-value reported in the output of the Cohen's κ function was 0. In the case of Mistral, it is slightly higher, but still under 0.05, indicating statistical significance. This means that agreement is slightly better than chance, but still very low.
 
-**Rest: exact values:**
-
-For Cohen's kappa (IRR between **GPT** and HGS):
-
-Cohen's Kappa for 2 Raters (Weights: unweighted)
-
-Subjects = 102 Raters = 2 Kappa = 0.877 z = 8.86 p-value = 0
-
--\> (**interpret with Landig scale - citation**)
-
-Cohen's kappa (**Mistral** and HGS)\
-Cohen's Kappa for 2 Raters (Weights: unweighted) Subjects = 102 Raters = 2 Kappa = 0.173 z = 2.56 p-value = 0.0106
-
-Cohen's kappa (**Claude** and HGS):
-
-```         
-print(cohens_kappa_claude_human)  Cohen's Kappa for 2 Raters (Weights: unweighted)   Subjects = 102     Raters = 2      Kappa = 0.857           z = 8.67    p-value = 0 
-```
-
 ### Fleiss' κ
 
-Fleiss' κ was calculated to measure overall agreement between all four raters (GPT, Mistral, Claude, and the human gold standard). The value of κ = 0.517 indicates a "moderate" agreement [@landis1977: 165].
+Fleiss' κ was calculated to measure overall agreement between all four raters (GPT, Mistral, Claude, and the human gold standard provided in @morin2025's dataset):
 
-```         
- Fleiss' Kappa for m Raters   Subjects = 102     Raters = 4      Kappa = 0.517           z = 12.8    p-value = 0
-```
+**κ = 0.517**
+
+This value indicates a "moderate" agreement [@landis1977: 165].
 
 # Discussion of outcomes
 
-In this chapter, I want to interpret and discuss the results, and reflect on the methodology. Looking at the accuracy levels that were achieved after training the models, there is a clear difference between the two investigated ones: While GPT achieved the desired level of \< 90% and showed comparable and even slightly better performance than Claude in the original study, Mistral missed the mark by quite a lot. Inter-rater agreement metrics support these observations: In pairwise comparisons, GPT showed a strong agreement with the human gold standard, while the Cohen's κ for Mistral indicates that the agreement is only slightly better than agreement by chance. The result for Fleiss' κ basically summarizes these observations: The moderate Fleiss’ κ (κ = 0.517) reflects a mixed pattern of agreement: strong alignment between the human annotator and two of the models, contrasted with only slight agreement for the third model, which lowers overall consistency.
+In this chapter, I want to interpret and discuss the results, and reflect on the methodology. Looking at the accuracy levels that were achieved after training the models, there is a clear difference between the two investigated ones: While GPT achieved the desired level of \> 90% and showed comparable and even slightly better performance than Claude in the original study, Mistral missed the mark by quite a lot. Inter-rater agreement metrics support these observations: In pairwise comparisons, GPT showed a strong agreement with the human gold standard, while the Cohen's κ for Mistral indicates that the agreement is only slightly better than agreement by chance. These findings are basically summarized in the results for Fleiss' κ (κ = 0.517), showing a moderate agreement. This value reflects a mixed pattern of agreement: strong alignment between the human annotator and two of the models, contrasted with only slight agreement for the third model, which lowers overall consistency.
 
 For the unsupervised training, @morin2025 ran two rounds. In their paper it is mentioned that this "iterative training and validation cycle was repeated until Claude achieved the desired level of accuracy, with each round of classifications always providing unseen data" [@morin2025: 6]. Since I wanted to replicate this study with the exact same data, I could not exactly follow this idea and stopped training after the second round as well, even though Mistral had not reached the desired accuracy level. While more training might have helped Mistral to yield better results, there were many signs during analysis **(see Replication with Mistral)** that suggest that the model is simply not as suited for this task. If the model would have reached the desired accuracy level at some point (after additional training rounds) remains unclear.
 
@@ -270,28 +251,18 @@ This brings to my next point:
 
 # Conclusion
 
-The results suggest that the approach presented by @morin2025, in principle, is replicable with open LLMs. I think the fact that there were was no publicly available code and, in some aspects, not much information on how the pipeline was actually automated and implemented, and a very successful replication with GPT was still possible, speaks for the generalizability of the approach and results presented in @morin2025. Though, the findings in this study also show that the model itself plays an important part: With the smaller Mistral model, the approach could *not* be successfully replicated.
+In view of the research question formulated for this paper **(see Chapter Replication criteria and hypothesis)**, the results suggest that the approach presented by @morin2025, in principle, is replicable with open LLMs. I also think it speaks for the generalizability of the approach and results presented in @morin2025 that a very successful replication with the GPT model was possible even though there were was no publicly available code and, in some aspects, not much information on how the pipeline was actually automated and implemented. Though, the findings in this study also suggest that the generalizability depends on the model: With the smaller Mistral model, the approach could *not* be successfully replicated.
 
-There are many reasons why open models should be further investigated and optimized, especially in studies that put emphasis on open science practices. For further studies on the use of LLMs for linguistic tasks, I still think it would be helpful to also publish code with a paper.
+**rounder!** Leveraging LLMs for data cleaning and annotation tasks definitely poses great opportunities for corpus linguistics, in particular for studies with large corpora. But, as @morin2025 also point out in their paper, the linguistic annotation task involved here is still a rather clear-cut formal case [@morin2025: 7]. If LLMs can be used for more complex tasks, where labeling is very subjective and there is a lot of ambiguity involved, is another question. Furthermore, as the results of this study point out, the choice of models and parameters needs to be matched with the kind of task and the complexity of it. Aside from ethical and privacy-related concerns, this also speaks for the use of open models: With open source models, researchers have more information and control about how the data is handled or on how the model needs to be trained for a task. Open LLMs should be further investigated and optimized for their use in linguistic research, especially in studies that put emphasis on open science practices. **For further studies on the use of LLMs for linguistic tasks, I still think it would be helpful to also publish code with a paper.**
 
 -   Short and focused
-
-<!-- -->
-
 -   A summary of key findings
-
 -   answer to research question
-
-<!-- -->
-
 -   Final takeaway
-
-<!-- -->
-
 -   Possibly brief outlook/future work
 
 How do open LLMs perform in comparison and why is it crucial that we support and optimize them?
 
 how needed are these studies, what could be done better (e.g. making code public etc.)
 
-why we need more research on LLMs and esp open ones
+# References
