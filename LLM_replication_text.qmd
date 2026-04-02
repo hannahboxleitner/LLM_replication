@@ -11,7 +11,7 @@ In the last decades, researchers in corpus linguistics have gained access to inc
 
 I aim to replicate a study by @morin2025, which presents a replicable method for leveraging LLMs for assistance in linguistic grammatical annotation. While the original study was conducted with Anthropic's model Claude 3.5 Sonnet [@morin2025: 4], I will attempt to replicate their methodological pipeline using the same data, but with two open LLMs. The analysis will be conducted in R.
 
-This project aims to embody the principles of open science in two respects: First, I want to support the use and examination of open LLMs for analysis of linguistic data. While closed LLMs are now commonly used in day-to-day life, they tend to be developed without transparent ethical oversight, and their usage brings difficulties regarding data rights and privacy [@liesenfeld2023], among others. Many open alternatives are on the rise, but seem to be not as widely used and investigated in studies as necessary **(source?)**. Open models are a crucial aspect of open research (among open data, open code, open documentation etc.). Openness promotes transparency, reproducibility, and quality control; which are necessary features to support reliable empirical findings and and to build trustworthy AI \[@liesenfeld2023\]. Investigating the generalizability of studies like @morin2025 with respect to open models is therefore an important research objective. **Second**, I want to conduct a replication study and thereby contribute to the central aim of making linguistic research more cumulative and robust. The study was pre-registered at OSF before conducting the analysis \[@boxleitner2026\].
+This project aims to embody the principles of open science in two respects: First, I want to support the use and examination of open LLMs for analysis of linguistic data. While closed LLMs are now commonly used in day-to-day life, they tend to be developed without transparent ethical oversight, and their usage brings difficulties regarding data rights and privacy [@liesenfeld2023], among others. Many open alternatives are on the rise, but seem to be not as widely used and investigated in studies as necessary **(source?)**. Open models are a crucial aspect of open research (among open data, open code, open documentation etc.). Openness promotes transparency, reproducibility, and quality control; which are necessary features to support reliable empirical findings and and to build trustworthy AI [@liesenfeld2023]. Investigating the generalizability of studies like @morin2025 with respect to open models is therefore an important research objective. **Second**, I want to conduct a replication study and thereby contribute to the central aim of making linguistic research more cumulative and robust. The study was pre-registered at OSF before conducting the analysis [@boxleitner2026].
 
 **overview??**
 
@@ -45,19 +45,21 @@ a.  Cain is ***considered*** a master of American hard boiled crime fiction (…
 b.  By the way, I also ***consider*** Zelda II ***as*** one of my favorites (…)
 c.  Since he ***considers*** himself ***to be*** a man of God, one would think he would know that it is clearly stated in the Bible that a Christian is NEVER to question the faith of another [@morin2025: 2].
 
-The relationship between these three variants is unclear and it has been suggested that the *consider + as* construction might be becoming less and less common. Searching for evaluative constructions in the EnTenTen21 corpus (**source**), the authors encountered the problem that out of a random sample of 200 *consider* tokens, only 11.5% were found to be true positives and therefore of interest for the research question [@morin2025: 2]. For a corpus-based study addressing this methodological challenge, @morin2025 make use of LLMs for cleaning and annotation tasks, and outline how to automatically annotate large quantities of evaluative *consider* constructions, based on the key processes of prompt engineering, training, and evaluation. For this task, the LLM Claude Sonnet 3.5 and data from the NOW corpus ans Sketch Engine's EnTenTen21 corpus was used [@morin2025: 3].
+The relationship between these three variants is unclear and it has been suggested that the *consider + as* construction might be becoming less and less common. Searching for evaluative constructions in the EnTenTen21 corpus, the authors encountered the problem that out of a random sample of 200 *consider* tokens, only 11.5% were found to be true positives and therefore of interest for the research question [@morin2025: 2]. For a corpus-based study addressing this methodological challenge, @morin2025 make use of LLMs for cleaning and annotation tasks, and outline how to automatically annotate large quantities of evaluative *consider* constructions, based on the key processes of prompt engineering, training, and evaluation. For this task, the LLM Claude 3.5 Sonnet and data from the NOW corpus and Sketch Engine's EnTenTen21 corpus was used [@morin2025: 3].
+
+@morin2025 have made their data for this study publicly available in an OSF repository:
+
+> Morin, Cameron & Matti Marttinen Larsson. 2025. Large corpora and large language models. OSF. doi:10.17605/OSF.IO/TYJZ6. osf.io/tyjz6.
 
 **short summary of the study and the results!**
-
-The datasets used for their study can be downloaded from an OSF repository [@morin2024].
 
 # Planning the replication
 
 ## Type of replication and open science concerns
 
-The goal of this study constitutes a replication of @morin2025's approach with the same datasets using different models. This is considered a close replication according to the following definitions: Conducting "a new study (based on work by other researchers) that is as close as possible to the original study" \[@röseler2025: Chapter 4\], with the goal to "rule out fear of the original finding being a false-positive, validate original materials or design, check generalizability/external validity for theoretically irrelevant variables (e.g., population, year of data collection)" \[@röseler2025: Chapter 4\]. The focus here is to see if the approach is generalizable to open LLMs.
+The goal of this study constitutes a replication of @morin2025's approach with the same datasets using different models. This is considered a close replication according to the following definitions: Conducting "a new study (based on work by other researchers) that is as close as possible to the original study" [@röseler2025: Chapter 4], with the goal to "rule out fear of the original finding being a false-positive, validate original materials or design, check generalizability/external validity for theoretically irrelevant variables (e.g., population, year of data collection)" [@röseler2025: Chapter 4]. The focus here is to see if the approach is generalizable to open LLMs.
 
-During the research on replication procedures, it became clear that the terminology of replication seems to be mostly based on experiments conducted with participants, which affects the understanding of sample sizes, randomization etc. For this project, a replication of a study that leverages LLMs to assist in grammatical annotation for linguistic research, a lot of the terminology does not fit or apply. While I intend to use the same data as @morin2025, one can argue that using different models creates different data as well. Also, the models somehow represent participants in this setting, since they basically replace annotators who would otherwise do this task manually. ***maybe aufgreifen in the conclusion!*** ***entweder hier noch auf data leakage eingehen oder später*** Therefore, I had to adapt the theoretical framework as possible, and go from there. While I used the data that is provided by @morin2025, and also adapt their prompting as close as possible, achieving a very close resemblance with the original study can be difficult for multiple reasons. Among others, original studies may not include sufficient detail in some respects \[@röseler2025: Chapter 6.3\]. In the case of replicating @morin2025, the authors share their data and a transcript of the conversation, while also explaining their approach in the paper, but the code with which the automated pipeline was implemented (or even the programming language that was used, for example) is not shared. This is an important aspect to consider, since resembling the study in terms of implementing the pipeline itself is only possible to a limited extent.
+During the research on replication procedures, it became clear that the terminology of replication seems to be mostly based on experiments conducted with participants, which affects the understanding of sample sizes, randomization etc. For this project, a replication of a study that leverages LLMs to assist in grammatical annotation for linguistic research, a lot of the terminology does not fit or apply. While I intend to use the same data as @morin2025, one can argue that using different models creates different data as well. Also, the models somehow represent participants in this setting, since they basically replace annotators who would otherwise do this task manually. ***maybe aufgreifen in the conclusion!*** ***entweder hier noch auf data leakage eingehen oder später*** Therefore, I had to adapt the theoretical framework as possible, and go from there. While I used the data that is provided by @morin2025, and also adapt their prompting as close as possible, achieving a very close resemblance with the original study can be difficult for multiple reasons. Among others, original studies may not include sufficient detail in some respects [@röseler2025: Chapter 6.3]. In the case of replicating @morin2025, the authors share their data and a transcript of the conversation, while also explaining their approach in the paper, but the code with which the automated pipeline was implemented (or even the programming language that was used, for example) is not shared. This is an important aspect to consider, since resembling the study in terms of implementing the pipeline itself is only possible to a limited extent.
 
 In view of all these aspects, both in terms of the original study and the theoretical principles of replication, I tried to adhere to high standards of openness and transparency. This included preregistering the replication, where a detailed analysis plan, and criteria for the results to distinguish between replication success and failure, are stated [@boxleitner2026]. The preregistration was submitted to OSF before the actual analysis with the two open models was conducted.
 
@@ -183,17 +185,17 @@ The second analysis was run with Mistral Small 3.2 24B Instruct 2506. Overall, t
 
 The main measure for the success of this replication was the accuracy level in the testing round that could be achieved with the two open models using the methodological approach proposed by @morin2025. As mentioned in the preregistration, accuracy was calculated as follows: Accuracy = (number of correct predictions) / (total number of predictions).
 
-|          | GPT | Mistral |
-|----------|-----|---------|
-| Accuracy | 94% | 67%     |
+|          | GPT          | Mistral      | Claude (original study) |
+|----------|--------------|--------------|-------------------------|
+| Accuracy | 94% (96/102) | 67% (68/102) | 93% (95/102)[^1]        |
 
 : Achieved accuracy in classification task
+
+[^1]: This result is not derived from the analyses in this study, but simply taken over from the informations in the original study [@morin2025: 6].
 
 The hypotheses established for this project were that, using the methodological pipeline and dataset from @morin2025, the open models *OpenAI GPT OSS 120B* (Hypothesis 1) / *Mistral Small 3.2 24B Instruct 2506* (Hypothesis 2) will achieve an accuracy of **at least 90%** on the linguistic classification task when evaluated against the human gold standard in the original study.
 
 Hypothesis 1 is therefore supported by the results presented in the table above, while hypothesis 2 is not. Although the performance of Mistral improved over the course of the training, the predefined target of at least 90% was not achieved. The model tested in the original study (Claude 3.5 Sonnet) had achieved an accuracy level of 93% [@morin2025: 6].
-
-GPT reached **0.9411765** accuracy. (rounded to 94%))
 
 ## Inter-rater agreement
 
@@ -205,13 +207,13 @@ GPT reached **0.9411765** accuracy. (rounded to 94%))
 
 : Inter-rater agreement of each model in comparison with the human gold standard
 
-Cohen's κ was calculated for pairwise comparisons (each model against the human gold standard provided in the original study data). Based on the accuracy levels, it not surprising that GPT shows a similarly high Cohen's κ value than Claude in the original study. According to the benchmarks put forth by [@landis1977: 165], the strength of agreement in both GPT and Claude would be interpreted as "almost perfect". Mistral on the other hand shows a very low κ coefficient, which would only be ranked a "slight" agreement after @landis1977. To investigate this result further, I want to provide a closer look at the Cohen's κ measures for Mistral:
+Cohen's κ was calculated for pairwise comparisons (each model against the human gold standard provided in the original study data). Based on the accuracy levels, it not surprising that GPT shows a similarly high Cohen's κ value than Claude in the original study. According to the benchmarks put forth by [@landis1977: 165], the strength of agreement in both GPT and Claude would be interpreted as "almost perfect". Mistral on the other hand shows a very low κ coefficient, which would only be ranked a "slight" agreement after @landis1977. Since this result deviates a lot from the other two models, I want to provide a closer look at the Cohen's κ measures for Mistral:
 
 ```         
  Cohen's Kappa for 2 Raters (Weights: unweighted)   Subjects = 102     Raters = 2      Kappa = 0.173           z = 2.56    p-value = 0.0106 
 ```
 
-I explicitly want to focus on the p-value here. While the κ coefficient measures **how strong** the agreement is, the p-value measures if there is any agreement beyond chance. For the other two models, the p-value reported in the output of the Cohen's κ function was 0. In the case of Mistral, it is slightly higher, but still under 0.05, indicating statistical significance. This means that agreement is better than chance, but still very low.
+I explicitly want to focus on the p-value here. While the κ coefficient measures how strong the agreement is, the p-value measures if there is any agreement beyond chance. For the other two models, the p-value reported in the output of the Cohen's κ function was 0. In the case of Mistral, it is slightly higher, but still under 0.05, indicating statistical significance. This means that agreement is slightly better than chance, but still very low.
 
 **Rest: exact values:**
 
@@ -231,8 +233,6 @@ Cohen's kappa (**Claude** and HGS):
 ```         
 print(cohens_kappa_claude_human)  Cohen's Kappa for 2 Raters (Weights: unweighted)   Subjects = 102     Raters = 2      Kappa = 0.857           z = 8.67    p-value = 0 
 ```
-
-Replication focus: Hypothesis, was the replication successful?
 
 ### Fleiss' κ
 
@@ -256,15 +256,15 @@ This brings to my next point:
 
 <!-- -->
 
--    Reflect on **what worked and what didn’t**
+-   Reflect on **what worked and what didn’t**
 
 <!-- -->
 
--    Discuss **limitations of your methodology**
+-   Discuss **limitations of your methodology**
 
 <!-- -->
 
--    Explain **unexpected outcomes**
+-   Explain **unexpected outcomes**
 
 -   implications
 
@@ -278,17 +278,17 @@ There are many reasons why open models should be further investigated and optimi
 
 <!-- -->
 
--    A summary of key findings
+-   A summary of key findings
 
 -   answer to research question
 
 <!-- -->
 
--    Final takeaway
+-   Final takeaway
 
 <!-- -->
 
--    Possibly brief outlook/future work
+-   Possibly brief outlook/future work
 
 How do open LLMs perform in comparison and why is it crucial that we support and optimize them?
 

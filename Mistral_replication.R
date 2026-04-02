@@ -354,7 +354,15 @@ accuracy_test <- mean(
 
 print(accuracy_test)
 
-# Save as csv.
+# Get exact number of aligning classifications
+aligned_mistral <- sum(
+  comparison_test$Human_classification == comparison_test$Mistral_classification,
+  na.rm = TRUE
+)
+
+print(aligned_mistral)
+
+# Save results as .csv
 write_csv2(comparison_test, "replication_data/Mistral_replication_results.csv") # put in semicolon separated format for comparison with author's table
 
 # Final prompt

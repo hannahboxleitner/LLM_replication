@@ -257,7 +257,15 @@ accuracy_test <- mean(
 
 print(accuracy_test)
 
-# Save as csv.
+# Get exact number of aligning classifications
+aligned_gpt <- sum(
+  test_gpt_results$Human_classification == test_gpt_results$GPT_classification,
+  na.rm = TRUE
+)
+
+print(aligned_gpt)
+
+# Save results as .csv
 write_csv2(comparison_test, "replication_data/GPT_replication_results.csv") # put in semicolon separated format for comparison with author's table
 
 # Final prompt
