@@ -117,7 +117,7 @@ I used a small dataset I had annotated manually for another, completely unrelate
 
 Keeping these concerns about the generalizability of the author's approach in mind, the present study addresses the following research question: Can the methodological pipeline proposed by @morin2025 be successfully replicated using other, open large language models for the same linguistic classification task?
 
-To answer this research question, replicability needs to be measurable. The authors state in their abstract to have reached "a model accuracy of over 90%" [@morin2025: 1], and lastly achieved an accuracy rate of 93% with their model. As one can see in the conversation transcript [@morin2024], the user prompt contains a desired accuracy level of 95% to illustrate to the model what constitutes a successful task completion.
+To answer this research question, replicability needs to be measurable. The authors state in their abstract to have reached "a model accuracy of over 90%" [@morin2025: 1], and lastly achieved an accuracy rate of 93% with their model. As one can see in the conversation transcript [@morin2024], the initial user prompt contains a desired accuracy level of 95% to illustrate to the model what constitutes a successful task completion.
 
 On the basis of that, in this project a successful replication is defined as achieving an accuracy of ≥ 90% using the original dataset and methodological pipeline proposed by @morin2025. While attempting to reach this goal, the focus of this project remains the replication itself, which, as mentioned before, is supposed to be as close as possible to the methodological pipeline presented in @morin2025. This includes specifics like using XML-tags in user prompts (e.g. for \<instructions\>) or putting all the instruction inside user prompts (as suggested in the transcript) as opposed to implementing a system prompt. There was no available information about the programmatic design of the pipeline in @morin2025, but the content of the prompts remains unchanged.
 
@@ -141,7 +141,7 @@ Even though these measures were taken to improve reproducibility, identical outp
 
 # Analysis
 
-When I ran the replication, I tried to keep the process as close to the one shown in the transcript of the conversation in @morin2025's repository to ensure methodological consistency. Where possible, I pasted the exact user prompts word for word. Of course, the feedback prompts and provided corrections etc. needed to be adjusted from model to model. For the supervised training, I also used the explanations provided in @morin2025'sconversation transcript in my corrections, to ensure that the models went into the next round with similar information. Additions to the user prompts mostly consisted of specific instructions regarding the model output, for example adding "Return ONLY tab-separated values with columns: Sentence<TAB>Classification" to an otherwise similar prompt. I was careful to not alter things related to the content of the classification task. I now want to give some further insight into the analyses conducted with each model:
+When I ran the replication, I tried to keep the process as close to the one shown in the transcript of the conversation in @morin2025's repository to ensure methodological consistency. Where possible, I pasted the exact user prompts word for word. Of course, the feedback prompts and provided corrections etc. needed to be adjusted from model to model. For the supervised training, I also used the explanations provided in @morin2025's conversation transcript in my corrections, to ensure that the models went into the next round with similar information. Additions to the user prompts mostly consisted of specific instructions regarding the model output, for example adding "Return ONLY tab-separated values with columns: Sentence<TAB>Classification" to an otherwise similar prompt. I was careful to not alter things related to the content of the classification task. I now want to give some further insight into the analyses conducted with each model:
 
 ## Replication with GPT model
 
@@ -215,46 +215,24 @@ This value indicates a "moderate" agreement [@landis1977: 165].
 
 # Discussion of outcomes
 
-In this chapter, I want to interpret and discuss the results, and reflect on the methodology. Looking at the accuracy levels that were achieved after training the models, there is a clear difference between the two investigated ones: While GPT achieved the desired level of \> 90% and showed comparable and even slightly better performance than Claude in the original study, Mistral missed the mark by quite a lot. Inter-rater agreement metrics support these observations: In pairwise comparisons, GPT showed a strong agreement with the human gold standard, while the Cohen's κ for Mistral indicates that the agreement is only slightly better than agreement by chance. These findings are basically summarized in the results for Fleiss' κ (κ = 0.517), showing a moderate agreement. This value reflects a mixed pattern of agreement: strong alignment between the human annotator and two of the models, contrasted with only slight agreement for the third model, which lowers overall consistency.
+In this chapter, I want to interpret and discuss the results, and reflect on the methodology. Looking at the accuracy levels that were achieved when testing the models, there is a clear difference between the two: While GPT achieved the desired level of \> 90% and showed comparable and even slightly better performance than Claude in the original study, Mistral missed the mark by quite a lot. Inter-rater agreement metrics support these observations: In pairwise comparisons, GPT showed a strong agreement with the human gold standard, while the Cohen's κ for Mistral indicates that the agreement is only slightly better than agreement by chance. These findings are basically summarized in the results for Fleiss' κ (κ = 0.517), showing a moderate agreement. This value reflects a mixed pattern of agreement: strong alignment between the human annotator and two of the models, contrasted with only slight agreement for the third model, which lowers overall consistency.
 
-For the unsupervised training, @morin2025 ran two rounds. In their paper it is mentioned that this "iterative training and validation cycle was repeated until Claude achieved the desired level of accuracy, with each round of classifications always providing unseen data" [@morin2025: 6]. Since I wanted to replicate this study with the exact same data, I could not exactly follow this idea and stopped training after the second round as well, even though Mistral had not reached the desired accuracy level. While more training might have helped Mistral to yield better results, there were many signs during analysis **(see Replication with Mistral)** that suggest that the model is simply not as suited for this task. If the model would have reached the desired accuracy level at some point (after additional training rounds) remains unclear.
+For the unsupervised training, @morin2025 ran two rounds. In their paper they mention that this "iterative training and validation cycle was repeated until Claude achieved the desired level of accuracy[^2], with each round of classifications always providing unseen data" [@morin2025: 6]. Since I wanted to replicate this study with the exact same data, I could not exactly follow this idea and stopped training after the second round as well, even though Mistral had not reached the desired accuracy level. While more training might have helped Mistral to yield better results, there were many signs during analysis **(see Replication with Mistral)** that suggest that the model is simply not as suited for this task. If the model would have reached the desired accuracy level at some point (after additional training rounds) remains unclear.
+
+[^2]: Presumed they meant \>90% (not the goal of at least 95% accuracy that was stated in the instruction prompt in the beginning [@morin2024]), since Claude apparently reached an accuracy level of 93% in the final round of training [@morin2025: 6].
 
 With this, some methodological limitations become apparent: With the goal of following the approach in the original study closely and use the exact same data, I was not able to further adjust the training to a model as needed. The (close) replicability of the approach evidently depends on the comparability of the models. This is an important aspect considering the original study, titled: "Large corpora and large language models: a replicable method for automating grammatical annotation" [@morin2025]. With GPT, a strong model of comparable size to the one used in the original study, the presented method for automating grammatical annotation was indeed replicable. With a smaller model not as appropriate for the task, it was not possible to replicate successfully.
 
-This brings to my next point:
-
--   Interpret your results
-
-<!-- -->
-
--   Reflect on **what worked and what didn’t**
-
-<!-- -->
-
--   Discuss **limitations of your methodology**
-
-<!-- -->
-
 -   Explain **unexpected outcomes**
 
--   implications
+-   **implications**
 
 # Conclusion
 
-In view of the research question formulated for this paper **(see Chapter Replication criteria and hypothesis)**, the results suggest that the approach presented by @morin2025, in principle, is replicable with open LLMs. I also think it speaks for the generalizability of the approach and results presented in @morin2025 that a very successful replication with the GPT model was possible even though there were was no publicly available code and, in some aspects, not much information on how the pipeline was actually automated and implemented. Though, the findings in this study also suggest that the generalizability depends on the model: With the smaller Mistral model, the approach could *not* be successfully replicated.
+In view of the research question formulated for this paper **(see Chapter Replication criteria and hypothesis)**, the results suggest that the approach presented by @morin2025, in principle, is replicable with open LLMs. I also think it speaks for the generalizability of the approach and results presented in @morin2025 that a very successful replication with the GPT model was possible even though there was no publicly available code and, in some aspects, not much information on how the pipeline was actually automated and implemented. Though, the findings in this study also suggest that the generalizability depends on the model: With the smaller Mistral model, the approach could *not* be successfully replicated.
 
-**rounder!** Leveraging LLMs for data cleaning and annotation tasks definitely poses great opportunities for corpus linguistics, in particular for studies with large corpora. But, as @morin2025 also point out in their paper, the linguistic annotation task involved here is still a rather clear-cut formal case [@morin2025: 7]. If LLMs can be used for more complex tasks, where labeling is very subjective and there is a lot of ambiguity involved, is another question. Furthermore, as the results of this study point out, the choice of models and parameters needs to be matched with the kind of task and the complexity of it. Aside from ethical and privacy-related concerns, this also speaks for the use of open models: With open source models, researchers have more information and control about how the data is handled or on how the model needs to be trained for a task. Open LLMs should be further investigated and optimized for their use in linguistic research, especially in studies that put emphasis on open science practices. **For further studies on the use of LLMs for linguistic tasks, I still think it would be helpful to also publish code with a paper.**
+Leveraging LLMs for data cleaning and annotation tasks undoubtedly poses great opportunities for corpus linguistics, in particular for studies with large corpora. But, as @morin2025 also point out in their paper, the linguistic annotation task involved here is still a rather clear-cut formal case [@morin2025: 7]. If LLMs can be effectively used for more complex tasks, where labeling is very subjective and there is a lot of ambiguity involved, is another question. Furthermore, as the results of this study point out, the selected model(s) and parameters need to be well aligned with the type and complexity of the task in order to use LLMs effectively.
 
-more studies in future, but this research field seems very fast-paced, things are not anymore relevant very fast; maybe need of systematical reviews? I wonder if it would be sensical to find a way of standardization; how could one standardize how such tasks can be implemented with models, and also with updates of the models? Also, there are a lot of tasks that are more subjective - how are those handled? It would be interesting to investigate how pipelines and prompt engineering need to differ for different kinds of linguistic tasks, and also for different kinds of models. Here, the openness aspect comes into play again -\> it would be easier to know/test new updates/versions for linguistic tasks if one knew more about how they are trained etc.
-
--   Short and focused
--   A summary of key findings
--   answer to research question
--   Final takeaway
--   Possibly brief outlook/future work
-
-How do open LLMs perform in comparison and why is it crucial that we support and optimize them?
-
-how needed are these studies, what could be done better (e.g. making code public etc.)
+Since the research field seems to be evolving quickly and also, new models or newer versions of existing models are emerging constantly, findings may become outdated just as fast. Therefore, I think it is important to develop more systematic approaches and possibly standardized practices for model-based annotation. It would be interesting to explore how pipelines and prompt design might need to differ across (linguistic) task types, model architectures, and model updates. This also highlights the value of open models, as they allow researchers not only to understand the model in more depth, but also to adjust it to better suit specific tasks and pipelines. Open LLMs should be further investigated and optimized for their use in linguistic research, especially in studies that put emphasis on open science practices.
 
 # References
