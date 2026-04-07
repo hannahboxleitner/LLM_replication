@@ -15,7 +15,23 @@ This project aims to embody the principles of open science in two respects: Firs
 
 **overview??**
 
-# Methodological approach??
+# The target study
+
+This study aims to replicate the analysis published in:
+
+> Morin, Cameron, and Matti Marttinen Larsson. 2025. “Large Corpora and Large Language Models: A Replicable Method for Automating Grammatical Annotation.” *Linguistics Vanguard* 11 (1): 501–10. <https://doi/10.1515/lingvan-2024-0228>.
+
+The target study by @morin2025 focuses on the verb *consider*, which can be found in a number of larger grammatical constructions, one of which is an evaluative use. While *consider* often appears as a cognition verb, meaning 'think about' or 'take into account' (e.g. 'considering a job offer'), it can also be used in terms of introducing an evaluation or judgement. There are three variants of evaluative *consider* constructions:
+
+a.  Cain is **considered** a master of American hard boiled crime fiction (…)
+b.  By the way, I also **consider** Zelda II **as** one of my favorites (…)
+c.  Since he **considers** himself **to be** a man of God, one would think he would know that it is clearly stated in the Bible that a Christian is NEVER to question the faith of another [@morin2025: 2].
+
+The relationship between these three variants is unclear and it has been suggested that the *consider + as* construction might be becoming less and less common. Searching for evaluative constructions in the EnTenTen21 corpus, the authors encountered the problem that out of a random sample of 200 *consider* tokens, only 11.5% were found to be true positives and therefore of interest for the research question [@morin2025: 2]. For a corpus-based study addressing this methodological challenge, @morin2025 make use of LLMs for cleaning and annotation tasks, and outline how to automatically annotate large quantities of evaluative *consider* constructions, based on the key processes of prompt engineering, training, and evaluation. For this task, the LLM Claude 3.5 Sonnet and data from the NOW corpus and Sketch Engine's EnTenTen21 corpus was used [@morin2025: 3]. Overall, the model was able to reach a model accuracy of over 90 % on the test samples with a small amount of training data, which the authors interpret to validate the method for the annotation of very large quantities of tokens of the construction in the future [@morin2025: 1]. The datasets for their study is publicly available in an OSF repository:
+
+> Morin, Cameron & Matti Marttinen Larsson. 2025. Large corpora and large language models. OSF. doi:10.17605/OSF.IO/TYJZ6. osf.io/tyjz6.
+
+# Methodological approach
 
 During planning and preparation of this replication, I used the handbook by @röseler2025 as a guide for the research process. On a general note, the following steps are listed for a replication:
 
@@ -31,43 +47,37 @@ During planning and preparation of this replication, I used the handbook by @rö
 
 -   and publishing a report [@röseler2025].
 
-My approach presented in this paper was oriented towards these steps.
+The research process in this study was broadly oriented toward these steps. The following chapters will be concerned with the planning of the replication. After that, I will move on to analysis, where I explain in detail how the study was run, and then analyze the results.
 
-# The target study
+## Replication design and preregistration
 
-This study aims to replicate the analysis published in:
+The goal of this study is to replicate @morin2025's approach with the same datasets using different models. This is considered a close replication according to the following definitions: Conducting "a new study (based on work by other researchers) that is as close as possible to the original study" [@röseler2025: Chapter 4], with the goal to "rule out fear of the original finding being a false-positive, validate original materials or design, check generalizability/external validity for theoretically irrelevant variables (e.g., population, year of data collection)" [@röseler2025: Chapter 4]. The main focus here is to see if the approach is generalizable to open LLMs.
 
-> Morin, Cameron, and Matti Marttinen Larsson. 2025. “Large Corpora and Large Language Models: A Replicable Method for Automating Grammatical Annotation.” *Linguistics Vanguard* 11 (1): 501–10. <https://doi/10.1515/lingvan-2024-0228>.
+During the research on replication procedures, it became clear that the terminology of replication seems to be mostly based on experiments conducted with participants, which affects the understanding of sample sizes, randomization etc. For this project, a replication of a study that leverages LLMs to assist in grammatical annotation for linguistic research, a lot of the terminology does not quite fit. While I intend to use the same data as @morin2025, one can argue that using different models creates different data as well. Also, the models somehow represent participants in this setting, since they basically replace annotators who would otherwise do this task manually. Therefore, I had to adapt the theoretical framework as possible, and go from there. While I used the data that is provided by @morin2025, and also adapt their prompting as close as possible, achieving a very close resemblance with the original study can be difficult for multiple reasons. Among others, original studies may not include sufficient detail in some respects [@röseler2025: Chapter 6.3]. In the case of replicating @morin2025, the authors share their data and a transcript of the conversation, while also explaining their approach in the paper, but the code with which the automated pipeline was implemented (or even the programming language that was used, for example) is not shared. This is an important aspect to consider, since resembling the study in terms of implementing the pipeline itself is only possible to a limited extent.
 
-The target study by @morin2025 focuses on the verb *consider*, which can be found in a number of larger grammatical constructions, one of which is an evaluative use. While *consider* often appears as a cognition verb, meaning 'think about' or 'take into account' (e.g. 'considering a job offer'), it can also be used in terms of introducing an evaluation or judgement. There are three variants of evaluative *consider* constructions:
+With the goal to ensure closeness to the original study and also comply with theoretical principles of replication, I tried to adhere to high standards of openness and transparency. Thus, the study was preregistered at **OSF, including a detailed analysis plan** [@boxleitner2026]: 
 
-a.  Cain is ***considered*** a master of American hard boiled crime fiction (…)
-b.  By the way, I also ***consider*** Zelda II ***as*** one of my favorites (…)
-c.  Since he ***considers*** himself ***to be*** a man of God, one would think he would know that it is clearly stated in the Bible that a Christian is NEVER to question the faith of another [@morin2025: 2].
+> Boxleitner, Hannah. 2026. Using (open) LLMs for linguistic annotation tasks: Replication of a study by Morin & Marttinen Larsson (2025). OSF. osf.io/hcskw.
 
-The relationship between these three variants is unclear and it has been suggested that the *consider + as* construction might be becoming less and less common. Searching for evaluative constructions in the EnTenTen21 corpus, the authors encountered the problem that out of a random sample of 200 *consider* tokens, only 11.5% were found to be true positives and therefore of interest for the research question [@morin2025: 2]. For a corpus-based study addressing this methodological challenge, @morin2025 make use of LLMs for cleaning and annotation tasks, and outline how to automatically annotate large quantities of evaluative *consider* constructions, based on the key processes of prompt engineering, training, and evaluation. For this task, the LLM Claude 3.5 Sonnet and data from the NOW corpus and Sketch Engine's EnTenTen21 corpus was used [@morin2025: 3].
+The preregistration was submitted to OSF before the actual analysis with the two open models was conducted.
 
-@morin2025 have made their data for this study publicly available in an OSF repository:
+## LLMs
 
-> Morin, Cameron & Matti Marttinen Larsson. 2025. Large corpora and large language models. OSF. doi:10.17605/OSF.IO/TYJZ6. osf.io/tyjz6.
+The aim of this project is to replicate the study by @morin2025 with open LLMs. The authors used Claude Sonnet 3.5, an LLM that is known for strong performance **and often compared with ChatGPT,** including in NLP studies [@morin2025: 3].
 
-**short summary of the study and the results!**
+The first model chosen for this project is Mistral Small 3.2 24B Instruct 2506, which was released in 2025 under Apache 2.0 license [@mistral2026]. It is a minor update of [Mistral-Small-3.1-24B-Instruct-2503](https://huggingface.co/mistralai/Mistral-Small-3.1-24B-Instruct-2503), improved in the area of instruction following, repetition errors, and function calling. In this paper, it will be referred to as "Mistral".
 
-# Planning the replication
+The second model is OpenAI GPT OSS 120B, an open-weight language model that was released under Apache-2.0-license and is especially designed for powerful reasoning and agentic tasks [@openai/g2025]. This model will simply be referred to as "GPT" in this paper.
 
-## Type of replication and open science concerns
+It is important to mention that in terms of reproducibility, it would be best to use models locally [@nilsreiter2025]. Since running LLMs locally was only possible with very small LLMs due to the available hardware, I used an API key via KI:connect instead. Based on the API documentation in [@ki:conne], I was able to get started on chat completions.
 
-The goal of this study constitutes a replication of @morin2025's approach with the same datasets using different models. This is considered a close replication according to the following definitions: Conducting "a new study (based on work by other researchers) that is as close as possible to the original study" [@röseler2025: Chapter 4], with the goal to "rule out fear of the original finding being a false-positive, validate original materials or design, check generalizability/external validity for theoretically irrelevant variables (e.g., population, year of data collection)" [@röseler2025: Chapter 4]. The focus here is to see if the approach is generalizable to open LLMs.
+Even though both of those models are considered open source, it is worth taking a closer look in terms of openness: They are evidently open in some respects (open weights, for example), but closed in others (e.g. no open code) [@mistrala, @openai/g2025] **(second source!)**. Arguably, open weights are the most important aspect for reproducibility [@nilsreiter2025: 23]. While @morin2025 used a rather well-known, commercial, and closed model for their study, I want to compare this with the performance of two open ones. Mistral ... is a smaller, European model, while GPT OSS .. is an open version of ChatGPT (Ableger) and way bigger. Seeing how these two perform in comparison to the model tested in @morin2025 on a linguistic annotation task is **not just of interest for this project, but also relevant for research on LLM usage in linguistics in general.**
 
-During the research on replication procedures, it became clear that the terminology of replication seems to be mostly based on experiments conducted with participants, which affects the understanding of sample sizes, randomization etc. For this project, a replication of a study that leverages LLMs to assist in grammatical annotation for linguistic research, a lot of the terminology does not fit or apply. While I intend to use the same data as @morin2025, one can argue that using different models creates different data as well. Also, the models somehow represent participants in this setting, since they basically replace annotators who would otherwise do this task manually. ***maybe aufgreifen in the conclusion!*** ***entweder hier noch auf data leakage eingehen oder später*** Therefore, I had to adapt the theoretical framework as possible, and go from there. While I used the data that is provided by @morin2025, and also adapt their prompting as close as possible, achieving a very close resemblance with the original study can be difficult for multiple reasons. Among others, original studies may not include sufficient detail in some respects [@röseler2025: Chapter 6.3]. In the case of replicating @morin2025, the authors share their data and a transcript of the conversation, while also explaining their approach in the paper, but the code with which the automated pipeline was implemented (or even the programming language that was used, for example) is not shared. This is an important aspect to consider, since resembling the study in terms of implementing the pipeline itself is only possible to a limited extent.
+What needs to be considered in terms of the models is the concern of **data leakage**. For my study, it is assumed that the models, functioning as several "annotators", independently label the data without knowledge of each other's work. It can only be *assumed* because there is a possibility that the models I used might have the gold standard provided in the original study as part of their training data, which would mean they would not be totally independent. The Mistral model used for this study was released in June 2025 [@mistral], and the GPT model in August 2025[@saurav2025]. @morin2025, who used data from the NOW corpus and Sketch Engine’s EnTenTen21 corpus for their study [@morin2025: 3], created their OSF-database containing the (annotated) datasets in November 2024. When and on which data the models were trained exactly remains unclear, but since they were released after the repository went public, the possibility of data leakage cannot be ruled out.
 
-In view of all these aspects, both in terms of the original study and the theoretical principles of replication, I tried to adhere to high standards of openness and transparency. This included preregistering the replication, where a detailed analysis plan, and criteria for the results to distinguish between replication success and failure, are stated [@boxleitner2026]. The preregistration was submitted to OSF before the actual analysis with the two open models was conducted.
+## Planning and implementing the methodological pipeline
 
-## Planning the methodological pipeline
-
-To plan my replication, I read the study by @morin2025 thoroughly, especially focusing on the pre-training and prompt engineering.
-
-Further insight could be gained by going through the conversation transcript that @morin2025 provided with their data in the repository. It lists the user prompts and answers of the model in a `docx.`-file. The conversation consists of the following parts:
+While planning the replication, it was important to get fully acquainted with the design principles for prompt engineering and the pipeline proposed by @morin2025. A key feature of @morin2025's approach being that models like Claude achieve significant improvements in performance through iterative refinement, the pipeline consists of pretraining, iterative training, validation, and evaluation [@morin2025: 5]. Design principles and the the step-by-step process are explained in the paper [@morin2025: 4-5] and also demonstrated in the conversation transcript provided in the repository [@morin2024], which lists the user prompts and answers of the model in a `docx.`-file. Since this pipeline is crucial for the replication, I want to outline it here in more detail:
 
 **Pretraining**
 
@@ -77,43 +87,29 @@ Further insight could be gained by going through the conversation transcript tha
 
 **Training**
 
--   A round of supervised classifications follows: The model is prompted to classify the first 100 sentences (dataset: supervised_training_sketchengine_100.csv) in batches of 25. Mistakes are corrected through user prompts directly.
+-   A round of **supervised training** follows: The model is prompted to classify the first 100 sentences in batches of 25. Mistakes are corrected through user prompts directly.
 
--   Unsupervised training round 1: After that, another dataset of 100 sentences is requested to be classified without the close supervision (and to be provided in **tab-separated** .csv-format).
+-   **Unsupervised training, part 1:** After that, another dataset of 100 sentences is requested to be classified without the close supervision and to be provided in tab-separated .csv-format.
 
--   All incorrect classifications are pasted into the next user prompt. The model is told its accuracy for the task and instructed to review the errors. **After that, the reviews are not further commented by the authors,** the model is simply told to keep those lessons in mind.
+-   All incorrect classifications are pasted into the next user prompt, the model gets feedback about the achieved accuracy for the task, and is instructed to review the errors. After that, the reviews are not further commented by the authors, the model is simply told to keep those lessons in mind.
 
--   **Unsupervised training round 2:** It is requested to classify step-by-step and consistently apply the insertion test, then given new data (EnTenTen_random_sample_101.csv), and told to do the full classification in one batch in .csv format.
+-   **Unsupervised training, part 2:** The model is requested to classify step-by-step and consistently apply the insertion test, then given new data (101 sentences), and told to provide the full batch in .csv format.
 
--   It is told the accuracy rate (93%) and told that it is good
+-   The following user prompt contains the accuracy rate (93%, in their case) and a short evaluative feedback, but it is not further disclosed which sentences were wrong.
 
 **Testing**
 
--   Provided with new data (EnTenTen_random_sample_102.csv) and told to follow the procedure that was successfully applied in the latest round of classifications. After classification, it is again told the accuracy.
+-   The model is provided with new data (102 sentences) and told to follow the procedure that was successfully applied in the latest round of classifications. After classification, it is again told the accuracy.
 
-All of these steps were incorporated in the replication. With the the KI:connect API documentation [@ki:conne] and some further reading on conversations and giving previous context in prompts [@conversa], I was able to set up the LLMs for usage with an API key, and integrating the iterative processes for a multi-turn-conversation. I created a setup script that includes the API call and the basis for conversation with the LLMs. The analyses (one with each open LLM) were then conducted in separate scripts.
+**All of these steps were implemented in the replication. With the the KI:connect API documentation [@ki:conne] and some further reading on conversations and giving previous context in prompts [@conversa], the LLMs were set up for usage with an API key, and integrating the iterative processes for a multi-turn-conversation. I created a setup script that includes the API call and the basis for conversation with the LLMs. The analyses (one with each open LLM) were then conducted in separate scripts. -\> not here**
 
 When looking at the datasets that @morin2025 provided in their repository, there were some minor inconsistencies I needed to take into account. The file naming was sometimes not very intuitive or informative regarding the methodological pipeline. For some training or testing rounds, the classifications done by Claude or the human annotator were provided in different files from only the sentences, for other parts of the process, there was only one file containing everything. Also, the column names varied throughout the files (for example, "Sentence" vs. "Consider-construction", or "Claude_classification" vs. "Classification_Claude"). While this would usually call for some data cleaning before running the analyses, all of these concerns were only handled programmatically in the R environment, while the files downloaded from the author's repository remained unchanged. For the data import and preprocessing of datasets I also used a separate R script.
 
 ## Piloting
 
-Since the methodological approach proposed by @morin2025 is quite extensive and detailed, and there is no code to look into for aspects like e.g. how the datasets were implemented in the prompts, I decided to conduct a little pilot study before the actual replication, to test a similar multi-turn-conversation. This script was run and altered several times in preparation for the analysis.
+Since the methodological approach proposed by @morin2025 is quite extensive and detailed, and there is no code to look into for aspects like e.g. how the datasets were implemented in the prompts, I decided to conduct a small pilot study before the actual replication, to test a similar multi-turn-conversation. This script was run and altered several times in preparation for the analysis.
 
-I used a small dataset I had annotated manually once for another project. The task was a sentiment analysis with a lot less detailed instructions. The goal of this pilot was not to follow @morin2025's approach exactly or to achieve a high accuracy, but rather to implement and test the steps of pretraining, training and testing, make sure the model can access the datasets, and try out how well giving feedback to the models works. This made me more aware of the step-by-step process and helped me set up the pipeline for the actual study.
-
-## LLMs
-
-The aim of this project is to replicate the study by @morin2025 with different, and especially open LLMs. The authors used Claude Sonnet 3.5, an LLM that is known for strong performance **and often compared with ChatGPT,** including in NLP studies [@morin2025: 3].
-
-The first model chosen for this project is Mistral Small 3.2 24B Instruct 2506, which was released in 2025 under Apache 2.0 license. It is a minor update of [Mistral-Small-3.1-24B-Instruct-2503](https://huggingface.co/mistralai/Mistral-Small-3.1-24B-Instruct-2503), improved in the area of instruction following, repetition errors, and function calling. In this paper, it will be referred to as "Mistral".
-
-The second model is OpenAI GPT OSS 120B, an open-weight language model that was released under Apache-2.0-license and is especially designed for powerful reasoning and agentic tasks [@openai/g2025]. This model will often simply be referred to as "GPT" in this paper.
-
-It is important to mention that in terms of reproducibility, it would be best to use models locally [@nilsreiter2025]. Since running LLMs locally was only possible with very small LLMs due to the available hardware, I used an API key via KI:connect instead. Based onn the API documentation in [@ki:conne], **I was able to get started on chat completions.**
-
-Even though these models are considered open source, one might always take a closer look in terms of openness: They are evidently open in some respects (open weights, for example), but closed in others (e.g. no open code) [@mistrala] **(second source!)**. Arguably, open weights are the most important aspect for reproducibility [@nilsreiter2025: 23]. While @morin2025 used a rather well-known, commercial, and closed model for their study, I want to compare this with the performance of two open ones. Mistral ... is a smaller, European model, while GPT OSS .. is an open version of ChatGPT (Ableger) and way bigger. Seeing how these two perform in comparison to the model tested in @morin2025 on a linguistic annotation task is **not just of interest for this project, but also relevant for research on LLM usage in linguistics in general.**
-
-What needs to be considered in terms of the models is the concern of **data leakage**. For my study, it is assumed that the models, functioning as several "annotators", independently label the data without knowledge of each other's work. It can only be *assumed* because there is a possibility that the models I used might have the gold standard provided in the original study as part of their training data, which would mean they would not be totally independent. The Mistral model used for this study was released in June 2025 [@mistral], and the GPT model in August 2025[@saurav2025]. @morin2025, who used data from the NOW corpus and Sketch Engine’s EnTenTen21 corpus for their study [@morin2025: 3], created their OSF-database containing the (annotated) datasets in November 2024. When and on which data the models were trained exactly remains unclear, but since they were released after the repository went public, the possibility of data leakage cannot be ruled out.
+I used a small dataset I had annotated manually for another project. The task was a sentiment analysis with a lot less detailed instructions. The goal of this pilot was not to follow @morin2025's approach exactly or to achieve a high accuracy, but rather to implement and test the steps of pretraining, training and testing, make sure the model can access the datasets, and point to aspects that might go wrong (e.g. formatting of model output). This helped me set up the pipeline for the actual study and refine the scripts.
 
 ## Replication criteria and hypotheses
 
