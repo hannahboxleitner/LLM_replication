@@ -3,6 +3,7 @@ title: "Using (open) LLMs for linguistic annotation tasks: Replication of a stud
 author: Hannah Boxleitner
 format: html
 bibliography: references.bib
+csl: unified-style-sheet-for-linguistics.csl
 ---
 
 # Introduction
@@ -57,19 +58,15 @@ With the goal to ensure closeness to the original study and also comply with the
 
 ## LLMs
 
-The aim of this project is to replicate the study by @morin2025 with open LLMs. The authors used Claude 3.5 Sonnet, an LLM that is known for strong performance and is increasingly investigated in NLP studies, including in comparison with ChatGPT, which is also popular for automatic annotation tasks [@morin2025: 3].
+The aim of this project is to replicate the study by @morin2025 with open LLMs. The authors used Claude 3.5 Sonnet, a closed-source LLM that is known for strong performance and is increasingly investigated in NLP studies, including in comparison with ChatGPT, which is also popular for automatic annotation tasks [@morin2025: 3].
 
-The first model chosen for this project is Mistral Small 3.2 24B Instruct 2506[^1], which was released in 2025 under Apache 2.0 license. Mistral is a French AI company. The model is a minor update of [Mistral-Small-3.1-24B-Instruct-2503](https://huggingface.co/mistralai/Mistral-Small-3.1-24B-Instruct-2503), improved in the area of instruction following, repetition errors, and function calling [@huggingface2026]. In this paper, it will be referred to as "Mistral".
+The first model chosen for this project is Mistral Small 3.2 24B Instruct 2506 [@mistralai2026], which was released in 2025 under Apache 2.0 license. Mistral is a French AI company. The model is a minor update of [Mistral-Small-3.1-24B-Instruct-2503](https://huggingface.co/mistralai/Mistral-Small-3.1-24B-Instruct-2503), improved in the area of instruction following, repetition errors, and function calling [@huggingface2026]. In this paper, it will be referred to as "Mistral".
 
-[^1]: [@mistral2026a]
+The second model is OpenAI GPT OSS 120B [@openai2026], an open-weight large language model that was released under Apache 2.0 license and is especially designed for powerful reasoning and agentic tasks [@huggingface2025]. This model will simply be referred to as "GPT" in this paper.
 
-The second model is OpenAI GPT OSS 120B[^2], an open-weight large language model that was released under Apache 2.0 license and is especially designed for powerful reasoning and agentic tasks [@huggingface2025]. This model will simply be referred to as "GPT" in this paper.
+These two models are quite different: a smaller, European model, and an open version of the rather well-known GPT, which is way bigger. Though, smaller models do not necessarily outperform bigger ones, depending on the tasks at hand [@manchanda: 4].
 
-[^2]: [@gptoss2026]
-
-It is important to mention that in terms of reproducibility, it would be best to use models locally [@nilsreiter2025]. Since running LLMs locally was only possible with very small LLMs due to the available hardware, I used an API key via KI:connect to access the models remotely. The analyses were conducted in R.
-
-Even though both of those models are considered open source, it is worth taking a closer look in terms of openness: They are evidently open in some respects (open weights, for example), but closed in others (e.g. no open code) [@huggingface2026; @huggingface2025a]. Arguably, open weights are the most important aspect for reproducibility [@nilsreiter2025: 23]. While @morin2025 used a rather well-known, commercial, and closed model for their study, I want to compare this with the performance of two open ones. Mistral **... is a smaller, European model, while GPT OSS ..** is an open version of ChatGPT **(Ableger)** and way bigger. Seeing how these two perform in comparison to the model tested in @morin2025 on a linguistic annotation task is **not just of interest for this project, but also relevant for research on LLM usage in linguistics in general.**
+Even though both of the models are considered *open source*, it is worth taking a closer look in terms of openness: They are evidently open in some respects (esp. open weights), but closed in others (e.g. no open code) [@huggingface2026; @huggingface2025]. Arguably, open weights are the most important aspect for reproducibility [@reiter2025: 23]. Regarding reproducibility, it would generally be best to use the models locally [@reiter2025]. Since running LLMs that would be suitable for the task locally was not possible due to available hardware, I used an API key to access the models remotely. The analyses were conducted in R.
 
 What needs to be considered in terms of the models is the concern of **data leakage**. For my study, it is assumed that the models, functioning as several "annotators", independently label the data without knowledge of each other's work. It can only be *assumed* because there is a possibility that the models I used might have the gold standard provided in the original study as part of their training data, which would mean they would not be totally independent. The Mistral model used for this study was released in June 2025 [@mistral], and the GPT model in August 2025[@saurav2025]. @morin2025, who used data from the NOW corpus and Sketch Engine’s EnTenTen21 corpus for their study [@morin2025: 3], created their OSF-database containing the (annotated) datasets in November 2024. When and on which data the models were trained exactly remains unclear, but since they were released after the repository went public, the possibility of data leakage cannot be ruled out.
 
@@ -147,8 +144,6 @@ The first analysis was run with the model OpenAI GPT OSS 120B. The code used for
 
 -   In the initial, very extensive instruction prompt that @morin2025 provide with their conversation transcript, there is an error at one point: "<instructions> Classify sentences containing the verb “consider” as either ‘non-evaluative’ or ‘non-evaluative’. </instructions>". Since this is what the authors provided from their conversation, I must assume this is what was they prompted to their model. With the motivation to replicate closely and get comparable results, I decided to keep the original typo and not clarify it. The GPT model pointed out this mistake in the first answer, and made clear that it must be incorrect because everything else in the prompt is centered around the contrast between 'evaluative' and 'non-evaluative'. I found this very interesting, since neither the model in the original study nor the Mistral model in the second analysis for this paper seemed to pick up on this mistake, or at least did not mention it in their answers. While this is not the focus of this paper, I think it raises interesting further questions about how models handle imperfect instructions.
 
--   **Another difference seen in supervised training. A sentence not understandable, (n. 100), both models deemed it incoherent/garbled, but Claude categorized it ? while GPT defaulted to non-evaluative, reasoning there was no clear instance of consider in it**
-
 -   There was an interesting distinction during supervised training, looking at the transcript the authors provided of their conversation with Claude: When they prompted corrections, the model usually responded in terms of "You're absolutely right! Let me correct these!". GPT, while somewhat open to discussion, often stuck to its classification and explained why.
 
 -   In all cases where I needed to compare the classifications to the ones in the datasets, I additionally specified the format: "Return ONLY tab-separated values with columns:","id<TAB>Classification". This made sense to adjust because while Claude tended to end its answers with sentences like "Please provide the new dataset and I will classify it in tab-separated .csv format.", GPT did not show this behavior, which is why I felt the need to include these informations in the prompt. This did not change the message in the prompt at all, it simply enforced that the model output was clear and comparable.
@@ -175,11 +170,11 @@ The main measure for the success of this replication was the accuracy level in t
 
 |          | GPT          | Mistral      | Claude (original study) |
 |----------|--------------|--------------|-------------------------|
-| Accuracy | 94% (96/102) | 67% (68/102) | 93% (95/102)[^3]        |
+| Accuracy | 94% (96/102) | 67% (68/102) | 93% (95/102)[^1]        |
 
 : Achieved accuracy in classification task
 
-[^3]: This result is not derived from the analyses in this study, but taken from the information in the original study [@morin2025: 6].
+[^1]: This result is not derived from the analyses in this study, but taken from the information in the original study [@morin2025: 6].
 
 The hypotheses established for this project were that, using the methodological pipeline and dataset from @morin2025, the open models *OpenAI GPT OSS 120B* (Hypothesis 1) / *Mistral Small 3.2 24B Instruct 2506* (Hypothesis 2) will achieve an accuracy of **at least 90%** on the linguistic classification task when evaluated against the human gold standard in the original study.
 
@@ -215,9 +210,9 @@ This value indicates a "moderate" agreement [@landis1977: 165].
 
 In this chapter, I want to interpret and discuss the results, and reflect on the methodology. Looking at the accuracy levels that were achieved when testing the models, there is a clear difference between the two: While GPT achieved the desired level of \> 90% and showed comparable and even slightly better performance than Claude in the original study, Mistral missed the mark by quite a lot. Inter-rater agreement metrics support these observations: In pairwise comparisons, GPT showed a strong agreement with the human gold standard, while the Cohen's κ for Mistral indicates that the agreement is only slightly better than agreement by chance. These findings are basically summarized in the results for Fleiss' κ (κ = 0.517), showing a moderate agreement. This value reflects a mixed pattern of agreement: strong alignment between the human annotator and two of the models, contrasted with only slight agreement for the third model, which lowers overall consistency.
 
-For the unsupervised training, @morin2025 ran two rounds. In their paper they mention that this "iterative training and validation cycle was repeated until Claude achieved the desired level of accuracy[^4], with each round of classifications always providing unseen data" [@morin2025: 6]. Since I wanted to replicate this study with the exact same data, I could not exactly follow this idea and stopped training after the second round as well, even though Mistral had not reached the desired accuracy level. While more training might have helped Mistral to yield better results, there were many signs during analysis **(see Replication with Mistral)** that suggest that the model is simply not as suited for this task. If the model would have reached the desired accuracy level at some point (after additional training rounds) remains unclear.
+For the unsupervised training, @morin2025 ran two rounds. In their paper they mention that this "iterative training and validation cycle was repeated until Claude achieved the desired level of accuracy[^2], with each round of classifications always providing unseen data" [@morin2025: 6]. Since I wanted to replicate this study with the exact same data, I could not exactly follow this idea and stopped training after the second round as well, even though Mistral had not reached the desired accuracy level. While more training might have helped Mistral to yield better results, there were many signs during analysis **(see Replication with Mistral)** that suggest that the model is simply not as suited for this task. If the model would have reached the desired accuracy level at some point (after additional training rounds) remains unclear.
 
-[^4]: Presumed they meant \>90% (not the goal of at least 95% accuracy that was stated in the instruction prompt in the beginning [@morin2024]), since Claude apparently reached an accuracy level of 93% in the final round of training [@morin2025: 6].
+[^2]: Presumed they meant \>90% (not the goal of at least 95% accuracy that was stated in the instruction prompt in the beginning [@morin2024]), since Claude apparently reached an accuracy level of 93% in the final round of training [@morin2025: 6].
 
 With this, some methodological limitations become apparent: With the goal of following the approach in the original study closely and use the exact same data, I was not able to further adjust the training to a model as needed. The (close) replicability of the approach evidently depends on the comparability of the models. This is an important aspect considering the original study, titled: "Large corpora and large language models: a replicable method for automating grammatical annotation" [@morin2025]. With GPT, a strong model of comparable size to the one used in the original study, the presented method for automating grammatical annotation was indeed replicable. With a smaller model not as appropriate for the task, it was not possible to replicate successfully.
 
