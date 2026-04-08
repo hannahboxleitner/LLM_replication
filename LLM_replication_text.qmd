@@ -1,7 +1,9 @@
 ---
 title: "Using (open) LLMs for linguistic annotation tasks: Replication of a study by Morin & Marttinen Larsson (2025)"
 author: Hannah Boxleitner
-format: html
+format:
+  html:
+    number-sections: true
 bibliography: references.bib
 csl: unified-style-sheet-for-linguistics.csl
 ---
@@ -224,4 +226,4 @@ Leveraging LLMs for data cleaning and annotation tasks undoubtedly poses great o
 
 Since the research field seems to be evolving quickly and also, new models or newer versions of existing models are emerging constantly, findings may become outdated just as fast. Therefore, I think it is important to develop more systematic approaches and possibly standardized practices for model-based annotation. It would be interesting to explore how pipelines and prompt design might need to differ across (linguistic) task types, model architectures, and model updates. This also highlights the value of open models, as they allow researchers not only to understand the model in more depth, but also to adjust it to better suit specific tasks and pipelines. Open LLMs should be further investigated and optimized for their use in linguistic research, especially in studies that put emphasis on open science practices.
 
-# References
+# References {.unnumbered}
