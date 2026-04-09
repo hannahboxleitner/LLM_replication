@@ -108,7 +108,7 @@ Since the methodological approach proposed by @morin2025 is quite extensive and 
 
 I used a small dataset I had annotated manually for another, completely unrelated project. The task was a sentiment analysis with a lot less detailed instructions. The goal of this pilot was not to follow @morin2025's approach exactly or to achieve a high accuracy, but rather to test implementation of pretraining, training, testing and evaluation, to make sure the models can access the datasets, and to identify potential problems (e.g. formatting of model output). This helped to set up the pipeline for the actual study and refine the scripts.
 
-## Replication criteria and hypotheses
+## Replication criteria and hypotheses {#sec-criteria}
 
 @morin2025 present a methodological pipeline leveraging an LLM for the automatic annotation of grammatical data, based on the case study of the evaluative *consider* construction in English. Their research questions are concerned with the frequency of the different variants of the *consider* construction. While they don't formulate a hypothesis in their paper, they state a twofold goal to 1) build a replicable methodological pipeline that can be repurposed and 2) to substantially improve the quality of annotation of future corpus studies [@morin2025:3].
 
@@ -152,7 +152,7 @@ The first analysis was run with the model OpenAI GPT OSS 120B. The code used for
 
 -   The accuracy level that GPT achieved in the training rounds was very high already, and interestingly, the first round of unsupervised training was better than the final one (96% in first, 93% in second round).
 
-## Replication with Mistral model
+## Replication with Mistral model {#sec-replmistral}
 
 The second analysis was run with Mistral Small 3.2 24B Instruct 2506. Overall, the model, granted it is a lot smaller than the other two, seemed not as well-suited for the task. I will clarify this by sharing some observations throughout the analysis:
 
@@ -212,7 +212,7 @@ This value indicates a "moderate" agreement [@landis1977: 165].
 
 Looking at the accuracy levels that were achieved when testing the models, there is a clear difference between the two: While GPT achieved the desired level of at least 90% and showed comparable and even slightly better performance than Claude in the original study, Mistral missed the mark by quite a lot. Inter-rater agreement metrics support these observations: In pairwise comparisons, GPT showed a strong agreement with the human gold standard, while the Cohen's κ for Mistral indicates that the agreement is only slightly better than agreement by chance. These findings are basically summarized in the results for Fleiss' κ (κ = 0.517), showing a moderate agreement. This value reflects a mixed pattern of agreement: strong alignment between the human annotator and two of the models, contrasted with only slight agreement for the third model, which lowers overall consistency.
 
-For the unsupervised training, @morin2025 ran two rounds. In their paper they mention that this "iterative training and validation cycle was repeated until Claude achieved the desired level of accuracy[^2], with each round of classifications always providing unseen data" [@morin2025: 6]. Since I wanted to replicate this study with the exact same data, I could not exactly follow this idea and stopped training after the second round as well, even though Mistral had not reached the desired accuracy level. While more training might have helped Mistral to yield better results, there were many signs during analysis **(see Replication with Mistral - insert chapter number/link)** that suggest that the model is simply not as suited for this task. If the model would have reached the desired accuracy level at some point (after additional training rounds) remains unclear.
+For the unsupervised training, @morin2025 ran two rounds. In their paper they mention that this "iterative training and validation cycle was repeated until Claude achieved the desired level of accuracy[^2], with each round of classifications always providing unseen data" [@morin2025: 6]. Since I wanted to replicate this study with the exact same data, I could not exactly follow this idea and stopped training after the second round as well, even though Mistral had not reached the desired accuracy level. While more training might have helped Mistral to yield better results, there were many signs during analysis (see @sec-replmistral) that suggest that the model is simply not as suited for this task. If the model would have reached the desired accuracy level at some point (after additional training rounds) remains unclear.
 
 [^2]: Presumed they meant \>90% (not the goal of at least 95% accuracy that was stated in the instruction prompt in the beginning [@morin2024]), since Claude apparently reached an accuracy level of 93% in the final round of training [@morin2025: 6].
 
@@ -220,7 +220,7 @@ With this, some methodological limitations become apparent: With the goal of fol
 
 # Conclusion
 
-In view of the research question formulated for this paper **(see Chapter Replication criteria and hypothesis)**, the results suggest that the approach presented by @morin2025, in principle, is replicable with open LLMs. I also think it speaks for the generalizability of the approach and results presented in @morin2025 that a very successful replication with the GPT model was possible even though there was no publicly available code and, in some aspects, not much information on how the pipeline was actually automated and implemented. Though, the findings in this study also suggest that the generalizability depends on the model: With the smaller Mistral model, the approach could *not* be successfully replicated.
+In view of the research question formulated for this paper (see @sec-criteria), the results suggest that the approach presented by @morin2025, in principle, is replicable with open LLMs. I also think it speaks for the generalizability of the approach and results presented in @morin2025 that a very successful replication with the GPT model was possible even though there was no publicly available code and, in some aspects, not much information on how the pipeline was actually automated and implemented. Though, the findings in this study also suggest that the generalizability depends on the model: With the smaller Mistral model, the approach could *not* be successfully replicated.
 
 Leveraging LLMs for data cleaning and annotation tasks undoubtedly poses great opportunities for corpus linguistics, in particular for studies with large corpora. But, as @morin2025 also point out in their paper, the linguistic annotation task involved here is still a rather clear-cut formal case [@morin2025: 7]. If LLMs can be effectively used for more complex tasks, where labeling is very subjective and there is a lot of ambiguity involved, is another question. Furthermore, as the results of this study point out, the selected model(s) and parameters need to be well aligned with the type and complexity of the task in order to use LLMs effectively.
 
