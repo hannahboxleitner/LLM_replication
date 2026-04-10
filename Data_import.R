@@ -1,5 +1,5 @@
 # Data import
-# Data from repository by Morin & Marttinen Larsson (2025)
+# Data from OSF repository (Morin & Marttinen Larsson 2024) corresponding to the the original study.
 
 # This script contains all data imports and data preprocessing necessary for the replication study.
 
