@@ -226,7 +226,6 @@ Leveraging LLMs for data cleaning and annotation tasks undoubtedly poses great o
 Since the research field seems to be evolving quickly and also, new models or newer versions of existing models are emerging constantly, findings may become outdated just as fast. Therefore, I think it is important to develop more systematic approaches and possibly standardized practices for model-based annotation. It would be interesting to explore how pipelines and prompt design might need to differ across (linguistic) task types, model architectures, and model updates. This also highlights the value of open models, as they allow researchers not only to understand the model in more depth, but also to adjust it to better suit specific tasks and pipelines. Open LLMs should be further investigated and optimized for their use in linguistic research, especially in studies that put emphasis on open science practices.
 
 # Supplementary materials/Appendix
-**github repo**
-The datasets, R scripts and other files (including a brief overview over these materials) used for this study are accessible in the following Github repository: **link**
+The datasets, R scripts and other files (including a brief overview over these materials) used for this study are accessible in the following Github repository: <https://github.com/hannahboxleitner/LLM_replication>
 
 # References {.unnumbered}
