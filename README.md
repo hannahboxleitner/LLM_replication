@@ -14,3 +14,4 @@ This repository contains the following materials for a replication study:
    - "LLM_replication_paper.qmd": contains a Quarto document containg the actual paper (also as .html file)
 5. Other
    - "references.bib": bibliographic entries.
+   - "LLM_replication.Rroj": project file
