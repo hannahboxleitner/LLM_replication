@@ -4,3 +4,5 @@
 .Ruserdata
 data/*
 pilot_data/*
+LLM_replication_paper_files/*
+bib_backup/*
