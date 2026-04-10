@@ -143,20 +143,6 @@ res <- ask_llm(conv, paste(
 ), MISTRAL)
 conv <- res$conversation
 print(res$answer)
-# Print transcript of conversation
-# Convert conversation into transcript and save as variable
-#transcript <- sapply(conv$messages, function(msg) {
-#  paste0(toupper(msg$role), ": ", msg$content)
-#})
-
-# Collapse into one big string with line breaks
-#transcript_text <- paste(transcript, collapse = "\n\n")
-
-# Print to console
-#cat(transcript_text)
-# save as text file
-#writeLines(transcript_text, "pilot_data/pilot_training_transcript.txt")
-
 
 # 4. TESTING
 
