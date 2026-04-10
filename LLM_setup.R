@@ -1,8 +1,8 @@
 # LLM Setup
 
 # This script contains everything necessary to set up the LLMs for usage in multi-turn conversations.
-# To avoid repetition and unnecessarily long scripts, it will be called in both the pilot study ("LLM_pilot.R") and the actual replications ("GPT_replication.R" and "Mistral_replication.R")
-# The API key is saved as an environment variable in a .renviron file outside of the project folder and called inside of the function.
+# To avoid repetition and unnecessarily long scripts, it will be called in both the pilot study ("LLM_pilot.R") and the actual replications ("GPT_replication.R" and "Mistral_replication.R").
+# The API key is saved outside of the project folder and called inside of the function.
 
 
 # Load libraries
