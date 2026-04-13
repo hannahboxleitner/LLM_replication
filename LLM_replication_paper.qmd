@@ -118,11 +118,11 @@ On the basis of that, in this project a successful replication is defined as ach
 
 Based on these considerations, the following hypothesis were established for this project:
 
-1.  Using the methodological pipeline and dataset from @morin2025, the open model *OpenAI GPT OSS 120B* will achieve an accuracy of **at least 90%** on the linguistic classification task when evaluated against the human gold standard **in the original study.**
+1.  Using the methodological pipeline and dataset from @morin2025, the open model *OpenAI GPT OSS 120B* will achieve an accuracy of **at least 90%** on the linguistic classification task when evaluated against the human gold standard from the original study.
 
-2.  Using the methodological pipeline and dataset from @morin2025, the open model *Mistral Small 3.2 24B Instruct 2506* will achieve an accuracy of **at least 90%** on the linguistic classification task when evaluated against the human gold standard in the **original study**.
+2.  Using the methodological pipeline and dataset from @morin2025, the open model *Mistral Small 3.2 24B Instruct 2506* will achieve an accuracy of **at least 90%** on the linguistic classification task when evaluated against the human gold standard from the original study.
 
-In addition to measuring the success of the replication with a desired level of accuracy, I wanted to analyze inter-rater agreement. While a straightforward way to do this would be to count the number of items for which annotators provide identical labels, and report that number as a percentage of the total (so-called raw or observed agreement), accidental agreement is not accounted for with this approach, which impacts reliability (and reproducibility). Instead, I wanted to utilize a coefficient from the kappa/alpha family: This is designed to measure a more meaningful agreement through considering agreement by chance, resulting in a coefficient whose value is 1 when agreement is perfect, and 0 when agreement is at chance level [@artstein2017: 299-300]. With LLMs, it seems even more likely that some amount of agreement is by chance, so it is important to account for this issue when measuring inter-rater agreement.
+In addition to measuring the success of the replication with a desired level of accuracy, I wanted to analyze inter-rater agreement. While a straightforward way to do this would be to count the number of items for which annotators provide identical labels, and report that number as a percentage of the total (so-called raw or observed agreement), accidental agreement is not accounted for with this approach, which impacts reliability (and reproducibility). Instead, I wanted to utilize a coefficient from the kappa family: This is designed to measure a more meaningful agreement through considering agreement by chance, resulting in a coefficient whose value is 1 when agreement is perfect, and 0 when agreement is at chance level [@artstein2017: 299-300]. With LLMs, it seems even more likely that some amount of agreement is by chance, so it is important to account for this issue when measuring inter-rater agreement.
 
 Two coefficients were used to measure inter-rater agreement. Cohen's κ was used for pairwise comparisons, measuring agreement between two raters (here: each model against the human gold standard presented in the paper). Fleiss' κ, a coefficient suitable for comparing more than two raters [@artstein2017: 300], was used to assess overall agreement across all four "annotators" (GPT, Mistral, Claude, and the human gold standard provided in the study data). Inter-rater agreement (also referred to as inter-annotator agreement, or inter-rater reliability) is often measured for purposes like improving annotation schemes or identifying difficulties in the source [@artstein2017: 298], but in this case simply serves the purpose of drawing conclusions about the robustness of annotations.
 
@@ -136,7 +136,7 @@ Even though these measures were taken to improve reproducibility, identical outp
 
 # Analysis
 
-When I ran the replication, I tried to keep the conversation with the LLMs as close to the one shown in the transcript in @morin2025's repository as possible to ensure methodological consistency. **Where possible**, I pasted the exact user prompts word for word. Of course, the feedback prompts and provided corrections needed to be adjusted for each conversation. For the supervised training, I also used the (correct) explanations provided in @morin2025's conversation transcript in my corrections, to ensure that the models were provided with similar information. Further additions to the user prompts mostly consisted of specific instructions regarding the model output, for example adding "Return ONLY tab-separated values with columns: Sentence<TAB>Classification" to an otherwise similar prompt. I was careful to not alter things related to the content of the classification task. I now want to give some further insight into the analyses conducted with each model (transcripts documenting both analyses can be found in the appendix):
+When I ran the replication, I tried to keep the conversation with the LLMs as close to the one shown in the transcript in @morin2025's repository as possible to ensure methodological consistency. **Where possible**, I pasted the exact user prompts word for word. Of course, the feedback prompts and provided corrections needed to be adjusted for each conversation. For the supervised training, I also used the (correct) explanations provided in @morin2025's conversation transcript in my corrections, to ensure that the models were provided with similar information. Further additions to the user prompts mostly consisted of specific instructions regarding the model output, for example adding "Return ONLY tab-separated values with columns: Sentence <TAB> Classification" to an otherwise similar prompt. I was careful to not alter things related to the content of the classification task. I now want to give some further insight into the analyses conducted with each model (transcripts documenting both analyses can be found in the appendix):
 
 ## Replication with GPT model
 
@@ -174,7 +174,7 @@ The main measure for the success of this replication was the accuracy level in t
 
 [^1]: This result is not derived from the analyses in this study, but taken from the information in the original study [@morin2025: 6].
 
-The hypotheses established for this project were that, using the methodological pipeline and dataset from @morin2025, the open models *OpenAI GPT OSS 120B* (Hypothesis 1) / *Mistral Small 3.2 24B Instruct 2506* (Hypothesis 2) will achieve an accuracy of **at least 90%** on the linguistic classification task when evaluated against the human gold standard in the original study.
+The hypotheses established for this project were that, using the methodological pipeline and dataset from @morin2025, the open models *OpenAI GPT OSS 120B* (Hypothesis 1) / *Mistral Small 3.2 24B Instruct 2506* (Hypothesis 2) will achieve an accuracy of **at least 90%** on the linguistic classification task when evaluated against the human gold standard from the original study.
 
 Hypothesis 1 is therefore supported by the results presented in the table above, while hypothesis 2 is not. Although the performance of Mistral improved over the course of the training, the predefined target of at least 90% was not achieved. The model tested in the original study (Claude 3.5 Sonnet) had achieved an accuracy level of 93% [@morin2025: 6]. Looking at the actual numbers (in brackets), GPT's classifications aligned with the human gold standard in one more case compared to Claude.
 
@@ -188,13 +188,13 @@ Hypothesis 1 is therefore supported by the results presented in the table above,
 
 : Inter-rater agreement of each model in comparison with the human gold standard
 
-Cohen's κ was calculated for pairwise comparisons (each model against the human gold standard provided in the original study data). Based on the accuracy levels, it not surprising that GPT shows a similarly high Cohen's κ value than Claude in the original study. According to the benchmarks put forth by [@landis1977: 165], the strength of agreement in both GPT and Claude would be interpreted as "almost perfect". Mistral on the other hand shows a very low κ coefficient, which would only be ranked a "slight" agreement after @landis1977. Since this result deviates a lot from the other two models, I want to provide a closer look at the Cohen's κ measures for Mistral:
+Cohen's κ was calculated for pairwise comparisons (each model against the human gold standard provided in the original study data). Based on the accuracy levels, it not surprising that GPT shows a similarly high Cohen's κ value as Claude in the original study. According to the benchmarks put forth by @landis1977, the strength of agreement in both GPT and Claude would be interpreted as "almost perfect" (0.81 -- 1.0) [@landis1977: 165]. Mistral on the other hand shows a very low κ coefficient, which would only be ranked a "slight" agreement after @landis1977. Since this result deviates a lot from the other two models, I want to provide a closer look at the Cohen's κ measures for Mistral:
 
 ```         
  Cohen's Kappa for 2 Raters (Weights: unweighted)   Subjects = 102     Raters = 2      Kappa = 0.173           z = 2.56    p-value = 0.0106 
 ```
 
-I explicitly want to focus on the p-value here. While the κ coefficient measures how strong the agreement is, the p-value measures if there is any agreement beyond chance. For the other two models, the p-value reported in the output of the Cohen's κ function was 0. In the case of Mistral, it is slightly higher, but still under 0.05, indicating statistical significance. This means that agreement is slightly better than chance, but still very low.
+I explicitly want to focus on the p-value here. While the κ coefficient measures how strong the agreement is, the p-value measures if there is any agreement beyond chance. For the other two models, the p-value reported in the output of the Cohen's κ function was 0. In the case of Mistral, it is slightly higher, but still under 0.05, indicating statistical significance. In sum, there is a high probability that agreement is slightly better than chance (while still being very low).
 
 ### Fleiss' κ
 
@@ -202,7 +202,7 @@ Fleiss' κ was calculated to measure overall agreement between all four raters (
 
 **κ = 0.517**
 
-This value indicates a "moderate" agreement [@landis1977: 165].
+This value is located between 0.41 -- 0.60, indicating only a "moderate" agreement [@landis1977: 165].
 
 # Discussion of outcomes
 
