@@ -225,6 +225,6 @@ Since the research field seems to be evolving quickly and also, new models or ne
 
 # Appendix
 
-The datasets, R scripts and other files (including a brief overview over these materials) used for this study are accessible in the following Github repository: <https://github.com/hannahboxleitner/LLM_replication>
+The R scripts and other files used for this study (including a brief overview over these materials) are accessible in the following Github repository: <https://github.com/hannahboxleitner/LLM_replication>
 
 # References {.unnumbered}
