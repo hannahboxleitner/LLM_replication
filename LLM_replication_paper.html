@@ -7,6 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Hannah Boxleitner">
+<meta name="dcterms.date" content="2026-04-13">
 
 <title>Using (open) LLMs for linguistic annotation tasks: Replication of a study by Morin &amp; Marttinen Larsson (2025)</title>
 <style>
@@ -81,6 +82,12 @@ div.csl-indent {
           </div>
   </div>
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">April 13, 2026</p>
+    </div>
+  </div>
   
     
   </div>
@@ -92,7 +99,7 @@ div.csl-indent {
 
 <section id="introduction" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
-<p>In the last decades, researchers in corpus linguistics have gained access to increasingly massive corpora of natural language. This poses great opportunities, but also necessitates manual cleaning and processing of large amounts of data <span class="citation" data-cites="morin2025">(<a href="#ref-morin2025" role="doc-biblioref">Morin &amp; Marttinen Larsson 2025</a>: 1)</span>. The rise of large language models (LLMs) is therefore a rather interesting development for corpus linguistic research, making it possible to process larger datasets and corpora automatically. In recent years, a rising number of papers testing LLMs for assistance in linguistic research have been published, <span class="citation" data-cites="yu2024 heseltine2024">(e.g. <a href="#ref-yu2024" role="doc-biblioref">Yu et al. 2024</a>; <a href="#ref-heseltine2024" role="doc-biblioref">Heseltine &amp; Clemm Von Hohenberg 2024</a>)</span>. While LLMs show promising results for labeling tasks, there is further exploration needed to effectively leverage them for linguistic data annotation <span class="citation" data-cites="lidiiaostyakova2025">(<a href="#ref-lidiiaostyakova2025" role="doc-biblioref">Lidiia Ostyakova, Anna Mikhailova &amp; Vasily Konovalov 2025</a>: 131)</span>.</p>
+<p>In the last decades, researchers in corpus linguistics have gained access to increasingly massive corpora of natural language. This poses great opportunities, but also necessitates manual cleaning and processing of large amounts of data <span class="citation" data-cites="morin2025">(<a href="#ref-morin2025" role="doc-biblioref">Morin &amp; Marttinen Larsson 2025</a>: 1)</span>. The rise of large language models (LLMs) is therefore a rather interesting development for corpus linguistic research, making it possible to process larger datasets and corpora automatically. In recent years, a rising number of papers testing LLMs for assistance in linguistic research have been published <span class="citation" data-cites="yu2024 heseltine2024">(e.g. <a href="#ref-yu2024" role="doc-biblioref">Yu et al. 2024</a>; <a href="#ref-heseltine2024" role="doc-biblioref">Heseltine &amp; Clemm Von Hohenberg 2024</a>)</span>. While LLMs show promising results for labeling tasks, there is further exploration needed to effectively leverage them for linguistic data annotation <span class="citation" data-cites="lidiiaostyakova2025">(<a href="#ref-lidiiaostyakova2025" role="doc-biblioref">Lidiia Ostyakova, Anna Mikhailova &amp; Vasily Konovalov 2025</a>: 131)</span>.</p>
 <p>I aim to replicate a study by <span class="citation" data-cites="morin2025">Morin &amp; Marttinen Larsson (<a href="#ref-morin2025" role="doc-biblioref">2025</a>)</span>, which presents a replicable method for leveraging LLMs for assistance in linguistic grammatical annotation. While the original study was conducted with Anthropic’s model Claude 3.5 Sonnet <span class="citation" data-cites="morin2025">(<a href="#ref-morin2025" role="doc-biblioref">Morin &amp; Marttinen Larsson 2025</a>: 4)</span>, I will attempt to replicate their methodological pipeline using the same data, but with two open LLMs.</p>
 <p>This project aims to embody the principles of open science in two respects: First, I want to support the use and examination of open LLMs for analysis of linguistic data. While closed LLMs (like ChatGPT) are now commonly used in day-to-day life, they tend to be developed without transparent ethical oversight, and their usage brings difficulties regarding data rights and privacy <span class="citation" data-cites="liesenfeld2023">(<a href="#ref-liesenfeld2023" role="doc-biblioref">Liesenfeld, Lopez &amp; Dingemanse 2023</a>)</span>, among others. Closed-source LLMs have historically shown superior performance, which might be largely attributable to their access to expansive proprietary datasets and sophisticated optimization paradigms, but open-source LLMs have made significant progress in closing this performance gap <span class="citation" data-cites="manchanda">(<a href="#ref-manchanda" role="doc-biblioref">Manchanda et al. 2025</a>: 4)</span>. Open models are a crucial aspect of open research (among open data, open code, open documentation etc.). Openness promotes transparency, reproducibility, and quality control; which are necessary features to support reliable empirical findings and build trustworthy AI <span class="citation" data-cites="liesenfeld2023">(<a href="#ref-liesenfeld2023" role="doc-biblioref">Liesenfeld, Lopez &amp; Dingemanse 2023</a>)</span>. Investigating the generalizability of studies like <span class="citation" data-cites="morin2025">Morin &amp; Marttinen Larsson (<a href="#ref-morin2025" role="doc-biblioref">2025</a>)</span> with respect to open models is therefore an important research objective. <strong>Second</strong>, with conducting a replication study, I want to contribute to the central aim of making linguistic research more cumulative and robust.</p>
 </section>

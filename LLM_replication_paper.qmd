@@ -1,6 +1,7 @@
 ---
 title: "Using (open) LLMs for linguistic annotation tasks: Replication of a study by Morin & Marttinen Larsson (2025)"
 author: Hannah Boxleitner
+date: last-modified
 format:
   html:
     number-sections: true
@@ -10,7 +11,7 @@ csl: unified-style-sheet-for-linguistics.csl
 
 # Introduction
 
-In the last decades, researchers in corpus linguistics have gained access to increasingly massive corpora of natural language. This poses great opportunities, but also necessitates manual cleaning and processing of large amounts of data [@morin2025: 1]. The rise of large language models (LLMs) is therefore a rather interesting development for corpus linguistic research, making it possible to process larger datasets and corpora automatically. In recent years, a rising number of papers testing LLMs for assistance in linguistic research have been published, [e.g. @yu2024; @heseltine2024]. While LLMs show promising results for labeling tasks, there is further exploration needed to effectively leverage them for linguistic data annotation [@lidiiaostyakova2025: 131].
+In the last decades, researchers in corpus linguistics have gained access to increasingly massive corpora of natural language. This poses great opportunities, but also necessitates manual cleaning and processing of large amounts of data [@morin2025: 1]. The rise of large language models (LLMs) is therefore a rather interesting development for corpus linguistic research, making it possible to process larger datasets and corpora automatically. In recent years, a rising number of papers testing LLMs for assistance in linguistic research have been published [e.g. @yu2024; @heseltine2024]. While LLMs show promising results for labeling tasks, there is further exploration needed to effectively leverage them for linguistic data annotation [@lidiiaostyakova2025: 131].
 
 I aim to replicate a study by @morin2025, which presents a replicable method for leveraging LLMs for assistance in linguistic grammatical annotation. While the original study was conducted with Anthropic's model Claude 3.5 Sonnet [@morin2025: 4], I will attempt to replicate their methodological pipeline using the same data, but with two open LLMs.
 
