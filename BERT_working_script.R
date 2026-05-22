@@ -50,3 +50,65 @@ outputs$last_hidden_state$shape # check output shape
 # Import data (from replication of Morin & Marttinen Larssons's study)
 source("Data_import.R")
 
+# Fine-tuning distilbert (with pretraining dataset)
+
+# load data
+# only columns that are needed
+df <- pretraining_set |> 
+  select(Sentence, Correct_classifications)
+
+# label mapping
+label_map <- c(
+  "evaluative" = 0,
+  "non-evaluative" = 1,
+  "?" = 2
+)
+
+df$label <- as.integer(label_map[df$Correct_classifications])
+
+# switch to distilbert
+tokenizer <- transformers$AutoTokenizer$from_pretrained(
+  "distilbert-base-uncased",
+  use_fast = TRUE
+)
+
+model <- transformers$AutoModelForSequenceClassification$from_pretrained(
+  "distilbert-base-uncased",
+  num_labels = as.integer(3)
+)
+
+# Convert data to huggingface dataset
+dataset <- datasets$Dataset$from_dict(list(
+  text = df$Sentence,
+  label = df$label
+))
+
+# Tokenization
+tokenize_function <- function(example) {
+  tokenizer(
+    example[["text"]],
+    truncation = TRUE,
+    padding = "max_length",
+    max_length = as.integer(128)
+  )
+}
+
+tokenized_dataset <- dataset$map(tokenize_function, batched = TRUE)
+
+# Training arguments
+training_args <- transformers$TrainingArguments(
+  output_dir = "./results",
+  learning_rate = 2e-5,
+  per_device_train_batch_size = as.integer(8),
+  num_train_epochs = as.integer(3),
+  weight_decay = 0.01
+)
+
+# Train
+trainer <- transformers$Trainer(
+  model = model,
+  args = training_args,
+  train_dataset = tokenized_dataset
+)
+
+trainer$train()
