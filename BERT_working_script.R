@@ -116,9 +116,9 @@ trainer$train()
 ## Validation 1
 # prepare data
 df_eval1 <- unsup_training_set1 |>
-  select(id, Sentence)
+  select(id, Sentence) # extract sentences
 
-df_eval1$label <- as.integer(label_map[unsup1_solution$Classification_Matti])
+df_eval1$label <- as.integer(label_map[unsup1_solution$Classification_Matti]) # attach labels from solution file
 
 # Build Huggingface dataset
 eval_dataset1 <- datasets$Dataset$from_dict(list(
@@ -147,3 +147,35 @@ labels <- pred1$label_ids
 
 accuracy_eval1 <- mean(preds == labels)
 accuracy_eval1
+
+## Validation 2
+# prepare data
+df_eval2 <- unsup_training_set2 |>
+  select(id, Sentence)
+
+df_eval2$label <- as.integer(label_map[unsup2_solution$classification_Matti])
+
+# check alignment
+# all(unsup_training_set2$id == unsup2_solution$id)
+
+# build HF dataset
+eval_dataset2 <- datasets$Dataset$from_dict(list(
+  text = df_eval2$Sentence,
+  label = df_eval2$label
+))
+
+# tokenize
+tokenized_eval2 <- eval_dataset2$map(tokenize_function, batched = TRUE)
+
+# run prediction
+pred2 <- trainer$predict(tokenized_eval2)
+
+# Accuracy
+preds2 <- apply(pred2$predictions, 1, which.max) - 1
+labels2 <- pred2$label_ids
+
+accuracy_eval2 <- mean(preds2 == labels2)
+accuracy_eval2
+
+# Testing
+#Load data
