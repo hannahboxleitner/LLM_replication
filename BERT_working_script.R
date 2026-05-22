@@ -179,3 +179,26 @@ accuracy_eval2
 
 # Testing
 #Load data
+df_test <- testing_set |>
+  select(id, Sentence)
+
+df_test$label <- as.integer(label_map[human_gold_standard$Human_classification])
+
+# HF dataset
+test_dataset <- datasets$Dataset$from_dict(list(
+  text = df_test$Sentence,
+  label = df_test$label
+))
+
+# tokenize
+tokenized_test <- test_dataset$map(tokenize_function, batched = TRUE)
+
+# prediction
+pred_test <- trainer$predict(tokenized_test)
+
+# Accuracy
+preds_test <- apply(pred_test$predictions, 1, which.max) - 1
+labels_test <- pred_test$label_ids
+
+accuracy_test <- mean(preds_test == labels_test)
+accuracy_test
