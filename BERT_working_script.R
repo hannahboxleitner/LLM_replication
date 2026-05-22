@@ -112,3 +112,38 @@ trainer <- transformers$Trainer(
 )
 
 trainer$train()
+
+## Validation 1
+# prepare data
+df_eval1 <- unsup_training_set1 |>
+  select(id, Sentence)
+
+df_eval1$label <- as.integer(label_map[unsup1_solution$Classification_Matti])
+
+# Build Huggingface dataset
+eval_dataset1 <- datasets$Dataset$from_dict(list(
+  text = df_eval1$Sentence,
+  label = df_eval1$label
+))
+
+# Tokenize
+tokenize_function <- function(example) {
+  tokenizer(
+    example[["text"]],
+    truncation = TRUE,
+    padding = "max_length",
+    max_length = as.integer(128)
+  )
+}
+
+tokenized_eval1 <- eval_dataset1$map(tokenize_function, batched = TRUE)
+
+# Prediction with trained model
+pred1 <- trainer$predict(tokenized_eval1)
+
+#Compute accuracy
+preds <- apply(pred1$predictions, 1, which.max) - 1
+labels <- pred1$label_ids
+
+accuracy_eval1 <- mean(preds == labels)
+accuracy_eval1
