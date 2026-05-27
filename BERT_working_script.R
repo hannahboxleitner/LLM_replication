@@ -202,3 +202,6 @@ labels_test <- pred_test$label_ids
 
 accuracy_test <- mean(preds_test == labels_test)
 accuracy_test
+
+# Save
+writeLines(capture.output(sessionInfo()), "sessionInfo_BERT.txt")

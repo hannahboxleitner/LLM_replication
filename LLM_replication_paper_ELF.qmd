@@ -243,7 +243,7 @@ Open questions that we might want to address in the revisions include (in no par
 
 -   To what extent is this entire training procedure even necessary? Can we achieve similar rates of accuracy with a much simpler procedure? With a simpler procedure how do smaller models perform?
 
-    Notes from appointment Elen 04.05.26
+# Notes from appointment Elen 04.05.26: further steps
 
 -   expand on open stuff -\> not good to do/publish methodological things with models that many cannot access (a section, more critical -\> Elen would see herself here)
 
@@ -253,16 +253,25 @@ Open questions that we might want to address in the revisions include (in no par
 
 -   look at slides from Elen -\> different tasks -\> qwen small-scale models are doing well on tasks
 
--   how do they compare to BERT (?) models?? machine learning (vector representation model) -\> people train little Bert models on their computer -\> transformers too -\> you NEED training data -\> not to publish a paper, bc its older; might require way more training data -\> LADAL tutorials -\> BERT could be used?
+-   how do they compare to BERT (?) models?? machine learning (vector representation model) -\> people train little Bert models on their computer -\> transformers too -\> you NEED training data -\> not to publish a paper, bc its older; might require way more training data -\> LADAL tutorials -\> go through tutorial -\> start with one BERT model (pretraining data + all the data) -\> try if I can run, understand what Bert is;
 
 -   test the gold standard in itself? (need a second annotator) -\> would be a good additional baseline -\> student researcher could do it
 
 -   model size and performance? -\> new models (Elen can access them locally, or try KISSKi) -\> only a practical limitation, can be solved
 
--   test: simpler method (less training, less data)
-
--   go through tutorial -\> start with one BERT model (pretraining data + all the data) -\> try if I can run, understand what Bert is; -\> try start with GPT 120B and test it with much simpler one-shot prompt scenario -\> test how little it takes to work (much less)
+-   test: simpler method (less training, less data) -> try start with GPT 120B and test it with much simpler one-shot prompt scenario -\> test how little it takes to work (much less)
 
 -   simpler and less environmentally and commercially and computationally
 
-    # References {.unnumbered}
+# Additional analyses: BERT
+
+Tried to train BERT model with the data and check how it would perform. Roughly following the LADAL tutorial on this topic, I trained a DistilBERT model in the following steps:
+1. Fine-tuning/training with the dataset used for "pretraining" in original study (pretraining_set)
+2.Validation with the datasets used for "unsupervised training" in original study:
+- unsup_training_set1: accuracy of 0.59
+- unsup_training_set2: accuracy of 0.70
+3. Testing: final testing with the dataset used in the original study as well: accuracy of 0.62
+
+Notes: Validation was recommended to check if training worked, to compare differences due to different distributions, and to see f there is overfitting. Also itis a goal to see how much less data is necessary. Performance was overall moderate, but still signaling that the model was able to learn the classification task above chance level throughout different datasets.
+
+# References {.unnumbered}
