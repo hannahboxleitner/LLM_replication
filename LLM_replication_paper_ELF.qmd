@@ -263,7 +263,8 @@ Open questions that we might want to address in the revisions include (in no par
 
 -   simpler and less environmentally and commercially and computationally
 
-# Additional analyses: BERT
+# Additional analyses 
+## BERT
 
 Tried to train BERT model with the data and check how it would perform. Roughly following the LADAL tutorial on this topic, I trained a DistilBERT model in the following steps:
 1. Fine-tuning/training with the dataset used for "pretraining" in original study (pretraining_set)
@@ -273,5 +274,34 @@ Tried to train BERT model with the data and check how it would perform. Roughly 
 3. Testing: final testing with the dataset used in the original study as well: accuracy of 0.62
 
 Notes: Validation was recommended to check if training worked, to compare differences due to different distributions, and to see f there is overfitting. Also itis a goal to see how much less data is necessary. Performance was overall moderate, but still signaling that the model was able to learn the classification task above chance level throughout different datasets.
+
+## Reduced training with GPT
+### 1. round: without supervised training
+I did pretraining, skipped supervised training and then proceeded with the unsupervised training using the same pipeline as in the original replication.
+
+In the first round of unsupervised training, the model achieved an accuracy of 93% (compared to 96% in the original replication). The sentences it got wrong were similar:
+original run (with supervised training): "that resembled my developing aesthetic. </s><s> A few cookbooks kept ending up on top of the pile. </s><s> (If you don't own these books, consider this is an unabashed endorsement.) </s><s> The Canal House series – a favorite of mine since the books first appeared, with
+2006 in Telecom Order CRTC 2006-294 and Telecom Order CRTC 2006-295, respectively. </s><s> In these Orders, the Commission considered that CDN and DNA services at DS-1 speed were acceptable as substitute services. </s><s> Reports of a giant monster with glowing
+instead continued to introduce beautifully designed products at premium prices. </s><s> So, while I don't view design being considered in all areas of business as a 'new' concept, I am more than encouraged to see international corporations discussing the
+allow you admittance to all subjects so your youngster has one spot to go for entertainment only and learning. </s><s> As you consider the free web based learning games accessible, you need to ensure you pick a site that has what your kid needs. </s><s> This"
+additional run (without supervised training): "that resembled my developing aesthetic. </s><s> A few cookbooks kept ending up on top of the pile. </s><s> (If you don't own these books, consider this is an unabashed endorsement.) </s><s> The Canal House series – a favorite of mine since the books first appeared, with
+2006 in Telecom Order CRTC 2006-294 and Telecom Order CRTC 2006-295, respectively. </s><s> In these Orders, the Commission considered that CDN and DNA services at DS-1 speed were acceptable as substitute services. </s><s> Reports of a giant monster with glowing
+<s> Large animals such as horses or sheep or large numbers of domestic animals, such as a cattery, or a kennel of dogs, are not considered pets. </s><s> Personal Motor Vehicule (PMV) (véhicule automobile personnel - VAP) - for purposes of shipment, means a sedan,
+instead continued to introduce beautifully designed products at premium prices. </s><s> So, while I don't view design being considered in all areas of business as a "new" concept, I am more than encouraged to see international corporations discussing the
+between the emperor and the 'common man.' </s><s> The relationship between the coins and monumental reliefs is also considered , and Thill suggests that it indicates that there was a remarkably integrated artistic climate during this period. </s><s> A
+," concluding that "he was not improperly sentenced in the first instance, but only was denied the chance to be considered for parole." </s><s> Diatchenko, 466 Mass. at 674. </s><s> The defendant in Diatchenko, however, had been convicted of a single count
+allow you admittance to all subjects so your youngster has one spot to go for entertainment only and learning. </s><s> As you consider the free web based learning games accessible, you need to ensure you pick a site that has what your kid needs. </s><s> This"
+For the second round of unsupervised training, the achieved accuracy was 94% (0.9405941) - compared to 93% in the original replication.
+In the testing round, the model achieved an accuracy of 91% (0.9117647),compared to 94% in original replication.
+ Cohen's Kappa for 2 Raters (Weights: unweighted)
+
+ Subjects = 102 
+   Raters = 2 
+    Kappa = 0.819 
+
+        z = 8.43 
+  p-value = 0 
+  
+### 2. round: only pretraining and testing
 
 # References {.unnumbered}
