@@ -157,9 +157,12 @@ cat(errors_unsup1$Sentence, sep = "\n")
 res <- ask_llm(conv, paste(
   "that resembled my developing aesthetic. </s><s> A few cookbooks kept ending up on top of the pile. </s><s> (If you don't own these books, consider this is an unabashed endorsement.) </s><s> The Canal House series – a favorite of mine since the books first appeared, with
 2006 in Telecom Order CRTC 2006-294 and Telecom Order CRTC 2006-295, respectively. </s><s> In these Orders, the Commission considered that CDN and DNA services at DS-1 speed were acceptable as substitute services. </s><s> Reports of a giant monster with glowing
+<s> Large animals such as horses or sheep or large numbers of domestic animals, such as a cattery, or a kennel of dogs, are not considered pets. </s><s> Personal Motor Vehicule (PMV) (véhicule automobile personnel - VAP) - for purposes of shipment, means a sedan,
 instead continued to introduce beautifully designed products at premium prices. </s><s> So, while I don't view design being considered in all areas of business as a 'new' concept, I am more than encouraged to see international corporations discussing the
-allow you admittance to all subjects so your youngster has one spot to go for entertainment only and learning. </s><s> As you consider the free web based learning games accessible, you need to ensure you pick a site that has what your kid needs. </s><s> This",
-  "You have reached an accuracy of 96%",
+between the emperor and the 'common man.' </s><s> The relationship between the coins and monumental reliefs is also considered , and Thill suggests that it indicates that there was a remarkably integrated artistic climate during this period. </s><s> A
+,' concluding that 'he was not improperly sentenced in the first instance, but only was denied the chance to be considered for parole.' </s><s> Diatchenko, 466 Mass. at 674. </s><s> The defendant in Diatchenko, however, had been convicted of a single count
+  allow you admittance to all subjects so your youngster has one spot to go for entertainment only and learning. </s><s> As you consider the free web based learning games accessible, you need to ensure you pick a site that has what your kid needs. </s><s> This",
+  "You have reached an accuracy of 93%",
   "Let's review the errors. I have pasted all the sentences you have got wrong",
   sep = "\n"
 ), GPT)
@@ -207,7 +210,7 @@ print(accuracy_unsup2)
 
 # Prompt feedback
 res <- ask_llm(conv, paste(
-  "You got a 93% accuracy! that is really good.",
+  "You got a 94% accuracy! that is really good.",
   sep = "\n"
 ), GPT)
 conv <- res$conversation
@@ -261,16 +264,16 @@ print(accuracy_test)
 aligned_gpt <- sum(
   test_gpt_results$Human_classification == test_gpt_results$GPT_classification,
   na.rm = TRUE
-)
+) # why did this work? Human_classification is part of comparison_test, not test-gpt_results
 
 print(aligned_gpt)
 
 # Save results as .csv
-write_csv2(comparison_test, "replication_data/GPT_replication_results.csv") # put in semicolon separated format for comparison with author's table
+write_csv2(comparison_test, "reduced_training/GPT_reduced_training_1_results.csv") # put in semicolon separated format for comparison with author's table
 
 # Final prompt
 res <- ask_llm(conv, paste(
-  "thank you. you have reached a 94% accuracy on an hold-out evaluation test. that's good work.",
+  "thank you. you have reached a 91% accuracy on an hold-out evaluation test. that's good work.",
   sep = "\n"
 ), GPT)
 conv <- res$conversation
