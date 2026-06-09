@@ -304,4 +304,14 @@ In the testing round, the model achieved an accuracy of 91% (0.9117647),compared
   
 ### 2. round: only pretraining and testing
 
+In the next round, I only used the pretraining dtatset and intial prompt, skipped the whole supervised/unsupervised training in between and proceeded straight to testing. The model achieved an accuracy rate of 92% (0.9215686).
+ Cohen's Kappa for 2 Raters (Weights: unweighted)
+
+ Subjects = 102 
+   Raters = 2 
+    Kappa = 0.837 
+
+        z = 8.48 
+  p-value = 0 
+
 # References {.unnumbered}
