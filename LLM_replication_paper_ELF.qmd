@@ -37,17 +37,17 @@ The relationship between these three variants is unclear <!--# What do you mean 
 
 During planning and preparation of this replication, I used the handbook by @röseler2025 as a guide for the research process. On a general note, the following steps are listed for a replication:
 
--   choosing a target study,
+- choosing a target study,
 
--   deciding between different types of replications,
+- deciding between different types of replications,
 
--   planning and running the new study,
+- planning and running the new study,
 
--   analyzing the results,
+- analyzing the results,
 
--   discussing outcomes in the light of potential differences,
+- discussing outcomes in the light of potential differences,
 
--   and publishing a report [@röseler2025].
+- and publishing a report [@röseler2025].
 
 The research process in this study was broadly oriented toward these steps. The following chapters will be concerned with the planning of the replication. After that, I will move on to analysis, where I explain in detail how the study was run, and then analyze the results.
 
@@ -77,25 +77,25 @@ A crucial part of planning the replication was getting fully acquainted with the
 
 **Pretraining**
 
--   First, the LLM receives a user prompt containing detailed instructions on how to classify the sentences, and is presented with examples for every instance and a step-by-step approach to classification.
+- First, the LLM receives a user prompt containing detailed instructions on how to classify the sentences, and is presented with examples for every instance and a step-by-step approach to classification.
 
--   It is instructed to look at 493 pretraining sentences in a dataset containing correct classifications, think about each classification step-by-step, and encouraged to ask questions.
+- It is instructed to look at 493 pretraining sentences in a dataset containing correct classifications, think about each classification step-by-step, and encouraged to ask questions.
 
 **Training**
 
--   A round of **supervised training** follows: The model is prompted to classify the first 100 sentences in batches of 25. Mistakes are corrected through user prompts directly.
+- A round of **supervised training** follows: The model is prompted to classify the first 100 sentences in batches of 25. Mistakes are corrected through user prompts directly.
 
--   **Unsupervised training, part 1:** After that, another dataset of 100 sentences is requested to be classified without the close supervision and to be provided in tab-separated `.csv`-format.
+- **Unsupervised training, part 1:** After that, another dataset of 100 sentences is requested to be classified without the close supervision and to be provided in tab-separated `.csv`-format.
 
--   All incorrect classifications are pasted into the next user prompt, the model gets feedback about the achieved accuracy for the task, and is instructed to review the errors. After that, the reviews are not further commented by the authors, the model is simply told to keep those lessons in mind.
+- All incorrect classifications are pasted into the next user prompt, the model gets feedback about the achieved accuracy for the task, and is instructed to review the errors. After that, the reviews are not further commented by the authors, the model is simply told to keep those lessons in mind.
 
--   **Unsupervised training, part 2:** The model is requested to classify step-by-step and consistently apply the insertion test, then given new data (101 sentences), and told to provide the full batch in .csv format.
+- **Unsupervised training, part 2:** The model is requested to classify step-by-step and consistently apply the insertion test, then given new data (101 sentences), and told to provide the full batch in .csv format.
 
--   The following user prompt contains the accuracy rate (93%, in their case) and a short evaluative feedback, but it is not further disclosed which sentences were wrong.
+- The following user prompt contains the accuracy rate (93%, in their case) and a short evaluative feedback, but it is not further disclosed which sentences were wrong.
 
 **Testing**
 
--   The model is provided with new data (102 sentences) and told to follow the procedure that was successfully applied in the latest round of classifications. After classification, it is again told the accuracy.
+- The model is provided with new data (102 sentences) and told to follow the procedure that was successfully applied in the latest round of classifications. After classification, it is again told the accuracy.
 
 All of these steps were implemented in the replication. The two LLMs were set up for usage based on the documentation of the API [@ki:conne]. I created a setup script that includes the API call and the basis for conversation with the LLMs (`LLM_setup.R`). The analyses (one with each open LLM) were conducted in separate scripts (`GPT_replication.R`, `Mistral_replication.R`).
 
@@ -143,23 +143,23 @@ When I ran the replication, I tried to keep the conversation with the LLMs as cl
 
 The first analysis was run with the model OpenAI GPT OSS 120B. Generally, the GPT run went rather smoothly, and the model seemed to be suitable for this task. I want to point out some interesting observations in regard to model behavior:
 
--   In the initial, very extensive instruction prompt that @morin2025 provide with their conversation transcript, there is an error at one point: "<instructions> Classify sentences containing the verb “consider” as either ‘non-evaluative’ or ‘non-evaluative’. </instructions>". Since this is what the authors provided in their conversation transcript, I must assume this is what their model received. With the motivation to replicate closely and get comparable results, I decided to keep the original typo and not clarify it. The GPT model pointed out this mistake in the first answer, and made clear that it must be incorrect because everything else in the prompt is centered around the contrast between 'evaluative' and 'non-evaluative'. I found this very interesting, since neither the model in the original study nor the Mistral model in the second analysis for this paper seemed to pick up on this mistake, or at least did not mention it in their answers. While this is not the focus of this paper, I think it raises interesting further questions about how models handle imperfect instructions. <!--# Yikes! Very interesting finding that raises some serious doubts about its integrity... -->
+- In the initial, very extensive instruction prompt that @morin2025 provide with their conversation transcript, there is an error at one point: "<instructions> Classify sentences containing the verb “consider” as either ‘non-evaluative’ or ‘non-evaluative’. </instructions>". Since this is what the authors provided in their conversation transcript, I must assume this is what their model received. With the motivation to replicate closely and get comparable results, I decided to keep the original typo and not clarify it. The GPT model pointed out this mistake in the first answer, and made clear that it must be incorrect because everything else in the prompt is centered around the contrast between 'evaluative' and 'non-evaluative'. I found this very interesting, since neither the model in the original study nor the Mistral model in the second analysis for this paper seemed to pick up on this mistake, or at least did not mention it in their answers. While this is not the focus of this paper, I think it raises interesting further questions about how models handle imperfect instructions. <!--# Yikes! Very interesting finding that raises some serious doubts about its integrity... -->
 
--   There was an interesting distinction during supervised training, looking at the transcript the authors provided of their conversation with Claude: When they prompted corrections, the model usually responded in terms of "You're absolutely right! Let me correct these!". GPT, while somewhat open to discussion, often stuck to its classification and explained why. <!--# Also interesting and deserving of further discussion for sure -->
+- There was an interesting distinction during supervised training, looking at the transcript the authors provided of their conversation with Claude: When they prompted corrections, the model usually responded in terms of "You're absolutely right! Let me correct these!". GPT, while somewhat open to discussion, often stuck to its classification and explained why. <!--# Also interesting and deserving of further discussion for sure -->
 
--   The accuracy level that GPT achieved in the training rounds was very high already, and interestingly, the first round of unsupervised training was better than the final one (96% in first, 93% in second round).
+- The accuracy level that GPT achieved in the training rounds was very high already, and interestingly, the first round of unsupervised training was better than the final one (96% in first, 93% in second round).
 
 ## Replication with Mistral model {#sec-replmistral}
 
 The second analysis was run with Mistral Small 3.2 24B Instruct 2506. Overall, the model, granted it is a lot smaller than the other two, seemed not as well-suited for the task. I will clarify this by sharing some observations throughout the analysis:
 
--   As already mentioned above, Mistral did not mention the typo in the initial prompt. Instead of looking at the pretraining dataset and asking questions in case of uncertainties (as asked), it re-classified all sentences in the pretraining dataset and assigned 'non-evaluative' in 489 out of 493 cases.
+- As already mentioned above, Mistral did not mention the typo in the initial prompt. Instead of looking at the pretraining dataset and asking questions in case of uncertainties (as asked), it re-classified all sentences in the pretraining dataset and assigned 'non-evaluative' in 489 out of 493 cases.
 
--   The supervised training went a lot differently than in the first analysis (GPT) and in the conversation transcript provided about Claude. Mistral was wrong in a lot more cases, which were all corrected in the user prompts, and showed some patterns in mistakes: For the first two batches of 25 sentences, there was a strong tendency to classify constructions as 'evaluative' when they were not, though in the second half of supervised training (last 50 sentences), it was the other way around: Mistral mostly made the mistake of classifying sentences as 'non-evaluative' when they were actually 'evaluative'. <!--# In other words it was going for class-majority? -->
+- The supervised training went a lot differently than in the first analysis (GPT) and in the conversation transcript provided about Claude. Mistral was wrong in a lot more cases, which were all corrected in the user prompts, and showed some patterns in mistakes: For the first two batches of 25 sentences, there was a strong tendency to classify constructions as 'evaluative' when they were not, though in the second half of supervised training (last 50 sentences), it was the other way around: Mistral mostly made the mistake of classifying sentences as 'non-evaluative' when they were actually 'evaluative'. <!--# In other words it was going for class-majority? -->
 
--   For the unsupervised training, the achieved accuracy in the first round was 59%, and 76% in the second round. In this case, one might argue that the model would actually need more feedback and additional rounds of training before proceeding to testing. Since the focus of this study was to replicate and not to reach a certain accuracy level, and I also needed to stay consistent with the analysis of the first model (GPT), I still proceeded to testing. While @morin2025 gave the feedback "you got a 93% accuracy! that is very good." after the last round of training, I adjusted the evaluation to the achieved accuracy level and pointed out the target that had been defined in the initial instruction prompt: "You got a 76% accuracy, which is an improvement compared to the previous round (59%). The goal remains at least 95%." <!--# Makes sense! -->
+- For the unsupervised training, the achieved accuracy in the first round was 59%, and 76% in the second round. In this case, one might argue that the model would actually need more feedback and additional rounds of training before proceeding to testing. Since the focus of this study was to replicate and not to reach a certain accuracy level, and I also needed to stay consistent with the analysis of the first model (GPT), I still proceeded to testing. While @morin2025 gave the feedback "you got a 93% accuracy! that is very good." after the last round of training, I adjusted the evaluation to the achieved accuracy level and pointed out the target that had been defined in the initial instruction prompt: "You got a 76% accuracy, which is an improvement compared to the previous round (59%). The goal remains at least 95%." <!--# Makes sense! -->
 
--   Aside from the actual classifications and achieved accuracy, it seemed that Mistral had problems to understand the instructions or at least to react as instructed (e.g. re-classifying instead of asking questions, classifying a batch of 50 sentences instead of 25, asking for the next batch of 25 after it was already finished with the whole dataset, and so on).
+- Aside from the actual classifications and achieved accuracy, it seemed that Mistral had problems to understand the instructions or at least to react as instructed (e.g. re-classifying instead of asking questions, classifying a batch of 50 sentences instead of 25, asking for the next batch of 25 after it was already finished with the whole dataset, and so on).
 
 # Results
 
@@ -235,83 +235,102 @@ Are you interested in submitting a (substantially) revised version of this paper
 
 Open questions that we might want to address in the revisions include (in no particular order):
 
--   Do what extent does performance correlate with model size? This is impossible to tell with just three models so it would require the addition of a few more models. The new Swiss model Apertus might be a good candidate for this.
+- Do what extent does performance correlate with model size? This is impossible to tell with just three models so it would require the addition of a few more models. The new Swiss model Apertus might be a good candidate for this.
 
--   How high is the inter-rater agreement rate for the gold standard among humans?
+- How high is the inter-rater agreement rate for the gold standard among humans?
 
--   How do these models perform on entirely new (i.e. definitely not leaked) data? Including the current most equivalent version of Claude.
+- How do these models perform on entirely new (i.e. definitely not leaked) data? Including the current most equivalent version of Claude.
 
--   To what extent is this entire training procedure even necessary? Can we achieve similar rates of accuracy with a much simpler procedure? With a simpler procedure how do smaller models perform?
+- To what extent is this entire training procedure even necessary? Can we achieve similar rates of accuracy with a much simpler procedure? With a simpler procedure how do smaller models perform?
 
 # Notes from appointment Elen 04.05.26: further steps
 
--   expand on open stuff -\> not good to do/publish methodological things with models that many cannot access (a section, more critical -\> Elen would see herself here)
+- expand on open stuff -\> not good to do/publish methodological things with models that many cannot access (a section, more critical -\> Elen would see herself here)
 
--   take into account that it was an early work in LLM research in linguistics
+- take into account that it was an early work in LLM research in linguistics
 
--   try out smaller testing -\> does it also work?
+- try out smaller testing -\> does it also work?
 
--   look at slides from Elen -\> different tasks -\> qwen small-scale models are doing well on tasks
+- look at slides from Elen -\> different tasks -\> qwen small-scale models are doing well on tasks
 
--   how do they compare to BERT (?) models?? machine learning (vector representation model) -\> people train little Bert models on their computer -\> transformers too -\> you NEED training data -\> not to publish a paper, bc its older; might require way more training data -\> LADAL tutorials -\> go through tutorial -\> start with one BERT model (pretraining data + all the data) -\> try if I can run, understand what Bert is;
+- how do they compare to BERT (?) models?? machine learning (vector representation model) -\> people train little Bert models on their computer -\> transformers too -\> you NEED training data -\> not to publish a paper, bc its older; might require way more training data -\> LADAL tutorials -\> go through tutorial -\> start with one BERT model (pretraining data + all the data) -\> try if I can run, understand what Bert is;
 
--   test the gold standard in itself? (need a second annotator) -\> would be a good additional baseline -\> student researcher could do it
+- test the gold standard in itself? (need a second annotator) -\> would be a good additional baseline -\> student researcher could do it
 
--   model size and performance? -\> new models (Elen can access them locally, or try KISSKi) -\> only a practical limitation, can be solved
+- model size and performance? -\> new models (Elen can access them locally, or try KISSKi) -\> only a practical limitation, can be solved
 
--   test: simpler method (less training, less data) -> try start with GPT 120B and test it with much simpler one-shot prompt scenario -\> test how little it takes to work (much less)
+- test: simpler method (less training, less data) -\> try start with GPT 120B and test it with much simpler one-shot prompt scenario -\> test how little it takes to work (much less)
 
--   simpler and less environmentally and commercially and computationally
+- simpler and less environmentally and commercially and computationally
 
-# Additional analyses 
+# Additional analyses
+
 ## BERT
 
-Tried to train BERT model with the data and check how it would perform. Roughly following the LADAL tutorial on this topic, I trained a DistilBERT model in the following steps:
-1. Fine-tuning/training with the dataset used for "pretraining" in original study (pretraining_set)
-2.Validation with the datasets used for "unsupervised training" in original study:
-- unsup_training_set1: accuracy of 0.59
-- unsup_training_set2: accuracy of 0.70
-3. Testing: final testing with the dataset used in the original study as well: accuracy of 0.62
+Tried to train BERT model with the data and check how it would perform. Roughly following the LADAL tutorial on this topic, I trained a DistilBERT model with the following steps:
 
-Notes: Validation was recommended to check if training worked, to compare differences due to different distributions, and to see f there is overfitting. Also itis a goal to see how much less data is necessary. Performance was overall moderate, but still signaling that the model was able to learn the classification task above chance level throughout different datasets.
+1.  Fine-tuning/training with the dataset used for "pretraining" in original study (pretraining_set)
+
+2.  Validation with the datasets used for "unsupervised training" in original study:
+
+    - unsup_training_set1: accuracy of 0.59
+
+    - unsup_training_set2: accuracy of 0.70
+
+3.  Testing: final testing with the dataset used in the original study as well: accuracy of 0.62
+
+Notes: Validation was recommended to check if training worked, to compare differences due to different distributions, and to see f there is overfitting. Also it is a goal to see how much less data is necessary. Performance was overall moderate, but still signaling that the model was able to learn the classification task above chance level throughout different datasets.
 
 ## Reduced training with GPT
+
 ### 1. round: without supervised training
+
 I did pretraining, skipped supervised training and then proceeded with the unsupervised training using the same pipeline as in the original replication.
 
-In the first round of unsupervised training, the model achieved an accuracy of 93% (compared to 96% in the original replication). The sentences it got wrong were similar:
-original run (with supervised training): "that resembled my developing aesthetic. </s><s> A few cookbooks kept ending up on top of the pile. </s><s> (If you don't own these books, consider this is an unabashed endorsement.) </s><s> The Canal House series – a favorite of mine since the books first appeared, with
-2006 in Telecom Order CRTC 2006-294 and Telecom Order CRTC 2006-295, respectively. </s><s> In these Orders, the Commission considered that CDN and DNA services at DS-1 speed were acceptable as substitute services. </s><s> Reports of a giant monster with glowing
-instead continued to introduce beautifully designed products at premium prices. </s><s> So, while I don't view design being considered in all areas of business as a 'new' concept, I am more than encouraged to see international corporations discussing the
-allow you admittance to all subjects so your youngster has one spot to go for entertainment only and learning. </s><s> As you consider the free web based learning games accessible, you need to ensure you pick a site that has what your kid needs. </s><s> This"
-additional run (without supervised training): "that resembled my developing aesthetic. </s><s> A few cookbooks kept ending up on top of the pile. </s><s> (If you don't own these books, consider this is an unabashed endorsement.) </s><s> The Canal House series – a favorite of mine since the books first appeared, with
-2006 in Telecom Order CRTC 2006-294 and Telecom Order CRTC 2006-295, respectively. </s><s> In these Orders, the Commission considered that CDN and DNA services at DS-1 speed were acceptable as substitute services. </s><s> Reports of a giant monster with glowing
-<s> Large animals such as horses or sheep or large numbers of domestic animals, such as a cattery, or a kennel of dogs, are not considered pets. </s><s> Personal Motor Vehicule (PMV) (véhicule automobile personnel - VAP) - for purposes of shipment, means a sedan,
-instead continued to introduce beautifully designed products at premium prices. </s><s> So, while I don't view design being considered in all areas of business as a "new" concept, I am more than encouraged to see international corporations discussing the
-between the emperor and the 'common man.' </s><s> The relationship between the coins and monumental reliefs is also considered , and Thill suggests that it indicates that there was a remarkably integrated artistic climate during this period. </s><s> A
-," concluding that "he was not improperly sentenced in the first instance, but only was denied the chance to be considered for parole." </s><s> Diatchenko, 466 Mass. at 674. </s><s> The defendant in Diatchenko, however, had been convicted of a single count
-allow you admittance to all subjects so your youngster has one spot to go for entertainment only and learning. </s><s> As you consider the free web based learning games accessible, you need to ensure you pick a site that has what your kid needs. </s><s> This"
-For the second round of unsupervised training, the achieved accuracy was 94% (0.9405941) - compared to 93% in the original replication.
-In the testing round, the model achieved an accuracy of 91% (0.9117647),compared to 94% in original replication.
- Cohen's Kappa for 2 Raters (Weights: unweighted)
+In the first round of unsupervised training, the model achieved an accuracy of 93% (compared to 96% in the original replication). The sentences it got wrong were similar: original run (with supervised training): "that resembled my developing aesthetic. </s><s> A few cookbooks kept ending up on top of the pile. </s><s> (If you don't own these books, consider this is an unabashed endorsement.) </s><s> The Canal House series – a favorite of mine since the books first appeared, with 2006 in Telecom Order CRTC 2006-294 and Telecom Order CRTC 2006-295, respectively. </s><s> In these Orders, the Commission considered that CDN and DNA services at DS-1 speed were acceptable as substitute services. </s><s> Reports of a giant monster with glowing instead continued to introduce beautifully designed products at premium prices. </s><s> So, while I don't view design being considered in all areas of business as a 'new' concept, I am more than encouraged to see international corporations discussing the allow you admittance to all subjects so your youngster has one spot to go for entertainment only and learning. </s><s> As you consider the free web based learning games accessible, you need to ensure you pick a site that has what your kid needs. </s><s> This" additional run (without supervised training): "that resembled my developing aesthetic. </s><s> A few cookbooks kept ending up on top of the pile. </s><s> (If you don't own these books, consider this is an unabashed endorsement.) </s><s> The Canal House series – a favorite of mine since the books first appeared, with 2006 in Telecom Order CRTC 2006-294 and Telecom Order CRTC 2006-295, respectively. </s><s> In these Orders, the Commission considered that CDN and DNA services at DS-1 speed were acceptable as substitute services. </s><s> Reports of a giant monster with glowing <s> Large animals such as horses or sheep or large numbers of domestic animals, such as a cattery, or a kennel of dogs, are not considered pets. </s><s> Personal Motor Vehicule (PMV) (véhicule automobile personnel - VAP) - for purposes of shipment, means a sedan, instead continued to introduce beautifully designed products at premium prices. </s><s> So, while I don't view design being considered in all areas of business as a "new" concept, I am more than encouraged to see international corporations discussing the between the emperor and the 'common man.' </s><s> The relationship between the coins and monumental reliefs is also considered , and Thill suggests that it indicates that there was a remarkably integrated artistic climate during this period. </s><s> A ," concluding that "he was not improperly sentenced in the first instance, but only was denied the chance to be considered for parole." </s><s> Diatchenko, 466 Mass. at 674. </s><s> The defendant in Diatchenko, however, had been convicted of a single count allow you admittance to all subjects so your youngster has one spot to go for entertainment only and learning. </s><s> As you consider the free web based learning games accessible, you need to ensure you pick a site that has what your kid needs. </s><s> This" For the second round of unsupervised training, the achieved accuracy was 94% (0.9405941) - compared to 93% in the original replication. In the testing round, the model achieved an accuracy of 91% (0.9117647),compared to 94% in original replication. Cohen's Kappa for 2 Raters (Weights: unweighted)
 
- Subjects = 102 
-   Raters = 2 
-    Kappa = 0.819 
+Subjects = 102 Raters = 2 Kappa = 0.819
 
-        z = 8.43 
-  p-value = 0 
-  
+```         
+    z = 8.43 
+```
+
+p-value = 0
+
 ### 2. round: only pretraining and testing
 
-In the next round, I only used the pretraining dtatset and intial prompt, skipped the whole supervised/unsupervised training in between and proceeded straight to testing. The model achieved an accuracy rate of 92% (0.9215686).
- Cohen's Kappa for 2 Raters (Weights: unweighted)
+In the next round, I only used the pretraining dataset and initial prompt, skipped the whole supervised/unsupervised training in between and proceeded straight to testing. The model achieved an accuracy rate of 92% (0.9215686). Cohen's Kappa for 2 Raters (Weights: unweighted)
 
- Subjects = 102 
-   Raters = 2 
-    Kappa = 0.837 
+Subjects = 102 Raters = 2 Kappa = 0.837
 
-        z = 8.48 
-  p-value = 0 
+```         
+    z = 8.48 
+```
+
+p-value = 0
+
+## Next steps
+
+- think about framing: start with replication, -\> then go to the approach with less -\> the moral is not about consider at all, but about tools to be used about corpus studies, reproducibility is important, accessibilty, energy and water consumption etc.; also not necessaryly necessary when you can use bert and other tools specifically designed; also we will make some suggestions that if you write a methods paper then it should really tell more about the method
+
+- we need to get to a lot fewer words (3000-4000 words) -\> a lot of my analysis will be in the appendix (including the actual results)
+
+- the actual paper will be about the method
+
+- get elen access (elen\@fridu.net oder elenlefoll on Github)
+
+- I think of the structure of the appendix, how many documents etc.
+
+- start a new quarto document that is the paper (including the "new" results: call them"extensions" for now)
+
+- first was a close replication, second one extended the idea
+
+- start writing research aims and questions; start writing the methods (how we did the wholestudy, replication with the data etc (or more like a reproduction), then the extensions, which models were used, programming language etc. -\> refer to appendix, script etc)
+
+- start with the core of the paper and then later the framing where Elen will come in
+
+- not just about this paper, but it is a bigger issue
+
+- **7-9th July 2027** WoReLa: write an abstract (500 words excluding titles, references) (submit it until **August 15th**) -\> I can also send Elen bullet points and she will write it
 
 # References {.unnumbered}
