@@ -4,6 +4,17 @@ format: html
 ---
 
 # Abstract (500 words excluding titles, references)
+What might be relevant from worela page (submissions we invite): 
+Replication studies in any subdiscipline of linguistics and using any (mixture of) quantitative or qualitative method(s); New methods, software, materials, or tools that have the potential to facilitate reproducibility and/or replication in the language sciences; Theoretical or conceptual analyses of what replication means in the context of linguistics research, including discussions of how replication relates to theory development, testing, and validation;
+
+
+(Previous research (...)?), topic, general questions
+What this study investigates -> concrete: close and extended replications, generally: focus on method, replicability
+what we analyzed
+what we used
+What findings show
+findings suggest...
+contributes to...
 
 # Introduction
 
