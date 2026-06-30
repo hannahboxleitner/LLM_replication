@@ -1,0 +1,35 @@
+---
+title: "Insights from close and extended replications of Morin & Marttinen Larsson (2023)"
+format: html
+---
+
+# Abstract (500 words excluding titles, references)
+
+# Introduction
+
+LLMs and LLM studies 
+corpus analysis, tools, use of LLMs
+problems with commercial LLMs, accessibility, reproducibility issues, carbon footprint etc.
+method-focused papers and replicability
+
+# Research aims and questions
+
+# Close replication
+short summary of the approach in MML2023
+short summary of close replication, refer to appendix (where results will be)
+
+# Extended replication
+
+Idea
+Approach, which models, deviation from the approach in MML2023
+Results
+Interpretation
+
+# Critical aspects of method and methodological papers
+
+Method-focused papers with (commercial) LLMs -> what does that mean? 
+"replicable" pipeline (!) -> make things replicable
+importance of reproducibility
+**(might turn into 2 chapters?)**
+
+# Conclusion (whole paper: max. 4000 words)
