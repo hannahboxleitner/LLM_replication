@@ -13,17 +13,16 @@ problems with commercial LLMs, accessibility, reproducibility issues, carbon foo
 method-focused papers and replicability
 
 # Research aims and questions
+Idea, aim, question
 
 # Close replication
 short summary of the approach in MML2023
 short summary of close replication, refer to appendix (where results will be)
 
 # Extended replication
-
-Idea
 Approach, which models, deviation from the approach in MML2023
 Results
-Interpretation
+Interpretation (whole training hustle may not be necessary; other tools might be suitable too;...)
 
 # Critical aspects of method and methodological papers
 
@@ -33,3 +32,6 @@ importance of reproducibility
 **(might turn into 2 chapters?)**
 
 # Conclusion (whole paper: max. 4000 words)
+what we may learn from the extensions about the approach and LLM use in corpus studies
+method and replicability
+open science practices esp. important when we throw LLMs on everything
