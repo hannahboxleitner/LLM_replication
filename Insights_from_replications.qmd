@@ -1,5 +1,5 @@
 ---
-title: "Insights from close and extended replications of Morin & Marttinen Larsson (2023)"
+title: "Insights from close and extended replications of Morin & Marttinen Larsson (2025)"
 format: html
 ---
 
@@ -16,11 +16,11 @@ method-focused papers and replicability
 Idea, aim, question
 
 # Close replication
-short summary of the approach in MML2023
+short summary of the approach in MML2025
 short summary of close replication, refer to appendix (where results will be)
 
 # Extended replication
-Approach, which models, deviation from the approach in MML2023
+Approach, which models, deviation from the approach in MML2025
 Results
 Interpretation (whole training hustle may not be necessary; other tools might be suitable too;...)
 
