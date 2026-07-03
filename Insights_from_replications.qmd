@@ -61,7 +61,9 @@ The aim of this **project/paper** is to reflect on the methodology and
 take an overarching perspective on both the use of LLMs, also
 considering aspects like **carbon footprint, data leakage, data rights,
 etc.**, and the methodological concerns of linguistic LLM studies and
-their replicability.
+their replicability. This project aims to contribute to analyzewhat
+replication means in the context of linguistics research, especially in
+terms of the rising use of LLMs in corpus linguistics.
 
 # Introduction
 
