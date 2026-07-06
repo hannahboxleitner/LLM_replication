@@ -8,42 +8,26 @@ editor:
 
 # Abstract (500 words excluding titles, references)
 
-*What might be relevant from worela page (submissions we invite):*
-*Replication studies in any subdiscipline of linguistics and using any
-(mixture of) quantitative or qualitative method(s); New methods,
-software, materials, or tools that have the potential to facilitate
-reproducibility and/or replication in the language sciences; Theoretical
-or conceptual analyses of what replication means in the context of
-linguistics research, including discussions of how replication relates
-to theory development, testing, and validation;*
-
-*(Previous research (...)?), topic, general questions* *What this study
-investigates -\> concrete: close and extended* replications, *generally:
-focus on method, replicability what we analyzed what we used What
-findings show findings suggest... contributes to...*
-
 Large Language Models are increasingly investigated in terms of their
 potential for linguistic research, including corpus analysis and
 linguistic classification [e.g. @yu2024; @heseltine2024]. This project
 is based on a close replication of a study by @morin2025, presenting a
 "replicable" method for leveraging LLMs for assistance in linguistic
-grammatical annotation. While the original study was conducted with
-Anthropic's model Claude 3.5 Sonnet [@morin2025: 4], their
-methodological pipeline was adopted using the same data, but two open
-LLMs **(do I need the exact models here?)**. The training and testing
-process proposed in @morin2025 was quite complex introducing several
-stages of pretraining, training and testing the LLM in conversation.
+grammatical annotation with Anthropic's model Claude 3.5 Sonnet
+[@morin2025: 4]. Their methodological pipeline, which included a rather
+complex and extensive process of training and testing the LLM in
+conversation, was adopted using the same data, but two open LLMs: Mistral Small 3.2 24B Instruct 2506 [@mistralai2026] and OpenAI GPT OSS 120B [@openai2026].
 
 Building on this first, close replication, we wanted to take a step back
 and consider the broader picture in two ways: First, we wanted to
-re-evaluate the need for such an extensive training process with a big,
-commercial LLM for this kind of linguistic task. Therefore, we extend
-the replication to attempting to achieve comparable results with a
-simpler, less extensive approach (still using the same datasets, but
-less data and training). This reduced training process is conducted with
-one BERT model (distilBERT), and also with the open GPT model already
-used in the closed replication. Second, we critically examine the
-replicability of this methodological pipeline with regard to open
+re-evaluate the need for such an extensive training process and the use
+of a big, commercial LLM for this kind of linguistic task. Therefore, we
+extended the replication to attempting to achieve comparable results
+with a simpler, less extensive approach (still using the same datasets,
+but less data and training). This reduced training process was conducted
+with one BERT model (distilBERT), and also with the open GPT model
+already used in the closed replication. Second, we critically examined
+the replicability of this methodological pipeline with regard to open
 science practices.
 
 Results of the extended replication suggest that a training process as
@@ -54,16 +38,30 @@ questionable: The authors published their data and a transcript of the
 conversation with the model [@morin2024], and the paper contains a rough
 outline and explanation of the process and the steps involved. However,
 there is still quite a lot of missing information (e.g. programming
-language, code) which would be central for conducting reproductions and
+language, code) which is central in enabling researchers to conduct reproductions and
 replications.
 
-The aim of this **project/paper** is to reflect on the methodology and
+The aim of this **project/paper** is to reflect on the methodology and to
 take an overarching perspective on both the use of LLMs, also
 considering aspects like **carbon footprint, data leakage, data rights,
-etc.**, and the methodological concerns of linguistic LLM studies and
-their replicability. This project aims to contribute to analyzewhat
+etc. (what is most important here?)**, and the methodological concerns of linguistic LLM studies and
+their replicability. This project aims to contribute to analyze what
 replication means in the context of linguistics research, especially in
-terms of the rising use of LLMs in corpus linguistics.
+terms of the increase in LLM use in corpus linguistics.
+
+*(Possibly relevant from worela page (submissions we invite):*
+*Replication studies in any subdiscipline of linguistics and using any
+(mixture of) quantitative or qualitative method(s); New methods,
+software, materials, or tools that have the potential to facilitate
+reproducibility and/or replication in the language sciences; Theoretical
+or conceptual analyses of what replication means in the context of
+linguistics research, including discussions of how replication relates
+to theory development, testing, and validation;)*
+
+*(Previous research (...)?), topic, general questions* *What this study
+investigates -\> concrete: close and extended* replications, *generally:
+focus on method, replicability what we analyzed what we used What
+findings show findings suggest... contributes to...)*
 
 # Introduction
 
