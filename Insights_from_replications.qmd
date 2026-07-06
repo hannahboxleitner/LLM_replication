@@ -32,14 +32,11 @@ science practices.
 
 Results of the extended replication suggest that a training process as
 large and comprehensive as in @morin2025 may not be necessary to
-accomplish similarly high accuracy rates. Also, the replicability of the
-pipeline, which was stated in the title of the study, appears to be
-questionable: The authors published their data and a transcript of the
+accomplish similarly high accuracy rates. Furthermore, a fine-tuned DistilBERT model—an encoder-only transformer substantially smaller and computationally less demanding than contemporary generative LLMs—achieved performance comparable to that of a smaller LLM (approximately the level of the Mistral model in the close replication). These findings indicate that, for the task investigated here, task-specific supervised models may provide a competitive and more computationally efficient alternative to generative LLMs.
+Regarding the method, we also focused on the "replicable method" [@morin2025], as stated in the title of the study. This replicability of the approach appears to be
+questionable. The authors published their data and a transcript of the
 conversation with the model [@morin2024], and the paper contains a rough
-outline and explanation of the process and the steps involved. However,
-there is still quite a lot of missing information (e.g. programming
-language, code) which is central in enabling researchers to conduct reproductions and
-replications.
+outline and explanation of the process and the steps involved. However, there is still substantial missing information (e.g., programming language and source code), which is essential for enabling researchers to independently reproduce and replicate the study.
 
 The aim of this **project/paper** is to reflect on the methodology and to
 take an overarching perspective on both the use of LLMs, also
