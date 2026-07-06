@@ -4,6 +4,8 @@ format: html
 editor: 
   markdown: 
     wrap: 72
+bibliography: references.bib
+csl: unified-style-sheet-for-linguistics.csl
 ---
 
 # Abstract (500 words excluding titles, references)
