@@ -299,15 +299,16 @@ p-value = 0
 
 ### 2. round: only pretraining and testing
 
-In the next round, I only used the pretraining dataset and initial prompt, skipped the whole supervised/unsupervised training in between and proceeded straight to testing. The model achieved an accuracy rate of 92% (0.9215686). Cohen's Kappa for 2 Raters (Weights: unweighted)
+I also wanted to test the model with an even shorter approach: I only used the pretraining dataset and initial prompt, skipped the whole supervised/unsupervised training process in between and proceeded straight to testing. The model achieved an accuracy rate of 94% (0.9411765).
 
-Subjects = 102 Raters = 2 Kappa = 0.837
+ Cohen's Kappa for 2 Raters (Weights: unweighted)
 
-```         
-    z = 8.48 
-```
+ Subjects = 102 
+   Raters = 2 
+    Kappa = 0.879 
 
-p-value = 0
+        z = 8.94 
+  p-value = 0 
 
 ## Next steps (meeting 17.06.26)
 

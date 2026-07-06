@@ -259,14 +259,14 @@ print(accuracy_test)
 
 # Get exact number of aligning classifications
 aligned_gpt <- sum(
-  test_gpt_results$Human_classification == test_gpt_results$GPT_classification,
+  comparison_test$Human_classification == test_gpt_results$GPT_classification,
   na.rm = TRUE
 )
 
 print(aligned_gpt)
 
 # Save results as .csv
-write_csv2(comparison_test, "replication_data/GPT_replication_results.csv") # put in semicolon separated format for comparison with author's table
+write_csv2(comparison_test, "reduced_training/GPT_reduced_training_2_results.csv") # put in semicolon separated format for comparison with author's table
 
 # Final prompt
 res <- ask_llm(conv, paste(
