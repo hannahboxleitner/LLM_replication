@@ -84,16 +84,16 @@ conv <- create_conversation() # conv-object: resets conversation every time I ru
 
 # File naming for transcript
 
-model_name <- "Mistral" # change
+model_name <- "GPT" # change
 
 run_id <- paste0(
   model_name, "_",
   format(Sys.Date(), "%Y%m%d")
 )
 
-dir.create("transcripts", showWarnings = FALSE)
+dir.create("reduced_training", showWarnings = FALSE)
 
-log_file <- paste0("transcripts/", run_id, "_RAW.txt") # for generating transcript/checking model output during conversation/analysis
+log_file <- paste0("reduced_training/", run_id, "_RAW.txt") # for generating transcript/checking model output during conversation/analysis
 
 
 
