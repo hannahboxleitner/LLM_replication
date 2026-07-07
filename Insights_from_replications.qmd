@@ -1,53 +1,60 @@
 ---
-title: "Insights from close and extended replications of Morin & Marttinen Larsson (2025)"
+title: "LLMs for corpus annotation: Close and extended replications of Morin & Marttinen Larsson (2025) using small open-source LLMs and BERT"
+author: Hannah Boxleitner & Elen Le Foll
 format: html
+bibliography: references.bib
+csl: unified-style-sheet-for-linguistics.csl
 editor: 
   markdown: 
     wrap: 72
-bibliography: references.bib
-csl: unified-style-sheet-for-linguistics.csl
 ---
 
 # Abstract (500 words excluding titles, references)
 
-Large Language Models are increasingly investigated in terms of their
-potential for linguistic research, including corpus analysis and
-linguistic classification [e.g. @yu2024; @heseltine2024]. This project
-is based on a close replication of a study by @morin2025, presenting a
-"replicable" method for leveraging LLMs for assistance in linguistic
-grammatical annotation with Anthropic's model Claude 3.5 Sonnet
-[@morin2025: 4]. Their methodological pipeline, which included a rather
-complex and extensive process of training and testing the LLM in
-conversation, was adopted using the same data, but two open LLMs: Mistral Small 3.2 24B Instruct 2506 [@mistralai2026] and OpenAI GPT OSS 120B [@openai2026].
+Large Language Models (LLMs) are increasingly being leveraged for the
+annotation of large corpora [e.g. @yu2024]. In an early evaluation of
+such an application, @morin2025 presented "a replicable method for
+automating grammatical annotation" using Anthropic's model Claude 3.5
+Sonnet [@morin2025: 4]. Their annotation pipeline consisted of a complex
+"conversation" with the model over several iterative phases of training
+and testing.
+<!--# Insert short sentence summarising the results of their study, e.g. how well the pipeline performed. -->
 
-Building on this first, close replication, we wanted to take a step back
-and consider the broader picture in two ways: First, we wanted to
-re-evaluate the need for such an extensive training process and the use
-of a big, commercial LLM for this kind of linguistic task. Therefore, we
-extended the replication to attempting to achieve comparable results
-with a simpler, less extensive approach (still using the same datasets,
-but less data and training). This reduced training process was conducted
-with one BERT model (distilBERT), and also with the open GPT model
-already used in the closed replication. Second, we critically examined
-the replicability of this methodological pipeline with regard to open
-science practices.
+We aimed to repeat @morin2025's "replicable method" as closely as
+possible, using the same data, albeit with two open LLMs, Mistral Small
+3.2 24B Instruct [@mistralai2026] and OpenAI GPT OSS 120B [@openai2026].
+Whilst the authors published their data and a full transcript of their
+"conversation" with the model [@morin2024], we found that essential
+information to independently replicate the study (e.g., whether the web
+interface or an API was used, analysis code, etc.) was missing - forcing
+us to make some educated guesses as to the exact procedure. Our results
+suggest that, as of early 2026, large commercial LLMs may not necessary
+to complete this kind of linguistic task.
+<!--# Insert sentence summarising accuracy of close replication -->.
 
-Results of the extended replication suggest that a training process as
-large and comprehensive as in @morin2025 may not be necessary to
-accomplish similarly high accuracy rates. Furthermore, a fine-tuned DistilBERT model—an encoder-only transformer substantially smaller and computationally less demanding than contemporary generative LLMs—achieved performance comparable to that of a smaller LLM (approximately the level of the Mistral model in the close replication). These findings indicate that, for the task investigated here, task-specific supervised models may provide a competitive and more computationally efficient alternative to generative LLMs.
-Regarding the method, we also focused on the "replicable method" [@morin2025], as stated in the title of the study. This replicability of the approach appears to be
-questionable. The authors published their data and a transcript of the
-conversation with the model [@morin2024], and the paper contains a rough
-outline and explanation of the process and the steps involved. However, there is still substantial missing information (e.g., programming language and source code), which is essential for enabling researchers to independently reproduce and replicate the study.
+Next, we tested the need for such an extensive 'in-conversation'
+training process. To this end, we conducted a second, extended
+replication applying a much simpler few-shot training approach the
+best-performing open LLM from our first replication. Our results suggest
+that the training process need not be as elaborate as in @morin2025 to
+accomplish similarly high accuracy rates.
 
-The aim of this **project/paper** is to reflect on the methodology and to
-take an overarching perspective on both the use of LLMs, also
-considering aspects like **carbon footprint, data leakage, data rights,
-etc. (what is most important here?)**, and the methodological concerns of linguistic LLM studies and
-their replicability. This project aims to contribute to analyze what
-replication means in the context of linguistics research, especially in
-terms of the increase in LLM use in corpus linguistics.
+Finally, we replicated the annotation study using a fine-tuned
+DistilBERT model (<!--# Add ref -->). Although this encoder-only
+transformer is considerably smaller than even a small generative LLM, it
+achieved a performance comparable to that of a small LLM (approximately
+on par with the 24B Mistral model used in our first replication). These
+findings indicate that task-specific supervised models may provide a
+competitive and more computationally efficient alternative to generative
+LLMs.
 
+Our results have important implications for the replicability of
+corpus-linguistic research involving LLMs. We argue that, when choosing
+a method, issues around model accessibility, data leakage, and carbon
+footprint can and should be taken into consideration.
+
+```{=text}
+<!--# 
 *(Possibly relevant from worela page (submissions we invite):*
 *Replication studies in any subdiscipline of linguistics and using any
 (mixture of) quantitative or qualitative method(s); New methods,
@@ -60,8 +67,9 @@ to theory development, testing, and validation;)*
 *(Previous research (...)?), topic, general questions* *What this study
 investigates -\> concrete: close and extended* replications, *generally:
 focus on method, replicability what we analyzed what we used What
-findings show findings suggest... contributes to...)*
-
+findings show findings suggest... contributes to...)* 
+-->
+```
 # Introduction
 
 LLMs and LLM studies corpus analysis, tools, use of LLMs problems with
