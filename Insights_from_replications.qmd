@@ -17,20 +17,18 @@ such an application, @morin2025 presented "a replicable method for
 automating grammatical annotation" using Anthropic's model Claude 3.5
 Sonnet [@morin2025: 4]. Their annotation pipeline consisted of a complex
 "conversation" with the model over several iterative phases of training
-and testing.
-<!--# Insert short sentence summarising the results of their study, e.g. how well the pipeline performed. -->
+and testing. They were able to achieve an accuracy of 93% compared to the gold standard provided by a human annotator [@morin2025: 6], and point out that they put forward a replicable annotation method that can be used for other constructions in different languages [@morin2025: 7].
 
 We aimed to repeat @morin2025's "replicable method" as closely as
 possible, using the same data, albeit with two open LLMs, Mistral Small
-3.2 24B Instruct [@mistralai2026] and OpenAI GPT OSS 120B [@openai2026].
+3.2 24B Instruct [@mistralai2026] and OpenAI GPT OSS 120B [@openai2026]. While the smaller Mistral model did not perform as well on the task (accuracy of 67%), the open GPT model yielded very similar results (accuracy of 94%).
 Whilst the authors published their data and a full transcript of their
 "conversation" with the model [@morin2024], we found that essential
 information to independently replicate the study (e.g., whether the web
 interface or an API was used, analysis code, etc.) was missing - forcing
 us to make some educated guesses as to the exact procedure. Our results
-suggest that, as of early 2026, large commercial LLMs may not necessary
+suggest that, as of early 2026, large commercial LLMs may not be necessary
 to complete this kind of linguistic task.
-<!--# Insert sentence summarising accuracy of close replication -->.
 
 Next, we tested the need for such an extensive 'in-conversation'
 training process. To this end, we conducted a second, extended
@@ -40,7 +38,7 @@ that the training process need not be as elaborate as in @morin2025 to
 accomplish similarly high accuracy rates.
 
 Finally, we replicated the annotation study using a fine-tuned
-DistilBERT model (<!--# Add ref -->). Although this encoder-only
+DistilBERT model (<!--# Add ref: the paper or the transformers library?? -->). Although this encoder-only
 transformer is considerably smaller than even a small generative LLM, it
 achieved a performance comparable to that of a small LLM (approximately
 on par with the 24B Mistral model used in our first replication). These
