@@ -1,15 +1,12 @@
 ---
 title: "LLMs for corpus annotation: Close and extended replications of Morin & Marttinen Larsson (2025) using smaller open LLMs and BERT"
-author: Hannah Boxleitner & Elen Le Foll
-format: html
+format: pdf
 bibliography: references.bib
 csl: unified-style-sheet-for-linguistics.csl
 editor: 
   markdown: 
     wrap: 72
 ---
-
-# Abstract (500 words excluding titles, references)
 
 Large Language Models (LLMs) are increasingly being leveraged for the
 annotation of large corpora. In an early evaluation of such an
@@ -21,7 +18,6 @@ and testing. They were able to achieve an accuracy of 93% compared to
 the gold standard provided by a human annotator [@morin2025: 6] and
 conclude that the pipeline may also be effective for other linguistic
 tasks in other languages [@morin2025: 7].
-
 
 We aimed to repeat @morin2025's "replicable method" as closely as
 possible, using the same data, albeit with two open LLMs, Mistral Small
@@ -58,53 +54,4 @@ process. We argue that, when choosing a method, issues around model
 accessibility, data leakage, and carbon footprint can and should be
 taken into consideration.
 
-```{=text}
-<!--# 
-*(Possibly relevant from worela page (submissions we invite):*
-*Replication studies in any subdiscipline of linguistics and using any
-(mixture of) quantitative or qualitative method(s); New methods,
-software, materials, or tools that have the potential to facilitate
-reproducibility and/or replication in the language sciences; Theoretical
-or conceptual analyses of what replication means in the context of
-linguistics research, including discussions of how replication relates
-to theory development, testing, and validation;)*
-
-*(Previous research (...)?), topic, general questions* *What this study
-investigates -\> concrete: close and extended* replications, *generally:
-focus on method, replicability what we analyzed what we used What
-findings show findings suggest... contributes to...)* 
--->
-```
-# Introduction
-
-LLMs and LLM studies corpus analysis, tools, use of LLMs problems with
-commercial LLMs, accessibility, reproducibility issues, carbon footprint
-etc. method-focused papers and replicability
-
-# Research aims and questions
-
-Idea, aim, question
-
-# Close replication
-
-short summary of the approach in MML2025 short summary of close
-replication, refer to appendix (where results will be)
-get numbers from original script
-
-# Extended replication
-
-Approach, which models, deviation from the approach in MML2025 Results
-Interpretation (whole training hustle may not be necessary; other tools
-might be suitable too;...)
-
-# Critical aspects of method and methodological papers
-
-Method-focused papers with (commercial) LLMs -\> what does that mean?
-"replicable" pipeline (!) -\> make things replicable importance of
-reproducibility **(might turn into 2 chapters?)**
-
-# Conclusion (whole paper: max. 4000 words)
-
-what we may learn from the extensions about the approach and LLM use in
-corpus studies method and replicability open science practices esp.
-important when we throw LLMs on everything
+# References
