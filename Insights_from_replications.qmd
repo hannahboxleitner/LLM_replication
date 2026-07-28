@@ -22,7 +22,6 @@ the gold standard provided by a human annotator [@morin2025: 6] and
 conclude that the pipeline may also be effective for other linguistic
 tasks in other languages [@morin2025: 7].
 
-
 We aimed to repeat @morin2025's "replicable method" as closely as
 possible, using the same data, albeit with two open LLMs, Mistral Small
 3.2 24B Instruct [@mistralai2026] and OpenAI GPT OSS 120B [@openai2026].
@@ -87,15 +86,71 @@ Idea, aim, question
 
 # Close replication
 
-short summary of the approach in MML2025 short summary of close
-replication, refer to appendix (where results will be)
-get numbers from original script
+*short summary of the approach in MML2025 short summary of close*
+*replication, refer to appendix (where results will be)*
+
+@morin2025 present a methodological pipeline leveraging an LLM for the
+automatic annotation of grammatical data, based on the case study of the
+evaluative *consider* construction in English. Their annotation pipeline
+consisted of a complex "conversation" with the model over several
+iterative phases of training and testing. Using Anthropic's model Claude
+3.5 Sonnet [@morin2025: 4], they were able to achieve an accuracy of 93%
+compared to the gold standard provided by a human annotator [@morin2025:
+6]. We aimed to repeat @morin2025's "replicable method" as closely as
+possible, using the same data and matching the training and testing to a
+conversation transcript the authors provided [@morin2024], albeit with
+two open LLMs: Mistral Small 3.2 24B Instruct [@mistralai2026] and
+OpenAI GPT OSS 120B [@openai2026].
+
+***get numbers from original script***
+
+While the GPT model showed comparable and even slightly better
+performance than Claude in the original study, the Mistral model missed
+the mark by quite a lot. Inter-rater agreement metrics **(appendix??)**
+support these observations: In pairwise comparisons, GPT showed a strong
+agreement with the human gold standard, while the Cohen's κ for Mistral
+indicates that the agreement is only slightly better than agreement by
+chance. The results suggest that the (close) replicability of the
+approach evidently depends on the comparability of the models. On a
+methodological level, we found that essential information to
+independently replicate the study (e.g., whether the web interface or an
+API was used, analysis code, etc.) was missing - forcing us to make some
+educated guesses as to the exact procedure.
 
 # Extended replication
 
-Approach, which models, deviation from the approach in MML2025 Results
+*Approach, which models, deviation from the approach in MML2025 Results
 Interpretation (whole training hustle may not be necessary; other tools
-might be suitable too;...)
+might be suitable too;...)*
+
+The close replication raised questions about both the necessity of such
+an extensive training and testing procedure, and the need for large
+commercial LLMs to complete this kind of linguistic task. This led us to
+extend our replication to address both of these issues. First, we tested
+the need for the extensive 'in-conversation' training process outlined
+in @morin2025. To this end, we applied a much simpler few-shot training
+approach with the best-performing open LLM (GPT) from our first
+replication using the same data.
+
+***results (how much do I explain about what I left out? Appendix?)***
+
+***interpret results...*** Our results suggest that the training process
+need not be as elaborate as in @morin2025 to accomplish similarly high
+accuracy rates.
+
+As a second extension, we replicated the annotation study using a
+fine-tuned DistilBERT model [@sanh]. ***explain approach (supervised
+training left out, unsupervised training used for validation, but
+trained only on the "pretraining set").***
+
+***results (how?)***
+
+***interpret results...*** Although this encoder-only transformer is
+considerably smaller than even a small generative LLM, it performed
+approximately on par with the 24B Mistral model used in our first
+replication. These findings indicate that task-specific supervised
+models may provide a competitive and certainly more computationally
+efficient alternative to generative LLMs.
 
 # Critical aspects of method and methodological papers
 
