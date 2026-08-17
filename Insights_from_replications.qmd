@@ -9,7 +9,48 @@ editor:
     wrap: 72
 ---
 
-# Abstract (500 words excluding titles, references)
+```{r}
+#| label: close_replication_results
+#| include: false
+
+library(readr)
+library(irr)
+
+comparison_all <- read_csv2(
+  "replication_data/comparison_all_results.csv",
+  show_col_types = FALSE
+)
+
+# Accuracy
+gpt_accuracy <- mean(
+  comparison_all$Human_classification == comparison_all$GPT_classification
+)
+
+mistral_accuracy <- mean(
+  comparison_all$Human_classification == comparison_all$Mistral_classification
+)
+
+claude_accuracy <- mean(
+  comparison_all$Human_classification == comparison_all$Claude_classification
+)
+
+# Cohen's kappa
+gpt_kappa <- kappa2(
+  comparison_all[c("Human_classification", "GPT_classification")]
+)$value
+
+mistral_kappa <- kappa2(
+  comparison_all[c("Human_classification", "Mistral_classification")]
+)$value
+
+claude_kappa <- kappa2(
+  comparison_all[c("Human_classification", "Claude_classification")]
+)$value
+
+
+```
+
+# Abstract
 
 Large Language Models (LLMs) are increasingly being leveraged for the
 annotation of large corpora. In an early evaluation of such an
@@ -57,23 +98,6 @@ process. We argue that, when choosing a method, issues around model
 accessibility, data leakage, and carbon footprint can and should be
 taken into consideration.
 
-```{=text}
-<!--# 
-*(Possibly relevant from worela page (submissions we invite):*
-*Replication studies in any subdiscipline of linguistics and using any
-(mixture of) quantitative or qualitative method(s); New methods,
-software, materials, or tools that have the potential to facilitate
-reproducibility and/or replication in the language sciences; Theoretical
-or conceptual analyses of what replication means in the context of
-linguistics research, including discussions of how replication relates
-to theory development, testing, and validation;)*
-
-*(Previous research (...)?), topic, general questions* *What this study
-investigates -\> concrete: close and extended* replications, *generally:
-focus on method, replicability what we analyzed what we used What
-findings show findings suggest... contributes to...)* 
--->
-```
 # Introduction
 
 LLMs and LLM studies corpus analysis, tools, use of LLMs problems with
@@ -96,21 +120,14 @@ consisted of a complex "conversation" with the model over several
 iterative phases of training and testing. Using Anthropic's model Claude
 3.5 Sonnet [@morin2025: 4], they were able to achieve an accuracy of 93%
 compared to the gold standard provided by a human annotator [@morin2025:
-6]. We aimed to repeat @morin2025's "replicable method" as closely as
+6]. In a first replication, we aimed to repeat @morin2025's "replicable method" as closely as
 possible, using the same data and matching the training and testing to a
 conversation transcript the authors provided [@morin2024], albeit with
 two open LLMs: Mistral Small 3.2 24B Instruct [@mistralai2026] and
 OpenAI GPT OSS 120B [@openai2026].
 
-***get numbers from original script***
-
-While the GPT model showed comparable and even slightly better
-performance than Claude in the original study, the Mistral model missed
-the mark by quite a lot. Inter-rater agreement metrics **(appendix??)**
-support these observations: In pairwise comparisons, GPT showed a strong
-agreement with the human gold standard, while the Cohen's κ for Mistral
-indicates that the agreement is only slightly better than agreement by
-chance. The results suggest that the (close) replicability of the
+Based on accuracy compared to the human gold standard, GPT showed comparable and even slightly better performance than Claude in the original study (GPT: `r round(100 * gpt_accuracy)`% vs. Claude `r round(100 * claude_accuracy)`%), while Mistral performed considerably worse (`r round(100 * mistral_accuracy)`%). Inter-rater agreement metrics support these observations: GPT showed strong agreement with the human gold standard ($\kappa$ = `r round(gpt_kappa, 2)`), whereas Mistral showed only slight agreement beyond chance ($\kappa$ = `r round(mistral_kappa, 2)`).
+The results suggest that the (close) replicability of the
 approach evidently depends on the comparability of the models. On a
 methodological level, we found that essential information to
 independently replicate the study (e.g., whether the web interface or an
