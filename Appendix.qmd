@@ -262,3 +262,41 @@ reduced_training_2_table <- data.frame(
 kable(reduced_training_2_table)
 ```
 
+```{r}
+#| label: bert-results
+#| include: false
+
+library(knitr)
+
+load("BERT_transcripts/BERT_experiment_workspace.RData")
+
+bert_accuracy <- mean(
+  preds_test == labels_test
+)
+
+bert_agreement <- sum(
+  preds_test == labels_test
+)
+
+bert_total <- length(labels_test)
+```
+
+```{r}
+#| label: tbl-bert-results
+#| tbl-cap: "BERT performance on the test set"
+
+bert_results_table <- data.frame(
+  Accuracy = paste0(
+    round(100 * bert_accuracy),
+    "%"
+  ),
+  Alignments = paste0(
+    bert_agreement,
+    "/",
+    bert_total
+  )
+)
+
+kable(bert_results_table)
+```
+

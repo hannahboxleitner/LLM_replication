@@ -96,6 +96,23 @@ gpt_reduced_2_total <- nrow(gpt_reduced_2)
 
 ```
 
+```{r}
+#| label: bert-results
+#| include: false
+
+load("BERT_transcripts/BERT_experiment_workspace.RData")
+
+bert_accuracy <- mean(
+  preds_test == labels_test
+)
+
+bert_agreement <- sum(
+  preds_test == labels_test
+)
+
+bert_total <- length(labels_test)
+```
+
 # Abstract
 
 Large Language Models (LLMs) are increasingly being leveraged for the
@@ -200,11 +217,12 @@ replication using the same data. When only using the pretraining set and directl
 with a Cohen's $\kappa$ of `r round(gpt_reduced_2_kappa, 2)`.
 
 As a second extension, we replicated the annotation study using a
-fine-tuned DistilBERT model [@sanh]. Again, only the pretraining set was used for training the model, and, after using the "unsupervised training" sets for validation, we proceeded to testing.
+fine-tuned DistilBERT model [@sanh]. Again, only the pretraining set was used for training the model, and, after using the "unsupervised training" sets for validation, we proceeded to testing. BERT achieved an accuracy of `r round(100 * bert_accuracy)`% (`r bert_agreement`/`r bert_total`), matching the majority-class baseline, as it classified all test items as 'non-evaluative'.
+
 
 These results suggest that the training process
 need not be as elaborate as in @morin2025 to accomplish similarly high
-accuracy rates, and .
+accuracy rates, and that both BERT and a smaller model behaved similarly in the sense that, they matched the majority-baseline closely.
 
 ***results (how?)***
 
