@@ -163,13 +163,55 @@ taken into consideration.
 
 # Introduction
 
-LLMs and LLM studies corpus analysis, tools, use of LLMs problems with
-commercial LLMs, accessibility, reproducibility issues, carbon footprint
-etc. method-focused papers and replicability
+In the last decades, researchers in corpus linguistics have gained
+access to increasingly massive corpora of natural language. This poses
+great opportunities, but also necessitates manual cleaning and
+processing of large amounts of data [@morin2025: 1]. The rise of large
+language models (LLMs) is therefore a rather interesting development,
+offering new possibilities for complementing and extending existing
+automated methods for processing larger datasets and corpora. In recent
+years, a rising number of papers testing LLMs for assistance in
+linguistic research have been published [e.g. @yu2024; @heseltine2024]
+**maybe add more?**. While LLMs have shown promising results in a range
+of studies, there is further exploration needed to effectively and
+reliably leverage them for linguistic data annotation
+[@lidiiaostyakova2025: 131]. While LLMs are increasingly prevalent in
+both research and day-to-day life, they also raise a range of concerns.
+Closed, commercial LLMs are often developed intransparently and without
+ethical oversight [@liesenfeld2023]. Since their training relies on vast
+amounts of data, including text from the internet, publicly available
+datasets, or proprietary sources, they are susceptible to passive
+privacy leakage, whereby sensitive information contained in training
+data may be revealed. Also, LLMs can be vulnerable to different kinds of
+active privacy attacks [@yan2025: 1]. Other aspects worth considering in
+terms of LLM usage concern the environment: Training and operating LLMs
+requires substantial computational resources, including large amounts of
+electricity and water (e.g. for cooling data centers), and generates
+carbon emissions. Although AI becomes cheaper and faster, its global
+adoption is rapidly increasing resource consumption [@jegham2025].
+
+We aim to replicate a study by @morin2025, which presents a "replicable
+method" for leveraging LLMs for assistance in linguistic grammatical
+annotation. While the original study was conducted with Anthropic's
+model Claude 3.5 Sonnet [@morin2025: 4], we aimed to replicate their
+methodological pipeline using the same data, but with two open LLMs. In
+an extension of this replication, we also tested a much simpler training
+process, and also attempted to use a distilBERT model for the same task.
+
+**talk more about replicability here?**
 
 # Research aims and questions
 
-With this paper, we aim 1) to examine if using commercial LLMs and extensive training approaches for linguistic classification tasks are necessary and 2) to take a closer look at the replicability of the method. To investigate this, we first conducted a close replication using two open LLMs, with the same data and same approach outlined in @morin2025. Based on these results, we extended the replication in two ways: With one of the open LLMs, we tested its performance with a simpler training approach. To investigate the need of generative LLMs for such tasks in general, we also tested a fine-tuned distilBERT model, which is a small encoder-only transformer.
+With this paper, we aim 1) to examine if using commercial LLMs and
+extensive training approaches (as in @morin2025) are necessary for
+linguistic classification tasks and 2) to take a closer look at the
+replicability of the method. To investigate this, we first conducted a
+close replication using two open LLMs, with the same data and same
+approach outlined in @morin2025. Based on these results, we extended the
+replication in two ways: With one of the open LLMs, we tested its
+performance with a simpler training approach. To investigate the need of
+generative LLMs for such tasks in general, we also tested a fine-tuned
+distilBERT model, which is a small encoder-only transformer.
 
 # Close replication
 
@@ -180,19 +222,33 @@ consisted of a complex "conversation" with the model over several
 iterative phases of training and testing. Using Anthropic's model Claude
 3.5 Sonnet [@morin2025: 4], they were able to achieve an accuracy of 93%
 compared to the gold standard provided by a human annotator [@morin2025:
-6]. In a first replication, we aimed to repeat @morin2025's "replicable method" as closely as
-possible, using the same data and matching the training and testing to a
-conversation transcript the authors provided [@morin2024], albeit with
-two open LLMs: Mistral Small 3.2 24B Instruct [@mistralai2026] and
-OpenAI GPT OSS 120B [@openai2026].
+6]. In a first replication, we aimed to repeat @morin2025's "replicable
+method" as closely as possible, using the same data and matching the
+training and testing to a conversation transcript the authors provided
+[@morin2024], albeit with two open LLMs: Mistral Small 3.2 24B Instruct
+[@mistralai2026] and OpenAI GPT OSS 120B [@openai2026].
 
-Based on accuracy compared to the human gold standard, GPT showed comparable and even slightly better performance than Claude in the original study (GPT: `r round(100 * gpt_accuracy)`% vs. Claude `r round(100 * claude_accuracy)`%), while Mistral performed considerably worse (`r round(100 * mistral_accuracy)`%). Inter-rater agreement metrics support these observations: GPT showed strong agreement with the human gold standard ($\kappa$ = `r round(gpt_kappa, 2)`), whereas Mistral showed only slight agreement beyond chance ($\kappa$ = `r round(mistral_kappa, 2)`). While Mistral's 67% accuracy might initially sound moderately good, investigating these results as 2 x 2 matrices **(see Appendix.R**) reveals that it is heavily biased toward predicting 'non-evaluative'. Looking at the distribution of *consider*-meanings in the testing dataset, the 'non-evaluative' classification was the majority class
-(`r majority_count`/`r test_total`, `r round(100 * majority_accuracy)`%),
-and a classifier that always predicted the majority class would achieve
-an accuracy of `r round(100 * majority_accuracy)`%.
+Based on accuracy compared to the human gold standard, GPT showed
+comparable and even slightly better performance than Claude in the
+original study (GPT: `r round(100 * gpt_accuracy)`% vs. Claude
+`r round(100 * claude_accuracy)`%), while Mistral performed considerably
+worse (`r round(100 * mistral_accuracy)`%). Inter-rater agreement
+metrics support these observations: GPT showed strong agreement with the
+human gold standard ($\kappa$ = `r round(gpt_kappa, 2)`), whereas
+Mistral showed only slight agreement beyond chance ($\kappa$ =
+`r round(mistral_kappa, 2)`). While Mistral's 67% accuracy might
+initially sound moderately good, investigating these results as 2 x 2
+matrices **(see Appendix.R**) reveals that it is heavily biased toward
+predicting 'non-evaluative'. Looking at the distribution of
+*consider*-meanings in the testing dataset, the 'non-evaluative'
+classification was the majority class
+(`r majority_count`/`r test_total`,
+`r round(100 * majority_accuracy)`%), and a classifier that always
+predicted the majority class would achieve an accuracy of
+`r round(100 * majority_accuracy)`%.
 
-The results suggest that the (close) replicability of the
-approach evidently depends on the comparability of the models. On a
+The results suggest that the (close) replicability of the approach
+evidently depends on the comparability of the models. On a
 methodological level, we found that essential information to
 independently replicate the study (e.g., whether the web interface or an
 API was used, analysis code, etc.) was missing - forcing us to make some
@@ -207,24 +263,34 @@ extend our replication to address both of these issues. First, we tested
 the need for the extensive 'in-conversation' training process outlined
 in @morin2025. To this end, we applied a much simpler few-shot training
 approach with the best-performing open LLM (GPT) from our first
-replication using the same data. When only using the pretraining set and directly proceeding to testing afterwards, GPT achieved an accuracy of
+replication using the same data. When only using the pretraining set and
+directly proceeding to testing afterwards, GPT achieved an accuracy of
 `r round(100 * gpt_reduced_2_accuracy)`%
-(`r gpt_reduced_2_agreement`/`r gpt_reduced_2_total`),
-with a Cohen's $\kappa$ of `r round(gpt_reduced_2_kappa, 2)`.
+(`r gpt_reduced_2_agreement`/`r gpt_reduced_2_total`), with a Cohen's
+$\kappa$ of `r round(gpt_reduced_2_kappa, 2)`.
 
 As a second extension, we replicated the annotation study using a
 fine-tuned DistilBERT model [@sanh]. This encoder-only transformer is
-considerably smaller than even a small generative LLM. Again, only the pretraining set was used for training the model, and, after using the "unsupervised training" sets for validation, we proceeded to testing. BERT achieved an accuracy of `r round(100 * bert_accuracy)`% (`r bert_agreement`/`r bert_total`), matching the majority-class baseline, as it classified all test items as 'non-evaluative'.
+considerably smaller than even a small generative LLM. Again, only the
+pretraining set was used for training the model, and, after using the
+"unsupervised training" sets for validation, we proceeded to testing.
+BERT achieved an accuracy of `r round(100 * bert_accuracy)`%
+(`r bert_agreement`/`r bert_total`), matching the majority-class
+baseline, as it classified all test items as 'non-evaluative'.
 
-These results suggest that, when using a comparable LLM, the training process
-need not be as elaborate as in @morin2025 to accomplish similarly high
-accuracy rates. However, the distilBERT and the smaller Mistral model showed a strong tendency toward the majority class and performed only slightly above or exactly at the majority-class baseline, indicating to not be suitable to successfully complete this kind of linguistic task.
+These results suggest that, when using a comparable LLM, the training
+process need not be as elaborate as in @morin2025 to accomplish
+similarly high accuracy rates. However, the distilBERT and the smaller
+Mistral model showed a strong tendency toward the majority class and
+performed only slightly above or exactly at the majority-class baseline,
+indicating to not be suitable to successfully complete this kind of
+linguistic task.
 
 # Discussion
 
 ## Suitability of LLMs and training process
 
-While with a 
+While with a
 
 ## "Replicable method"
 
@@ -237,5 +303,3 @@ reproducibility **(might turn into 2 chapters?)**
 what we may learn from the extensions about the approach and LLM use in
 corpus studies method and replicability open science practices esp.
 important when we throw LLMs on everything
-
-
