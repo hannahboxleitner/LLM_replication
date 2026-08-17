@@ -169,7 +169,7 @@ etc. method-focused papers and replicability
 
 # Research aims and questions
 
-The aim of this paper is 1) to examine if using commercial LLMs and extensive training approaches for linguistic classification tasks are necessary and 2) to take a closer look at the replicability of the method. This was first investigated in a close replication using two open LLMs, with the same data and the approach outlined in @morin2025. In a second step, we tested a simpler training approach with both an open LLM and also a fine-tuned distilBERT model.
+With this paper, we aim 1) to examine if using commercial LLMs and extensive training approaches for linguistic classification tasks are necessary and 2) to take a closer look at the replicability of the method. To investigate this, we first conducted a close replication using two open LLMs, with the same data and same approach outlined in @morin2025. Based on these results, we extended the replication in two ways: With one of the open LLMs, we tested its performance with a simpler training approach. To investigate the need of generative LLMs for such tasks in general, we also tested a fine-tuned distilBERT model, which is a small encoder-only transformer.
 
 # Close replication
 
@@ -213,19 +213,20 @@ replication using the same data. When only using the pretraining set and directl
 with a Cohen's $\kappa$ of `r round(gpt_reduced_2_kappa, 2)`.
 
 As a second extension, we replicated the annotation study using a
-fine-tuned DistilBERT model [@sanh]. Again, only the pretraining set was used for training the model, and, after using the "unsupervised training" sets for validation, we proceeded to testing. BERT achieved an accuracy of `r round(100 * bert_accuracy)`% (`r bert_agreement`/`r bert_total`), matching the majority-class baseline, as it classified all test items as 'non-evaluative'.
+fine-tuned DistilBERT model [@sanh]. This encoder-only transformer is
+considerably smaller than even a small generative LLM. Again, only the pretraining set was used for training the model, and, after using the "unsupervised training" sets for validation, we proceeded to testing. BERT achieved an accuracy of `r round(100 * bert_accuracy)`% (`r bert_agreement`/`r bert_total`), matching the majority-class baseline, as it classified all test items as 'non-evaluative'.
 
 These results suggest that, when using a comparable LLM, the training process
 need not be as elaborate as in @morin2025 to accomplish similarly high
-accuracy rates, while both the distilBERT and the smaller Mistral model showed a strong tendency toward the majority class and performed only slightly above or exactly at the majority-class baseline.
+accuracy rates. However, the distilBERT and the smaller Mistral model showed a strong tendency toward the majority class and performed only slightly above or exactly at the majority-class baseline, indicating to not be suitable to successfully complete this kind of linguistic task.
 
 # Discussion
 
 ## Suitability of LLMs and training process
 
+While with a 
 
-
-# "Replicable method"
+## "Replicable method"
 
 Method-focused papers with (commercial) LLMs -\> what does that mean?
 "replicable" pipeline (!) -\> make things replicable importance of
@@ -236,3 +237,5 @@ reproducibility **(might turn into 2 chapters?)**
 what we may learn from the extensions about the approach and LLM use in
 corpus studies method and replicability open science practices esp.
 important when we throw LLMs on everything
+
+
