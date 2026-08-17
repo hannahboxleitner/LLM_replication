@@ -169,7 +169,7 @@ etc. method-focused papers and replicability
 
 # Research aims and questions
 
-Idea, aim, question
+The aim of this paper is 1) to examine if using commercial LLMs and extensive training approaches for linguistic classification tasks are necessary and 2) to take a closer look at the replicability of the method. This was first investigated in a close replication using two open LLMs, with the same data and the approach outlined in @morin2025. In a second step, we tested a simpler training approach with both an open LLM and also a fine-tuned distilBERT model.
 
 # Close replication
 
@@ -215,22 +215,17 @@ with a Cohen's $\kappa$ of `r round(gpt_reduced_2_kappa, 2)`.
 As a second extension, we replicated the annotation study using a
 fine-tuned DistilBERT model [@sanh]. Again, only the pretraining set was used for training the model, and, after using the "unsupervised training" sets for validation, we proceeded to testing. BERT achieved an accuracy of `r round(100 * bert_accuracy)`% (`r bert_agreement`/`r bert_total`), matching the majority-class baseline, as it classified all test items as 'non-evaluative'.
 
-
 These results suggest that, when using a comparable LLM, the training process
 need not be as elaborate as in @morin2025 to accomplish similarly high
 accuracy rates, while both the distilBERT and the smaller Mistral model showed a strong tendency toward the majority class and performed only slightly above or exactly at the majority-class baseline.
 
+# Discussion
 
-***results (how?)***
+## Suitability of LLMs and training process
 
-***interpret results...*** Although this encoder-only transformer is
-considerably smaller than even a small generative LLM, it performed
-approximately on par with the 24B Mistral model used in our first
-replication. These findings indicate that task-specific supervised
-models may provide a competitive and certainly more computationally
-efficient alternative to generative LLMs.
 
-# Critical aspects of method and methodological papers
+
+# "Replicable method"
 
 Method-focused papers with (commercial) LLMs -\> what does that mean?
 "replicable" pipeline (!) -\> make things replicable importance of
