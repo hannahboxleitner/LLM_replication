@@ -183,9 +183,16 @@ amounts of data, including text from the internet, publicly available
 datasets, or proprietary sources, they are susceptible to passive
 privacy leakage, whereby sensitive information contained in training
 data may be revealed. Also, LLMs can be vulnerable to different kinds of
-active privacy attacks [@yan2025: 1]. Other aspects worth considering in
-terms of LLM usage concern the environment: Training and operating LLMs
-requires substantial computational resources, including large amounts of
+active privacy attacks [@yan2025: 1]. While closed-source LLMs have
+historically shown superior performance, open-source LLMs have made
+significant progress in closing this performance gap [@manchanda: 4].
+Open models are a crucial aspect of open research (among open data, open
+code, open documentation etc.). Openness promotes transparency,
+reproducibility, and quality control; which are necessary features to
+support reliable empirical findings and build trustworthy AI
+[@liesenfeld2023]. Other aspects worth considering in terms of LLM usage
+concern the environment: Training and operating LLMs requires
+substantial computational resources, including large amounts of
 electricity and water (e.g. for cooling data centers), and generates
 carbon emissions. Although AI becomes cheaper and faster, its global
 adoption is rapidly increasing resource consumption [@jegham2025].
@@ -194,9 +201,12 @@ We aim to replicate a study by @morin2025, which presents a "replicable
 method" for leveraging LLMs for assistance in linguistic grammatical
 annotation. While the original study was conducted with Anthropic's
 model Claude 3.5 Sonnet [@morin2025: 4], we aimed to replicate their
-methodological pipeline using the same data, but with two open LLMs. In
-an extension of this replication, we also tested a much simpler training
-process, and also attempted to use a distilBERT model for the same task.
+methodological pipeline using the same data, but with two open LLMs.
+This first replication raised questions about the extensiveness of
+training processes, as well as possible alternatives to generative LLMs
+for such classification tasks. In an extended replication, we therefore
+tested a much simpler training process with one of the open LLMs, and
+also attempted to use a distilBERT model for the same task.
 
 **talk more about replicability here?**
 
