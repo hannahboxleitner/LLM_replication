@@ -60,6 +60,42 @@ claude_kappa <- kappa2(
 
 ```
 
+```{r}
+#| label: reduced-training-2
+#| include: false
+
+library(readr)
+library(irr)
+
+gpt_reduced_2 <- read_csv2(
+  "reduced_training/GPT_reduced_training_2_results.csv",
+  show_col_types = FALSE
+)
+
+# Accuracy
+gpt_reduced_2_accuracy <- mean(
+  gpt_reduced_2$Human_classification ==
+    gpt_reduced_2$GPT_classification
+)
+
+# Number of agreements
+gpt_reduced_2_agreement <- sum(
+  gpt_reduced_2$Human_classification ==
+    gpt_reduced_2$GPT_classification
+)
+
+# Cohen's kappa
+gpt_reduced_2_kappa <- kappa2(
+  gpt_reduced_2[
+    c("Human_classification", "GPT_classification")
+  ]
+)$value
+
+# Number of test items
+gpt_reduced_2_total <- nrow(gpt_reduced_2)
+
+```
+
 # Abstract
 
 Large Language Models (LLMs) are increasingly being leveraged for the
@@ -120,9 +156,6 @@ Idea, aim, question
 
 # Close replication
 
-*short summary of the approach in MML2025 short summary of close*
-*replication, refer to appendix (where results will be)*
-
 @morin2025 present a methodological pipeline leveraging an LLM for the
 automatic annotation of grammatical data, based on the case study of the
 evaluative *consider* construction in English. Their annotation pipeline
@@ -161,18 +194,17 @@ extend our replication to address both of these issues. First, we tested
 the need for the extensive 'in-conversation' training process outlined
 in @morin2025. To this end, we applied a much simpler few-shot training
 approach with the best-performing open LLM (GPT) from our first
-replication using the same data.
-
-***results (how much do I explain about what I left out? Appendix?)***
-
-***interpret results...*** Our results suggest that the training process
-need not be as elaborate as in @morin2025 to accomplish similarly high
-accuracy rates.
+replication using the same data. When only using the pretraining set and directly proceeding to testing afterwards, GPT achieved an accuracy of
+`r round(100 * gpt_reduced_2_accuracy)`%
+(`r gpt_reduced_2_agreement`/`r gpt_reduced_2_total`),
+with a Cohen's $\kappa$ of `r round(gpt_reduced_2_kappa, 2)`.
 
 As a second extension, we replicated the annotation study using a
-fine-tuned DistilBERT model [@sanh]. ***explain approach (supervised
-training left out, unsupervised training used for validation, but
-trained only on the "pretraining set").***
+fine-tuned DistilBERT model [@sanh]. Again, only the pretraining set was used for training the model, and, after using the "unsupervised training" sets for validation, we proceeded to testing.
+
+These results suggest that the training process
+need not be as elaborate as in @morin2025 to accomplish similarly high
+accuracy rates, and .
 
 ***results (how?)***
 

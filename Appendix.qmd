@@ -199,3 +199,66 @@ kable(claude_matrix)
 ```
 
 For the Mistral model, the matrix reveals that it is biased toward predicting non-evaluative: it gets 61 of the 63 human non-evaluative cases right, but misses 32 of the 39 evaluative cases.
+
+## Extended replication
+
+```{r}
+#| label: reduced-training-2-results
+#| include: false
+
+library(readr)
+library(irr)
+library(knitr)
+
+gpt_reduced_2 <- read_csv2(
+  "reduced_training/GPT_reduced_training_2_results.csv",
+  show_col_types = FALSE
+)
+
+# Accuracy
+gpt_reduced_2_accuracy <- mean(
+  gpt_reduced_2$Human_classification ==
+    gpt_reduced_2$GPT_classification
+)
+
+# Number of agreements
+gpt_reduced_2_agreement <- sum(
+  gpt_reduced_2$Human_classification ==
+    gpt_reduced_2$GPT_classification
+)
+
+# Cohen's kappa
+gpt_reduced_2_kappa <- kappa2(
+  gpt_reduced_2[
+    c("Human_classification", "GPT_classification")
+  ]
+)$value
+
+# Number of test items
+gpt_reduced_2_total <- nrow(gpt_reduced_2)
+
+```
+
+```{r}
+#| label: tbl-reduced-training-2
+#| tbl-cap: "GPT performance in the reduced-training replication"
+
+reduced_training_2_table <- data.frame(
+  Accuracy = paste0(
+    round(100 * gpt_reduced_2_accuracy),
+    "%"
+  ),
+  Alignments = paste0(
+    gpt_reduced_2_agreement,
+    "/",
+    gpt_reduced_2_total
+  ),
+  `Cohen's κ` = round(
+    gpt_reduced_2_kappa,
+    2
+  )
+)
+
+kable(reduced_training_2_table)
+```
+
