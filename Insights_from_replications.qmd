@@ -21,6 +21,16 @@ comparison_all <- read_csv2(
   show_col_types = FALSE
 )
 
+# Test distribution
+
+test_distribution <- table(
+  comparison_all$Human_classification
+)
+
+majority_count <- max(test_distribution)
+test_total <- nrow(comparison_all)
+majority_accuracy <- majority_count / test_total
+
 # Accuracy
 gpt_accuracy <- mean(
   comparison_all$Human_classification == comparison_all$GPT_classification
@@ -126,7 +136,11 @@ conversation transcript the authors provided [@morin2024], albeit with
 two open LLMs: Mistral Small 3.2 24B Instruct [@mistralai2026] and
 OpenAI GPT OSS 120B [@openai2026].
 
-Based on accuracy compared to the human gold standard, GPT showed comparable and even slightly better performance than Claude in the original study (GPT: `r round(100 * gpt_accuracy)`% vs. Claude `r round(100 * claude_accuracy)`%), while Mistral performed considerably worse (`r round(100 * mistral_accuracy)`%). Inter-rater agreement metrics support these observations: GPT showed strong agreement with the human gold standard ($\kappa$ = `r round(gpt_kappa, 2)`), whereas Mistral showed only slight agreement beyond chance ($\kappa$ = `r round(mistral_kappa, 2)`).
+Based on accuracy compared to the human gold standard, GPT showed comparable and even slightly better performance than Claude in the original study (GPT: `r round(100 * gpt_accuracy)`% vs. Claude `r round(100 * claude_accuracy)`%), while Mistral performed considerably worse (`r round(100 * mistral_accuracy)`%). Inter-rater agreement metrics support these observations: GPT showed strong agreement with the human gold standard ($\kappa$ = `r round(gpt_kappa, 2)`), whereas Mistral showed only slight agreement beyond chance ($\kappa$ = `r round(mistral_kappa, 2)`). While Mistral's 67% accuracy might initially sound moderately good, investigating these results as 2 x 2 matrices **(see Appendix.R**) reveals that it is heavily biased toward predicting 'non-evaluative'. Looking at the distribution of *consider*-meanings in the testing dataset, the 'non-evaluative' classification was the majority class
+(`r majority_count`/`r test_total`, `r round(100 * majority_accuracy)`%),
+and a classifier that always predicted the majority class would achieve
+an accuracy of `r round(100 * majority_accuracy)`%.
+
 The results suggest that the (close) replicability of the
 approach evidently depends on the comparability of the models. On a
 methodological level, we found that essential information to

@@ -1,0 +1,201 @@
+---
+title: "Appendix"
+format: html
+editor: visual
+execute:
+  echo: false
+---
+
+# Full results
+
+```{r}
+#| label: appendix-results
+#| include: false
+
+library(readr)
+library(irr)
+library(knitr)
+
+comparison_all <- read_csv2(
+  "replication_data/comparison_all_results.csv",
+  show_col_types = FALSE
+)
+
+# Test set distribution
+test_distribution <- table(
+  comparison_all$Human_classification
+)
+
+majority_count <- max(test_distribution)
+test_total <- nrow(comparison_all)
+majority_accuracy <- majority_count / test_total
+
+# Accuracy
+gpt_accuracy <- mean(
+  comparison_all$Human_classification ==
+    comparison_all$GPT_classification
+)
+
+mistral_accuracy <- mean(
+  comparison_all$Human_classification ==
+    comparison_all$Mistral_classification
+)
+
+claude_accuracy <- mean(
+  comparison_all$Human_classification ==
+    comparison_all$Claude_classification
+)
+
+# Number of agreements
+gpt_agreement <- sum(
+  comparison_all$Human_classification ==
+    comparison_all$GPT_classification
+)
+
+mistral_agreement <- sum(
+  comparison_all$Human_classification ==
+    comparison_all$Mistral_classification
+)
+
+claude_agreement <- sum(
+  comparison_all$Human_classification ==
+    comparison_all$Claude_classification
+)
+
+# Cohen's kappa
+gpt_kappa <- kappa2(
+  comparison_all[c("Human_classification", "GPT_classification")]
+)$value
+
+mistral_kappa <- kappa2(
+  comparison_all[c("Human_classification", "Mistral_classification")]
+)$value
+
+claude_kappa <- kappa2(
+  comparison_all[c("Human_classification", "Claude_classification")]
+)$value
+
+# Classification order for confusion matrices
+classification_levels <- c(
+  "evaluative",
+  "non-evaluative"
+)
+
+```
+
+### Distribution of classifications in the testing set
+
+```{r}
+#| label: tbl-test-distribution
+#| tbl-cap: "Distribution of classifications in the test set according to the human gold standard"
+
+test_distribution_table <- data.frame(
+  Classification = names(test_distribution),
+  n = as.vector(test_distribution),
+  Percentage = paste0(
+    round(100 * as.vector(test_distribution) / test_total),
+    "%"
+  )
+)
+
+test_distribution_table <- rbind(
+  test_distribution_table,
+  data.frame(
+    Classification = "Total",
+    n = test_total,
+    Percentage = "100%"
+  )
+)
+
+kable(test_distribution_table)
+```
+
+## Close replication
+
+The following tables represent the results of the close replication.
+
+### Accuracy and Cohen's Kappa compared to the human gold standard
+
+```{r}
+#| label: close-rep-tbl-full-results
+#| tbl-cap: "Classification accuracy and agreement with the human gold standard"
+
+results_table <- data.frame(
+  Model = c("Claude", "GPT", "Mistral"),
+  Accuracy = c(
+    paste0(round(100 * claude_accuracy), "%"),
+    paste0(round(100 * gpt_accuracy), "%"),
+    paste0(round(100 * mistral_accuracy), "%")
+  ),
+  Alignments = c(
+    paste0(claude_agreement, "/", nrow(comparison_all)),
+    paste0(gpt_agreement, "/", nrow(comparison_all)),
+    paste0(mistral_agreement, "/", nrow(comparison_all))
+  ),
+  `Cohen's κ` = round(
+    c(claude_kappa, gpt_kappa, mistral_kappa),
+    2
+  )
+)
+
+kable(results_table)
+
+```
+
+### Tables representing accuracy as 2 x 2 matrices
+
+```{r}
+#| label: tbl-gpt-confusion
+#| tbl-cap: "GPT classifications compared with the human gold standard"
+
+gpt_matrix <- table(
+  Human = factor(
+    comparison_all$Human_classification,
+    levels = classification_levels
+  ),
+  GPT = factor(
+    comparison_all$GPT_classification,
+    levels = classification_levels
+  )
+)
+
+kable(gpt_matrix)
+```
+
+```{r}
+#| label: tbl-mistral-confusion
+#| tbl-cap: "Mistral classifications compared with the human gold standard"
+
+mistral_matrix <- table(
+  Human = factor(
+    comparison_all$Human_classification,
+    levels = classification_levels
+  ),
+  Mistral = factor(
+    comparison_all$Mistral_classification,
+    levels = classification_levels
+  )
+)
+
+kable(mistral_matrix)
+```
+
+```{r}
+#| label: tbl-claude-confusion
+#| tbl-cap: "Claude classifications compared with the human gold standard"
+
+claude_matrix <- table(
+  Human = factor(
+    comparison_all$Human_classification,
+    levels = classification_levels
+  ),
+  Claude = factor(
+    comparison_all$Claude_classification,
+    levels = classification_levels
+  )
+)
+
+kable(claude_matrix)
+```
+
+For the Mistral model, the matrix reveals that it is biased toward predicting non-evaluative: it gets 61 of the 63 human non-evaluative cases right, but misses 32 of the 39 evaluative cases.
