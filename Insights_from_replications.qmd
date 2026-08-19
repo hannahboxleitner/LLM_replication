@@ -234,6 +234,22 @@ increasing resource consumption [@jegham2025].
 
 # Research aims and questions
 
+This study aims to replicate the analysis published in:
+
+> Morin, Cameron, and Matti Marttinen Larsson. 2025. “Large Corpora and Large Language Models: A Replicable Method for Automating Grammatical Annotation.” *Linguistics Vanguard* 11 (1): 501–10. <https://doi/10.1515/lingvan-2024-0228>.
+
+The data associated with this project is publicly available in an OSF repository [@morin2024]. It contains a "conversation transcript", from which the iterative training process could be traced, and several datasets for training and testing an LLM on the task of differentiating between evaluative and non-evaluative uses of the verb *consider*. The model outputs were evaluated against a human gold standard provided by the authors.
+
+We want to investigate the following research questions: (**in progress, revisit formulations of questions**)
+
+1.  Can (smaller), open-source models (*OpenAI GPT OSS 120B* and
+    *Mistral Small 3.2 24B Instruct 2506)* achieve an accuracy of **at
+    least 90%** on the linguistic classification task and when evaluated
+    against the human gold standard in @morin2025?
+2.  Can an accuracy of **at least 90%** on this task be achieved with a significantly less extensive training process than in @morin2025?
+3.  Can a small encoder-only transformer model from the BERT family,
+    distilBERT, achieve an accuracy of **at least 90%** on this task?
+
 With this paper, we aim 1) to examine if using commercial LLMs and
 extensive training approaches (as in @morin2025) are necessary for
 linguistic classification tasks and 2) to take a closer look at the
