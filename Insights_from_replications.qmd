@@ -165,7 +165,7 @@ taken into consideration.
 
 Over the past decades, linguists have gained access to ever larger
 corpora of natural language. This poses great opportunities, but also
-considerably increase the workload associated with the manual and/or
+considerably increases the workload associated with the manual and/or
 (semi-)automated preprocessing and annotation of large amounts of data.
 The rise of large language models (LLMs) is therefore an exciting
 development for linguistics research, offering new possibilities for
@@ -207,12 +207,13 @@ for linguistic annotation. The original study was conducted using a
 commercial, closed-source LLM: Anthropic's model Claude 3.5 Sonnet
 [@morin2025: 4], which is no longer available for use. We therefore
 first sought to apply the original methodological pipeline to the same
-data, but using two locally-run, open-source LLMs, whose parameters can
-be controlled to generate reproducible results. In an extended
-replication, we subsequently re-ran the task with a much simpler
-pipeline than that proposed in the original paper. Finally, we repeated
-the classification task using a simpler and widely used NLP tool from
-the BERT family, distilBERT.
+data, but using two locally-run
+<!--# HB: is this accurate, since I used them via KI:connect API? -->,
+open-source LLMs, whose parameters can be controlled to generate
+reproducible results. In an extended replication, we subsequently re-ran
+the task with a much simpler pipeline than that proposed in the original
+paper. Finally, we repeated the classification task using a simpler and
+widely used NLP tool from the BERT family, distilBERT.
 
 While large, cloud-based, proprietary LLMs continue to top performance
 benchmarks, open-source LLMs have made significant progress in closing
@@ -226,7 +227,8 @@ believe that smaller, locally-run LLMs are worth considering for
 environmental reasons: Training and operating LLMs with billions of
 parameters requires substantial computational resources, including large
 amounts of water (e.g. for cooling data centers) and electricity,
-generating substantial carbon emissions <!--# ELF: insert refs! -->.
+generating substantial carbon emissions
+<!--# ELF: insert refs! HB: also cited from jegham2015 - or meaning more refs?-->.
 Although AI becomes cheaper and faster, its global adoption is rapidly
 increasing resource consumption [@jegham2025].
 
