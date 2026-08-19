@@ -250,18 +250,6 @@ We want to investigate the following research questions: (**in progress, revisit
 3.  Can a small encoder-only transformer model from the BERT family,
     distilBERT, achieve an accuracy of **at least 90%** on this task?
 
-With this paper, we aim 1) to examine if using commercial LLMs and
-extensive training approaches (as in @morin2025) are necessary for
-linguistic classification tasks and 2) to take a closer look at the
-replicability of the method. To investigate this, we first conducted a
-close replication of @morin2025's annotation task using two open LLMs,
-using the same data and the approach outlined in @morin2025 as closely
-as possible. Based on these results, we conducted two additional
-extended replications: With one of the open LLMs, we tested its
-performance with a simpler training approach. To investigate the need of
-generative LLMs for such tasks in general, we also tested a fine-tuned
-distilBERT model, which is a small encoder-only transformer.
-
 <!--# ELF: The RQs need to be clearly formulated, ideally as questions and testable hypotheses. This section currently outlines our procedure (which is already outlined above). It does not formulate questions. -->
 
 # Close replication
