@@ -113,6 +113,26 @@ bert_agreement <- sum(
 bert_total <- length(labels_test)
 ```
 
+```{r}
+#| label: bert-extended-results
+#| include: false
+
+library(knitr)
+
+load("BERT_extended_transcripts/BERT_extended.RData")
+
+bert_extended_accuracy <- mean(
+  preds_test_extended == labels_test_extended
+)
+
+bert_extended_agreement <- sum(
+  preds_test_extended == labels_test_extended
+)
+
+bert_extended_total <- length(labels_test_extended)
+```
+
+
 # Abstract
 
 Large Language Models (LLMs) are increasingly being leveraged for the
@@ -315,7 +335,7 @@ pretraining set was used for training the model, and, after using the
 "unsupervised training" sets for validation, we proceeded to testing.
 BERT achieved an accuracy of `r round(100 * bert_accuracy)`%
 (`r bert_agreement`/`r bert_total`), matching the majority-class
-baseline, as it classified all test items as 'non-evaluative'.
+baseline, as it classified all test items as 'non-evaluative'. In a second round, we included the two unsupervised training and the pretraining set into one bigger dataset, and ran the same test (see `BERT_extended_script.R`). In this case, distilBERT actually categorized one sentence as 'evaluative', and is still almost completely aligning with the majority baseline.
 
 These results suggest that, when using a comparable LLM, the training
 process need not be as elaborate as in @morin2025 to accomplish

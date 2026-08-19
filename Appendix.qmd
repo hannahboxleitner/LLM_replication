@@ -202,6 +202,10 @@ For the Mistral model, the matrix reveals that it is biased toward predicting no
 
 ## Extended replication
 
+### Extended replication with GPT: simpler training process
+
+The GPT part includes only the replication where we went from the pretraining dataset straight to testing.
+
 ```{r}
 #| label: reduced-training-2-results
 #| include: false
@@ -262,6 +266,10 @@ reduced_training_2_table <- data.frame(
 kable(reduced_training_2_table)
 ```
 
+### Extended replication with distilBERT
+
+The distilBERT was once trained with only the pretraining dataset. The associated script is called `BERT_working_script.R` and the results can be found in `BERT_transcripts` folder.
+
 ```{r}
 #| label: bert-results
 #| include: false
@@ -283,7 +291,7 @@ bert_total <- length(labels_test)
 
 ```{r}
 #| label: tbl-bert-results
-#| tbl-cap: "BERT performance on the test set"
+#| tbl-cap: "distilBERT performance on the test set"
 
 bert_results_table <- data.frame(
   Accuracy = paste0(
@@ -298,5 +306,86 @@ bert_results_table <- data.frame(
 )
 
 kable(bert_results_table)
+```
+
+```{r}
+#| label: bert-confusion-matrix
+#| tbl-cap: "Confusion matrix for the original DistilBERT model"
+
+confusion_matrix_bert <- table(
+  Actual = factor(
+    labels_test,
+    levels = c(0, 1),
+    labels = c("evaluative", "non-evaluative")
+  ),
+  Predicted = factor(
+    preds_test,
+    levels = c(0, 1),
+    labels = c("evaluative", "non-evaluative")
+  )
+)
+
+kable(confusion_matrix_bert)
+```
+
+Also trained with a larger training dataset consisting of the pretraining set and the two unsupervised training sets (script: `BERT_extended_script.R)`:
+
+```{r}
+#| label: bert-extended-results
+#| include: false
+
+library(knitr)
+
+load("BERT_extended_transcripts/BERT_extended.RData")
+
+bert_extended_accuracy <- mean(
+  preds_test_extended == labels_test_extended
+)
+
+bert_extended_agreement <- sum(
+  preds_test_extended == labels_test_extended
+)
+
+bert_extended_total <- length(labels_test_extended)
+```
+
+```{r}
+#| label: tbl-bert-extended-results
+#| tbl-cap: "DistilBERT performance on extended training dataset"
+
+bert_extended_results_table <- data.frame(
+  Accuracy = paste0(
+    round(100 * bert_extended_accuracy),
+    "%"
+  ),
+  Alignments = paste0(
+    bert_extended_agreement,
+    "/",
+    bert_extended_total
+  )
+)
+
+kable(bert_extended_results_table)
+
+```
+
+```{r}
+#| label: bert-extended-confusion-matrix
+#| tbl-cap: "Confusion matrix for the extended DistilBERT model"
+
+confusion_matrix_extended <- table(
+  Actual = factor(
+    labels_test_extended,
+    levels = c(0, 1),
+    labels = c("evaluative", "non-evaluative")
+  ),
+  Predicted = factor(
+    preds_test_extended,
+    levels = c(0, 1),
+    labels = c("evaluative", "non-evaluative")
+  )
+)
+
+kable(confusion_matrix_extended)
 ```
 

@@ -1,0 +1,333 @@
+> ## Setup (once every R session)
+> # load reticulate
+> library(reticulate)
+Warnmeldung:
+Paket ‘reticulate’ wurde unter R Version 4.5.3 erstellt 
+
+> # activate the correct virtual environment
+> use_virtualenv("r-transformers", required = TRUE)
+> # optionally check Python connection
+> py_config()
+python:         C:/Users/HP/Documents/.virtualenvs/r-transformers/Scripts/python.exe
+libpython:      C:/Users/HP/AppData/Local/Python/pythoncore-3.10-64/python310.dll
+pythonhome:     C:/Users/HP/Documents/.virtualenvs/r-transformers
+version:        3.10.11 (tags/v3.10.11:7d4cc5a, Apr  5 2023, 00:38:17) [MSC v.1929 64 bit (AMD64)]
+Architecture:   64bit
+numpy:          C:/Users/HP/Documents/.virtualenvs/r-transformers/Lib/site-packages/numpy
+numpy_version:  2.2.6
+
+NOTE: Python version was forced by use_python() function
+> # load R packages
+> #library(text) # if I need it
+> library(dplyr)
+
+Attache Paket: ‘dplyr’
+
+Die folgenden Objekte sind maskiert von ‘package:stats’:
+
+    filter, lag
+
+Die folgenden Objekte sind maskiert von ‘package:base’:
+
+    intersect, setdiff,
+    setequal, union
+
+Warnmeldung:
+Paket ‘dplyr’ wurde unter R Version 4.5.3 erstellt 
+
+> library(ggplot2)
+Warnmeldung:
+Paket ‘ggplot2’ wurde unter R Version 4.5.3 erstellt 
+
+> # importing Python module into R (via reticulate)
+> transformers <- import("transformers", delay_load = TRUE)
+> datasets <- import("datasets")
+> torch <- import("torch")
+> # Import data (from replication of Morin & Marttinen Larssons's study)
+> source("Data_import.R")
+here() starts at C:/Users/HP/Desktop/Master/OpenScience/termpaper/LLM_replication
+── Attaching core tidyverse packages ─────────────── tidyverse 2.0.0 ──
+✔ forcats   1.0.0     ✔ stringr   1.6.0
+✔ lubridate 1.9.4     ✔ tibble    3.3.1
+✔ purrr     1.2.2     ✔ tidyr     1.3.2
+✔ readr     2.1.5     
+── Conflicts ───────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package to force all conflicts to become errors
+ℹ Using "','" as decimal and "'.'" as grouping mark. Use `read_delim()` for more control.
+Rows: 485 Columns: 3                                                 
+── Column specification ───────────────────────────────────────────────
+Delimiter: ";"
+chr (2): Sentence, Correct_classifications
+dbl (1): id
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+ℹ Using "','" as decimal and "'.'" as grouping mark. Use `read_delim()` for more control.
+Rows: 100 Columns: 2                                                 
+── Column specification ───────────────────────────────────────────────
+Delimiter: ";"
+chr (1): Sentence
+dbl (1): id
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+ℹ Using "','" as decimal and "'.'" as grouping mark. Use `read_delim()` for more control.
+Rows: 100 Columns: 2                                                 
+── Column specification ───────────────────────────────────────────────
+Delimiter: ";"
+chr (1): Sentence
+dbl (1): id
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+ℹ Using "','" as decimal and "'.'" as grouping mark. Use `read_delim()` for more control.
+New names:                                                           
+• `` -> `...5`
+Rows: 100 Columns: 5
+── Column specification ───────────────────────────────────────────────
+Delimiter: ";"
+chr (4): Sentence, Classification_Matti, classification claude, ...5
+dbl (1): id
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+ℹ Using "','" as decimal and "'.'" as grouping mark. Use `read_delim()` for more control.
+New names:                                                           
+• `` -> `...5`
+Rows: 101 Columns: 5
+── Column specification ───────────────────────────────────────────────
+Delimiter: ";"
+chr (4): Consider_construction, classification_Matti, classificatio...
+dbl (1): id
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+ℹ Using "','" as decimal and "'.'" as grouping mark. Use `read_delim()` for more control.
+New names:                                                           
+• `` -> `...5`
+Rows: 101 Columns: 5
+── Column specification ───────────────────────────────────────────────
+Delimiter: ";"
+chr (4): Consider_construction, classification_Matti, classificatio...
+dbl (1): id
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+ℹ Using "','" as decimal and "'.'" as grouping mark. Use `read_delim()` for more control.
+New names:                                                           
+• `` -> `...5`
+Rows: 102 Columns: 5
+── Column specification ───────────────────────────────────────────────
+Delimiter: ";"
+chr (4): Consider_construction, Claude_classification, Matti_classi...
+dbl (1): id
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+ℹ Using "','" as decimal and "'.'" as grouping mark. Use `read_delim()` for more control.
+New names:                                                           
+• `` -> `...5`
+Rows: 102 Columns: 5
+── Column specification ───────────────────────────────────────────────
+Delimiter: ";"
+chr (4): Consider_construction, Claude_classification, Matti_classi...
+dbl (1): id
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+ℹ Using "','" as decimal and "'.'" as grouping mark. Use `read_delim()` for more control.
+New names:                                                           
+• `` -> `...5`
+Rows: 102 Columns: 5
+── Column specification ───────────────────────────────────────────────
+Delimiter: ";"
+chr (4): Consider_construction, Claude_classification, Matti_classi...
+dbl (1): id
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+ℹ Using "','" as decimal and "'.'" as grouping mark. Use `read_delim()` for more control.
+Rows: 102 Columns: 4                                                   
+── Column specification ───────────────────────────────────────────────
+Delimiter: ";"
+chr (3): Sentence, Human_classification, GPT_classification
+dbl (1): id
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+ℹ Using "','" as decimal and "'.'" as grouping mark. Use `read_delim()` for more control.
+Rows: 102 Columns: 4                                                   
+── Column specification ───────────────────────────────────────────────
+Delimiter: ";"
+chr (3): Sentence, Human_classification, Mistral_classification
+dbl (1): id
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Warnmeldungen:                                                       
+1: Paket ‘tidyverse’ wurde unter R Version 4.5.3 erstellt 
+2: Paket ‘tibble’ wurde unter R Version 4.5.3 erstellt 
+3: Paket ‘tidyr’ wurde unter R Version 4.5.3 erstellt 
+4: Paket ‘readr’ wurde unter R Version 4.5.1 erstellt 
+5: Paket ‘purrr’ wurde unter R Version 4.5.3 erstellt 
+6: Paket ‘stringr’ wurde unter R Version 4.5.3 erstellt 
+> # Label mapping
+> label_map <- c(
++   "evaluative" = 0,
++   "non-evaluative" = 1,
++   "?" = 2
++ )
+> ## Load training data
+> # Pretraining data
+> df_pretraining <- pretraining_set |>
++   select(Sentence, Correct_classifications) |>
++   rename(classification = Correct_classifications)
+> # Unsupervised training set 1 + solution labels
+> df_unsup1 <- unsup_training_set1 |>
++   select(id, Sentence) |>
++   left_join(
++     unsup1_solution |>
++       select(id, Classification_Matti),
++     by = "id"
++   ) |>
++   select(Sentence, Classification_Matti) |>
++   rename(classification = Classification_Matti)
+> # Unsupervised training set 2 + solution labels
+> df_unsup2 <- unsup_training_set2 |>
++   select(id, Sentence) |>
++   left_join(
++     unsup2_solution |>
++       select(id, classification_Matti),
++     by = "id"
++   ) |>
++   select(Sentence, classification_Matti) |>
++   rename(classification = classification_Matti)
+> # Combine all three training datasets into dataframe
+> df_extended <- bind_rows(
++   df_pretraining,
++   df_unsup1,
++   df_unsup2
++ )
+> # convert classifications to numerical labels for DistilBERT
+> df_extended$label <- as.integer(label_map[df_extended$classification])
+> # load distilbert
+> tokenizer <- transformers$AutoTokenizer$from_pretrained(
++   "distilbert-base-uncased",
++   use_fast = TRUE
++ )
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+> model <- transformers$AutoModelForSequenceClassification$from_pretrained(
++   "distilbert-base-uncased",
++   num_labels = as.integer(3)
++ )
+Loading weights: 100%|██████████| 100/100 [00:00<00:00, 3124.39it/s]
+[transformers] DistilBertForSequenceClassification LOAD REPORT from: distilbert-base-uncased
+Key                     | Status     | 
+------------------------+------------+-
+vocab_transform.weight  | UNEXPECTED | 
+vocab_projector.bias    | UNEXPECTED | 
+vocab_layer_norm.bias   | UNEXPECTED | 
+vocab_layer_norm.weight | UNEXPECTED | 
+vocab_transform.bias    | UNEXPECTED | 
+pre_classifier.weight   | MISSING    | 
+pre_classifier.bias     | MISSING    | 
+classifier.bias         | MISSING    | 
+classifier.weight       | MISSING    | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+- MISSING:	those params were newly initialized because missing from the checkpoint. Consider training on your downstream task.
+> # Convert data to huggingface dataset
+> dataset <- datasets$Dataset$from_dict(list(
++   text = df_extended$Sentence,
++   label = df_extended$label
++ ))
+> # Tokenization
+> tokenize_function <- function(example) {
++   tokenizer(
++     example[["text"]],
++     truncation = TRUE,
++     padding = "max_length",
++     max_length = as.integer(128)
++   )
++ }
+> tokenized_dataset <- dataset$map(tokenize_function, batched = TRUE)
+Map: 100%|██████████| 686/686 [00:00<00:00, 4425.47 examples/s]
+> nrow(df_pretraining)
+[1] 485
+> nrow(df_unsup1)
+[1] 100
+> nrow(df_unsup2)
+[1] 101
+> nrow(df_extended)
+[1] 686
+> 
+> table(df_extended$classification, useNA = "ifany")
+
+    evaluative non-evaluative 
+           248            438 
+> sum(is.na(df_extended$label))
+[1] 0
+> getwd()
+[1] "C:/Users/HP/Desktop/Master/OpenScience/termpaper/LLM_replication"
+> # Training
+> training_args <- transformers$TrainingArguments(
++   output_dir = "./results_BERT_extended",
++   learning_rate = 2e-5,
++   per_device_train_batch_size = as.integer(8),
++   num_train_epochs = as.integer(3),
++   weight_decay = 0.01
++ )
+> trainer_extended <- transformers$Trainer(
++   model = model,
++   args = training_args,
++   train_dataset = tokenized_dataset
++ )
+> trainer_extended$train()
+  0%|          | 0/258 [00:00<?, ?it/s]C:\Users\HP\DOCUME~1\VIRTUA~1\R-TRAN~1\lib\site-packages\torch\utils\data\dataloader.py:752: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+  super().__init__(loader)
+Writing model shards: 100%|██████████| 1/1 [00:01<00:00,  1.65s/it]
+100%|██████████| 258/258 [22:14<00:00,  5.17s/it]<00:00,  1.64s/it]
+TrainOutput(global_step=258, training_loss=0.6780458790387294, metrics={'train_runtime': 1334.1007, 'train_samples_per_second': 1.543, 'train_steps_per_second': 0.193, 'total_flos': 68155692046848.0, 'train_loss': 0.6780458790387294, 'epoch': 3.0})
+{'train_runtime': '1334', 'train_samples_per_second': '1.543', 'train_steps_per_second': '0.193', 'train_loss': '0.678', 'epoch': '3'}
+> # Testing
+> # prepare test data
+> df_test_extended <- testing_set |>
++   select(id, Sentence)
+> df_test_extended$label <- as.integer(
++   label_map[human_gold_standard$Human_classification]
++ )
+> # build HF dataset
+> test_dataset_extended <- datasets$Dataset$from_dict(list(
++   text = df_test_extended$Sentence,
++   label = df_test_extended$label
++ ))
+> # tokenize
+> tokenized_test_extended <- test_dataset_extended$map(
++   tokenize_function,
++   batched = TRUE
++ )
+Map: 100%|██████████| 102/102 [00:00<00:00, 440.08 examples/s]
+> # prediction
+> pred_test_extended <- trainer_extended$predict(
++   tokenized_test_extended
++ )
+C:\Users\HP\DOCUME~1\VIRTUA~1\R-TRAN~1\lib\site-packages\torch\utils\data\dataloader.py:752: UserWarning: 'pin_memory' argument is set as true but no accelerator is found, then device pinned memory won't be used.
+  super().__init__(loader)
+100%|██████████| 13/13 [00:15<00:00,  1.18s/it]
+> # Accuracy
+> preds_test_extended <- apply(pred_test_extended$predictions, 1, which.max) - 1
+> labels_test_extended <- pred_test_extended$label_ids
+> accuracy_test_extended <- mean(preds_test_extended == labels_test_extended)
+> accuracy_test_extended
+[1] 0.627451
+> # Save
+> writeLines(capture.output(sessionInfo()), "sessionInfo_BERT_extended.txt")
+> # Save
+> writeLines(
++   capture.output(sessionInfo()),
++   "BERT_extended_transcripts/sessionInfo_BERT_extended.txt"
++ )
+> save.image("BERT_extended_transcripts/BERT_extended.RData")
