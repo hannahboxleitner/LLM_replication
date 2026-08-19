@@ -163,52 +163,72 @@ taken into consideration.
 
 # Introduction
 
-In the last decades, researchers in corpus linguistics have gained
-access to increasingly massive corpora of natural language. This poses
-great opportunities, but also necessitates manual cleaning and
-processing of large amounts of data [@morin2025: 1]. The rise of large
-language models (LLMs) is therefore a rather interesting development,
-offering new possibilities for complementing and extending existing
-automated methods for processing larger datasets and corpora. In recent
-years, a rising number of papers testing LLMs for assistance in
-linguistic research have been published [e.g. @yu2024; @heseltine2024]
-**maybe add more?**. While LLMs have shown promising results in a range
-of studies, there is further exploration needed to effectively and
-reliably leverage them for linguistic data annotation
-[@lidiiaostyakova2025: 131]. While LLMs are increasingly prevalent in
-both research and day-to-day life, they also raise a range of concerns.
-Closed, commercial LLMs are often developed intransparently and without
-ethical oversight [@liesenfeld2023]. Since their training relies on vast
-amounts of data, including text from the internet, publicly available
-datasets, or proprietary sources, they are susceptible to passive
-privacy leakage, whereby sensitive information contained in training
-data may be revealed. Also, LLMs can be vulnerable to different kinds of
-active privacy attacks [@yan2025: 1]. While closed-source LLMs have
-historically shown superior performance, open-source LLMs have made
-significant progress in closing this performance gap [@manchanda: 4].
-Open models are a crucial aspect of open research (among open data, open
-code, open documentation etc.). Openness promotes transparency,
-reproducibility, and quality control; which are necessary features to
-support reliable empirical findings and build trustworthy AI
-[@liesenfeld2023]. Other aspects worth considering in terms of LLM usage
-concern the environment: Training and operating LLMs requires
-substantial computational resources, including large amounts of
-electricity and water (e.g. for cooling data centers), and generates
-carbon emissions. Although AI becomes cheaper and faster, its global
-adoption is rapidly increasing resource consumption [@jegham2025].
+Over the past decades, linguists have gained access to ever larger
+corpora of natural language. This poses great opportunities, but also
+considerably increase the workload associated with the manual and/or
+(semi-)automated preprocessing and annotation of large amounts of data.
+The rise of large language models (LLMs) is therefore an exciting
+development for linguistics research, offering new possibilities for
+complementing and extending existing automated methods for processing
+larger datasets and corpora. In recent years, a growing number of
+publications have reported on the usefulness of LLMs for a range of
+linguistic annotation tasks [e.g. @yu2024; @heseltine2024] **maybe add
+more?**
+<!--# ELF: Yes, and specifying the kinds of linguistic tasks. E.g. on metaphor detection (Fuoli et al., 2025), annotation of speech acts (Yu et al. 2024; Su & Ye 2025), word sense or function disambiguation (Fonteyn et al., 2023; Morin & Marttinen Larsson 2025). -->.
 
-We aim to replicate a study by @morin2025, which presents a "replicable
-method" for leveraging LLMs for assistance in linguistic grammatical
-annotation. While the original study was conducted with Anthropic's
-model Claude 3.5 Sonnet [@morin2025: 4], we aimed to replicate their
-methodological pipeline using the same data, but with two open LLMs.
-This first replication raised questions about the extensiveness of
-training processes, as well as possible alternatives to generative LLMs
-for such classification tasks. In an extended replication, we therefore
-tested a much simpler training process with one of the open LLMs, and
-also attempted to use a distilBERT model for the same task.
+While LLMs are increasingly prevalent in both linguistic research and
+our everyday lives, they also raise a number of concerns. For research
+purposes, specifically, their 'black-box' nature raises concerns over
+the transparency, reproducibility, replicability of the research
+produced with their assistance. Note, that although the terms have been
+used interchangeably in the past, we distinguish between reproducibility
+and replicability following the definitions of the FORRT
+[@parsonsCommunitysourcedGlossaryOpen2022] and Turing Way
+[@theturingwaycommunityTuringWayHandbook2022] communities. We thus
+define *reproducibility* as the ability of an independent researcher or
+team to obtain the same results as an original study using the original
+data and methods (see @fig-ReproducibilityTerminology). This is in
+contrast to *replicability*, where the same methods are applied, but on
+different data; and robustness, where the same data, but different
+methods are used. Only if an effect can be reliably observed across
+different datasets with different methods, can we claim that it is
+*generalisable*.
 
-**talk more about replicability here?**
+![Term disambiguation [@theturingwaycommunityTuringWayHandbook2022, CC
+BY
+4.0]](figures/TuringWay_reproducible-matrix.jpg){#fig-ReproducibilityTerminology
+out-width="70%"
+fig-alt="A table defining four terms: reproducible, replicable, robust, and generalisable. For reproducibility, data and analysis are the same. For replicability, data is different and the analysis is the same. For robustness, data is the same and the analysis is different. For generalisability, data and analysis are both different."
+width="60%"}
+
+In this study, we seek to replicate @morin2025's methodological study,
+whose title claims to present a "replicable method" for leveraging LLMs
+for linguistic annotation. The original study was conducted using a
+commercial, closed-source LLM: Anthropic's model Claude 3.5 Sonnet
+[@morin2025: 4], which is no longer available for use. We therefore
+first sought to apply the original methodological pipeline to the same
+data, but using two locally-run, open-source LLMs, whose parameters can
+be controlled to generate reproducible results. In an extended
+replication, we subsequently re-ran the task with a much simpler
+pipeline than that proposed in the original paper. Finally, we repeated
+the classification task using a simpler and widely used NLP tool from
+the BERT family, distilBERT.
+
+While large, cloud-based, proprietory LLMs continue to top performance
+benchmarks, open-source LLMs have made significant progress in closing
+this performance gap [@manchanda: 4]. We consider open models to form a
+crucial part of the open research ecosystem (alongside open materials,
+open data, open code, open documentation, open access, etc.). Openness
+promotes transparency, reproducibility, and quality control; which are
+necessary features to support accessible, reliable, and credible
+empirical findings and build trustworthy AI [@liesenfeld2023]. We also
+believe that smaller, locally-run LLMs are worth considering for
+environmental reasons: Training and operating LLMs with billions of
+parameters requires substantial computational resources, including large
+amounts of water (e.g. for cooling data centers) and electriticy,
+generating substantial carbon emissions <!--# insert refs! -->. Although
+AI becomes cheaper and faster, its global adoption is rapidly increasing
+resource consumption [@jegham2025].
 
 # Research aims and questions
 
@@ -216,12 +236,15 @@ With this paper, we aim 1) to examine if using commercial LLMs and
 extensive training approaches (as in @morin2025) are necessary for
 linguistic classification tasks and 2) to take a closer look at the
 replicability of the method. To investigate this, we first conducted a
-close replication using two open LLMs, with the same data and same
-approach outlined in @morin2025. Based on these results, we extended the
-replication in two ways: With one of the open LLMs, we tested its
+close replication of @morin2025's annotation task using two open LLMs,
+using the same data and the approach outlined in @morin2025 as closely
+as possible. Based on these results, we conducted two additional
+extended replications: With one of the open LLMs, we tested its
 performance with a simpler training approach. To investigate the need of
 generative LLMs for such tasks in general, we also tested a fine-tuned
 distilBERT model, which is a small encoder-only transformer.
+
+<!--# The RQs need to be clearly formulated, ideally as questions and testable hypotheses. This section currently outlines our procedure (which is already outlined above). It does not formulate questions. -->
 
 # Close replication
 
@@ -244,8 +267,8 @@ original study (GPT: `r round(100 * gpt_accuracy)`% vs. Claude
 `r round(100 * claude_accuracy)`%), while Mistral performed considerably
 worse (`r round(100 * mistral_accuracy)`%). Inter-rater agreement
 metrics support these observations: GPT showed strong agreement with the
-human gold standard ($\kappa$ = `r round(gpt_kappa, 2)`), whereas
-Mistral showed only slight agreement beyond chance ($\kappa$ =
+human gold standard ($\kappa$\$\\kappa\$ = `r round(gpt_kappa, 2)`),
+whereas Mistral showed only slight agreement beyond chance ($\kappa$ =
 `r round(mistral_kappa, 2)`). While Mistral's 67% accuracy might
 initially sound moderately good, investigating these results as 2 x 2
 matrices **(see Appendix.R**) reveals that it is heavily biased toward
@@ -302,6 +325,14 @@ linguistic task.
 
 While with a
 
+Closed, commercial LLMs are often developed intransparently and without
+ethical oversight [@liesenfeld2023]. Since their training relies on vast
+amounts of data, including text from the internet, publicly available
+datasets, or proprietary sources, they are susceptible to passive
+privacy leakage, whereby sensitive information contained in training
+data may be revealed. Also, LLMs can be vulnerable to different kinds of
+active privacy attacks [@yan2025: 1]. 
+
 ## "Replicable method"
 
 Method-focused papers with (commercial) LLMs -\> what does that mean?
@@ -309,6 +340,10 @@ Method-focused papers with (commercial) LLMs -\> what does that mean?
 reproducibility **(might turn into 2 chapters?)**
 
 # Conclusion (whole paper: max. 4000 words)
+
+While LLMs have shown promising results in a range of tasks, further
+exploration is needed to effectively and reliably leverage them for
+linguistic data annotation [@lidiiaostyakova2025: 131].
 
 what we may learn from the extensions about the approach and LLM use in
 corpus studies method and replicability open science practices esp.
