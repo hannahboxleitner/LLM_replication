@@ -174,7 +174,7 @@ larger datasets and corpora. In recent years, a growing number of
 publications have reported on the usefulness of LLMs for a range of
 linguistic annotation tasks [e.g. @yu2024; @heseltine2024] **maybe add
 more?**
-<!--# ELF: Yes, and specifying the kinds of linguistic tasks. E.g. on metaphor detection (Fuoli et al., 2025), annotation of speech acts (Yu et al. 2024; Su & Ye 2025), word sense or function disambiguation (Fonteyn et al., 2023; Morin & Marttinen Larsson 2025). -->.
+<!--# ELF: Yes, and specifying the kinds of linguistic tasks. E.g. on metaphor detection (Fuoli et al., 2025), annotation of speech acts (Yu et al. 2024; Su & Ye 2025), word sense or function disambiguation (Fonteyn et al., 2023; Morin & Marttinen Larsson 2025). + mostly on English so far -->.
 
 While LLMs are increasingly prevalent in both linguistic research and
 our everyday lives, they also raise a number of concerns. For research
@@ -214,7 +214,7 @@ pipeline than that proposed in the original paper. Finally, we repeated
 the classification task using a simpler and widely used NLP tool from
 the BERT family, distilBERT.
 
-While large, cloud-based, proprietory LLMs continue to top performance
+While large, cloud-based, proprietary LLMs continue to top performance
 benchmarks, open-source LLMs have made significant progress in closing
 this performance gap [@manchanda: 4]. We consider open models to form a
 crucial part of the open research ecosystem (alongside open materials,
@@ -225,10 +225,10 @@ empirical findings and build trustworthy AI [@liesenfeld2023]. We also
 believe that smaller, locally-run LLMs are worth considering for
 environmental reasons: Training and operating LLMs with billions of
 parameters requires substantial computational resources, including large
-amounts of water (e.g. for cooling data centers) and electriticy,
-generating substantial carbon emissions <!--# insert refs! -->. Although
-AI becomes cheaper and faster, its global adoption is rapidly increasing
-resource consumption [@jegham2025].
+amounts of water (e.g. for cooling data centers) and electricity,
+generating substantial carbon emissions <!--# ELF: insert refs! -->.
+Although AI becomes cheaper and faster, its global adoption is rapidly
+increasing resource consumption [@jegham2025].
 
 # Research aims and questions
 
@@ -244,7 +244,7 @@ performance with a simpler training approach. To investigate the need of
 generative LLMs for such tasks in general, we also tested a fine-tuned
 distilBERT model, which is a small encoder-only transformer.
 
-<!--# The RQs need to be clearly formulated, ideally as questions and testable hypotheses. This section currently outlines our procedure (which is already outlined above). It does not formulate questions. -->
+<!--# ELF: The RQs need to be clearly formulated, ideally as questions and testable hypotheses. This section currently outlines our procedure (which is already outlined above). It does not formulate questions. -->
 
 # Close replication
 
@@ -331,7 +331,7 @@ amounts of data, including text from the internet, publicly available
 datasets, or proprietary sources, they are susceptible to passive
 privacy leakage, whereby sensitive information contained in training
 data may be revealed. Also, LLMs can be vulnerable to different kinds of
-active privacy attacks [@yan2025: 1]. 
+active privacy attacks [@yan2025: 1].
 
 ## "Replicable method"
 
