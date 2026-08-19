@@ -267,14 +267,14 @@ original study (GPT: `r round(100 * gpt_accuracy)`% vs. Claude
 `r round(100 * claude_accuracy)`%), while Mistral performed considerably
 worse (`r round(100 * mistral_accuracy)`%). Inter-rater agreement
 metrics support these observations: GPT showed strong agreement with the
-human gold standard ($\kappa$\$\\kappa\$ = `r round(gpt_kappa, 2)`),
-whereas Mistral showed only slight agreement beyond chance ($\kappa$ =
-`r round(mistral_kappa, 2)`). While Mistral's 67% accuracy might
-initially sound moderately good, investigating these results as 2 x 2
-matrices **(see Appendix.R**) reveals that it is heavily biased toward
-predicting 'non-evaluative'. Looking at the distribution of
-*consider*-meanings in the testing dataset, the 'non-evaluative'
-classification was the majority class
+human gold standard ($\kappa$\$\\kappa\$\$\\kappa\$ =
+`r round(gpt_kappa, 2)`), whereas Mistral showed only slight agreement
+beyond chance ($\kappa$ = `r round(mistral_kappa, 2)`). While Mistral's
+67% accuracy might initially sound moderately good, investigating these
+results as 2 x 2 matrices **(see Appendix.R**) reveals that it is
+heavily biased toward predicting 'non-evaluative'. Looking at the
+distribution of *consider*-meanings in the testing dataset, the
+'non-evaluative' classification was the majority class
 (`r majority_count`/`r test_total`,
 `r round(100 * majority_accuracy)`%), and a classifier that always
 predicted the majority class would achieve an accuracy of
@@ -345,6 +345,6 @@ While LLMs have shown promising results in a range of tasks, further
 exploration is needed to effectively and reliably leverage them for
 linguistic data annotation [@lidiiaostyakova2025: 131].
 
-what we may learn from the extensions about the approach and LLM use in
+*what we may learn from the extensions about the approach and LLM use in
 corpus studies method and replicability open science practices esp.
-important when we throw LLMs on everything
+important when we throw LLMs on everything*

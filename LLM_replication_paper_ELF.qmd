@@ -299,39 +299,48 @@ p-value = 0
 
 ### 2. round: only pretraining and testing
 
-I also wanted to test the model with an even shorter approach: I only used the pretraining dataset and initial prompt, skipped the whole supervised/unsupervised training process in between and proceeded straight to testing. The model achieved an accuracy rate of 94% (0.9411765).
+I also wanted to test the model with an even shorter approach: I only used the pretraining dataset and initial prompt, skipped the whole supervised/unsupervised training process in between and proceeded straight to testing. The model achieved an accuracy rate of 94% (0.9411765). (files: GPT_20260706_RAW.txt, and GPT_reduced_training_2_results.csv)
 
- Cohen's Kappa for 2 Raters (Weights: unweighted)
+Cohen's Kappa for 2 Raters (Weights: unweighted)
 
- Subjects = 102 
-   Raters = 2 
-    Kappa = 0.879 
+Subjects = 102 Raters = 2 Kappa = 0.879
 
-        z = 8.94 
-  p-value = 0 
+```         
+    z = 8.94 
+```
 
-## Next steps (meeting 17.06.26)
+p-value = 0
 
-- think about framing: start with replication, -\> then go to the approach with less -\> the moral is not about *consider* at all, but about tools to be used in corpus studies, reproducibility is important, accessibility, energy and water consumption etc.; also the approach in original study/commercial LLM use might not be necessary when you can use Bert and other tools specifically designed; also we will make some suggestions that if you write a methods paper then it should really tell more about the method
+## Notes (meeting 17.06.26)
 
-- we need to get to a lot fewer words (3000-4000 words) -\> a lot of my analysis will be in the appendix (including the actual results)
+- 3000-4000 words without references -\> a lot of original analysis will be in appendix (including the actual results)
 
 - the actual paper will be about the method
 
-- get elen access (elen\@fridu.net oder elenlefoll on Github)
-
-- I think of the structure of the appendix, how many documents etc.
-
-- start a new quarto document that is the paper (including the "new" results: call them"extensions" for now)
-
-- first was a close replication, second one extended the idea
-
-- start writing research aims and questions; start writing the methods (how we did the wholestudy, replication with the data etc (or more like a reproduction), then the extensions, which models were used, programming language etc. -\> refer to appendix, script etc)
-
-- start with the core of the paper and then later the framing where Elen will come in
+- structure of the appendix, how many documents etc.
 
 - not just about this (original) paper, but a bigger issue
 
-- **7-9th July 2027** WoReLa: write an abstract (500 words excluding titles, references) (submit it until **August 15th**) -\> I can also send Elen bullet points and she will write it
+## Notes (meeting 19.08)
+
+- write what we have done so far, but consider that BERT might need more training/fine-tuning -\> maybe check with unsupervised training sets as additional training and then test again
+
+- add more examples of LLM studies categorized in different kinds of research (see comment)
+
+- argument that LLM research is primarily in English, include sources for that claim (in discussion or introduction?)
+
+Research aims & questions section:
+
+- keep in mind: differentiate aims & procedure, avoid redundancies
+
+- formulate research questions and make them testable: 1. can small open models compete? 2. is such extensive conversation/training necessary? 3. can also BERT compete?
+
+- about testability: check if authors gave confidence intervals, if not -\> RQ simply about is the performance similar or better
+
+- things like data leakage etc. belong in discussion
+
+- (reply in same comments with initials)
+
+- 
 
 # References {.unnumbered}
