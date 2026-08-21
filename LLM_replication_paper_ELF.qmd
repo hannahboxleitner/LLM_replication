@@ -323,8 +323,6 @@ p-value = 0
 
 ## Notes (meeting 19.08)
 
-- write what we have done so far, but consider that BERT might need more training/fine-tuning -\> maybe check with unsupervised training sets as additional training and then test again
-
 - add more examples of LLM studies categorized in different kinds of research (see comment)
 
 - argument that LLM research is primarily in English, include sources for that claim (in discussion or introduction?)
@@ -335,12 +333,12 @@ Research aims & questions section:
 
 - formulate research questions and make them testable: 1. can small open models compete? 2. is such extensive conversation/training necessary? 3. can also BERT compete?
 
-- about testability: check if authors gave confidence intervals, if not -\> RQ simply about is the performance similar or better
+- about testability: accuracy + precision + recall + f-score + mcc -\> calculate those!
 
 - things like data leakage etc. belong in discussion
 
-- (reply in same comments with initials)
+- report distribution + majority baseline for the pretraining set as well (in appendix)
 
-- 
+- renumber files in order of need for analysis
 
 # References {.unnumbered}
