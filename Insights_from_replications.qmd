@@ -132,7 +132,6 @@ bert_extended_agreement <- sum(
 bert_extended_total <- length(labels_test_extended)
 ```
 
-
 # Abstract
 
 Large Language Models (LLMs) are increasingly being leveraged for the
@@ -256,21 +255,50 @@ increasing resource consumption [@jegham2025].
 
 This study aims to replicate the analysis published in:
 
-> Morin, Cameron, and Matti Marttinen Larsson. 2025. “Large Corpora and Large Language Models: A Replicable Method for Automating Grammatical Annotation.” *Linguistics Vanguard* 11 (1): 501–10. <https://doi/10.1515/lingvan-2024-0228>.
+> Morin, Cameron, and Matti Marttinen Larsson. 2025. “Large Corpora and
+> Large Language Models: A Replicable Method for Automating Grammatical
+> Annotation.” *Linguistics Vanguard* 11 (1): 501–10.
+> <https://doi/10.1515/lingvan-2024-0228>.
 
-The data associated with this project is publicly available in an OSF repository [@morin2024]. It contains a "conversation transcript", from which the iterative training process could be traced, and several datasets for training and testing an LLM on the task of differentiating between evaluative and non-evaluative uses of the verb *consider*. The model outputs were evaluated against a human gold standard provided by the authors.
+The data associated with this project is publicly available in an OSF
+repository [@morin2024]. It contains a "conversation transcript", from
+which the iterative training process could be traced, and several
+datasets for training and testing an LLM on the task of differentiating
+between evaluative and non-evaluative uses of the verb *consider*. The
+model outputs were evaluated against a human gold standard provided by
+the authors.
 
-We want to investigate the following research questions: (**in progress, revisit formulations of questions**)
+We want to investigate the following research questions (RQs):
 
-1.  Can (smaller), open-source models (*OpenAI GPT OSS 120B* and
-    *Mistral Small 3.2 24B Instruct 2506)* achieve an accuracy of **at
-    least 90%** on the linguistic classification task and when evaluated
-    against the human gold standard in @morin2025?
-2.  Can an accuracy of **at least 90%** on this task be achieved with a significantly less extensive training process than in @morin2025?
+1.  Can smaller, open-source models perform as well or better on the
+    same task as Claude Sonnet 3.5 based on the accuracy metrics
+    reported in @morin2025?
+2.  Can 1.
+    <!--# HB: I did not find an acceptable formulation including, task, accuracy metrics etc., but this is not explicit enough I guess? -->
+    be achieved with a significantly less extensive training process
+    than in @morin2025?
 3.  Can a small encoder-only transformer model from the BERT family,
-    distilBERT, achieve an accuracy of **at least 90%** on this task?
+    distilBERT, perform as well or better on the same task as Claude
+    Sonnet 3.5 based on the accuracy metrics reported in @morin2025?
 
-<!--# ELF: The RQs need to be clearly formulated, ideally as questions and testable hypotheses. This section currently outlines our procedure (which is already outlined above). It does not formulate questions. -->
+The open-source models used for this replication are Mistral Small 3.2
+24B Instruct 2506 [@mistralai2026] (further referred to as "Mistral"),
+an open-weight model released in 2025 under Apache 2.0 license by the
+French AI company Mistral AI, andOpenAI GPT OSS 120B [@openai2026], an
+open-weight large language model that was also released under Apache 2.0
+license by OpenAI (referred to as "GPT").
+
+The results from this replication will be compared and assessed based on
+the metrics @morin2025 provided in their evaluation: Accuracy,
+Precision, Recall, F1 score, and Matthew's correlation coefficient
+[@morin2025: 6].
+
+<!--# HB: I was unsure if we should formulate these questions into hypotheses as well, because it would be somewhat redundant, but also contribute to make it clearly testable? -->
+
+While the first RQ is examined in the close replication, the extended
+replication is concerned with RQ2 and RQ3.
+
+<!--# HB: Should we get into more detail here e.g. how the close replication has qualities of both reproduction and replication? Or is this too much?-->
 
 # Close replication
 
@@ -293,7 +321,7 @@ original study (GPT: `r round(100 * gpt_accuracy)`% vs. Claude
 `r round(100 * claude_accuracy)`%), while Mistral performed considerably
 worse (`r round(100 * mistral_accuracy)`%). Inter-rater agreement
 metrics support these observations: GPT showed strong agreement with the
-human gold standard ($\kappa$\$\\kappa\$\$\\kappa\$ =
+human gold standard ($\kappa$\$\\kappa\$\$\\kappa\$\$\\kappa\$ =
 `r round(gpt_kappa, 2)`), whereas Mistral showed only slight agreement
 beyond chance ($\kappa$ = `r round(mistral_kappa, 2)`). While Mistral's
 67% accuracy might initially sound moderately good, investigating these
@@ -335,7 +363,12 @@ pretraining set was used for training the model, and, after using the
 "unsupervised training" sets for validation, we proceeded to testing.
 BERT achieved an accuracy of `r round(100 * bert_accuracy)`%
 (`r bert_agreement`/`r bert_total`), matching the majority-class
-baseline, as it classified all test items as 'non-evaluative'. In a second round, we included the two unsupervised training and the pretraining set into one bigger dataset, and ran the same test (see `BERT_extended_script.R`). In this case, distilBERT actually categorized one sentence as 'evaluative', and is still almost completely aligning with the majority baseline.
+baseline, as it classified all test items as 'non-evaluative'. In a
+second round, we included the two unsupervised training and the
+pretraining set into one bigger dataset, and ran the same test (see
+`BERT_extended_script.R`). In this case, distilBERT actually categorized
+one sentence as 'evaluative', and is still almost completely aligning
+with the majority baseline.
 
 These results suggest that, when using a comparable LLM, the training
 process need not be as elaborate as in @morin2025 to accomplish
