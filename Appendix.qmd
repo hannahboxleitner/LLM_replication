@@ -9,7 +9,7 @@ execute:
 # Full results
 
 ```{r}
-#| label: appendix-results
+#| label: appendix-results-close-replication
 #| include: false
 
 library(readr)
@@ -146,7 +146,7 @@ kable(results_table)
 
 ```{r}
 #| label: tbl-gpt-confusion
-#| tbl-cap: "GPT classifications compared with the human gold standard"
+#| tbl-cap: "Confusion matrix: GPT classifications compared with the human gold standard"
 
 gpt_matrix <- table(
   Human = factor(
@@ -160,6 +160,13 @@ gpt_matrix <- table(
 )
 
 kable(gpt_matrix)
+
+# Other option: Using caret package puts out other statistics as well
+# library(caret)
+# actual_GPT_close <- factor(comparison_all$Human_classification)
+# predicted_GPT_close <- factor(comparison_all$GPT_classification)
+# conf_matrix_GPT_close <- confusionMatrix(actual, predicted)
+# print(conf_matrix_GPT_close$table)
 ```
 
 ```{r}
@@ -245,7 +252,7 @@ gpt_reduced_2_total <- nrow(gpt_reduced_2)
 
 ```{r}
 #| label: tbl-reduced-training-2
-#| tbl-cap: "GPT performance in the reduced-training replication"
+#| tbl-cap: "GPT performance in the reduced training replication (only pretraining dataset and testing)"
 
 reduced_training_2_table <- data.frame(
   Accuracy = paste0(
@@ -388,4 +395,3 @@ confusion_matrix_extended <- table(
 
 kable(confusion_matrix_extended)
 ```
-

@@ -10,4 +10,5 @@ bib_backup/*
 .DS_Store
 Insights_from_replications_files/*
 Appendix_files/*
-research_sample
+research_sample.pdf
+research_sample.qmd
