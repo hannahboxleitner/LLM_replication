@@ -13,8 +13,9 @@ editor:
 #| label: close_replication_results
 #| include: false
 
-library(readr)
+library(tidyverse)
 library(irr)
+library(caret)
 
 comparison_all <- read_csv2(
   "replication_data/comparison_all_results.csv",
@@ -57,7 +58,144 @@ claude_kappa <- kappa2(
   comparison_all[c("Human_classification", "Claude_classification")]
 )$value
 
+# Classification order for confusion matrices
+classification_levels <- c(
+  "evaluative",
+  "non-evaluative"
+)
 
+# Confusion matrices
+actual_mistral <- factor(
+  comparison_all$Human_classification,
+  levels = classification_levels
+)
+
+predicted_mistral <- factor(
+  comparison_all$Mistral_classification,
+  levels = classification_levels
+)
+
+conf_matrix_mistral <- confusionMatrix(
+  data = predicted_mistral,
+  reference = actual_mistral,
+  positive = "evaluative"
+)
+
+
+actual_GPT_close <- factor(
+  comparison_all$Human_classification,
+  levels = classification_levels
+)
+
+predicted_GPT_close <- factor(
+  comparison_all$GPT_classification,
+  levels = classification_levels
+)
+
+conf_matrix_GPT_close <- confusionMatrix(
+  data = predicted_GPT_close,
+  reference = actual_GPT_close,
+  positive = "evaluative"
+)
+
+
+actual_claude <- factor(
+  comparison_all$Human_classification,
+  levels = classification_levels
+)
+
+predicted_claude <- factor(
+  comparison_all$Claude_classification,
+  levels = classification_levels
+)
+
+conf_matrix_claude <- confusionMatrix(
+  data = predicted_claude,
+  reference = actual_claude,
+  positive = "evaluative"
+)
+
+
+# Calculate Matthews correlation coefficient
+calculate_mcc <- function(cm) {
+  
+  TP <- cm[1, 1]
+  FN <- cm[2, 1]
+  FP <- cm[1, 2]
+  TN <- cm[2, 2]
+  
+  denominator <- sqrt(
+    (TP + FP) *
+      (TP + FN) *
+      (TN + FP) *
+      (TN + FN)
+  )
+  
+  if (denominator == 0) {
+    return(NA_real_)
+  }
+  
+  (TP * TN - FP * FN) / denominator
+}
+
+
+# Create table with metrics for all three models
+metrics_table <- data.frame(
+  
+  Metric = c(
+    "Accuracy",
+    "Precision",
+    "Recall",
+    "F1-score",
+    "Matthews correlation coefficient"
+  ),
+
+  Mistral = c(
+    as.numeric(conf_matrix_mistral$overall["Accuracy"]),
+    as.numeric(conf_matrix_mistral$byClass["Pos Pred Value"]),
+    as.numeric(conf_matrix_mistral$byClass["Sensitivity"]),
+    as.numeric(conf_matrix_mistral$byClass["F1"]),
+    calculate_mcc(conf_matrix_mistral$table)
+  ),
+  
+  GPT = c(
+    as.numeric(conf_matrix_GPT_close$overall["Accuracy"]),
+    as.numeric(conf_matrix_GPT_close$byClass["Pos Pred Value"]),
+    as.numeric(conf_matrix_GPT_close$byClass["Sensitivity"]),
+    as.numeric(conf_matrix_GPT_close$byClass["F1"]),
+    calculate_mcc(conf_matrix_GPT_close$table)
+  ),
+  
+  Claude = c(
+    as.numeric(conf_matrix_claude$overall["Accuracy"]),
+    as.numeric(conf_matrix_claude$byClass["Pos Pred Value"]),
+    as.numeric(conf_matrix_claude$byClass["Sensitivity"]),
+    as.numeric(conf_matrix_claude$byClass["F1"]),
+    calculate_mcc(conf_matrix_claude$table)
+  )
+)
+
+# Format Accuracy as whole percentage
+metrics_table[1, -1] <- paste0(
+  round(as.numeric(metrics_table[1, -1]) * 100, 0),
+  "%"
+)
+
+# Format Precision, Recall and F1-score (as percentages with one decimal place)
+metrics_table[2:4, -1] <- lapply(
+  metrics_table[2:4, -1],
+  function(x) {
+    paste0(round(as.numeric(x) * 100, 1), "%")
+  }
+)
+
+# Format MCC to two decimal places (not percent)
+metrics_table[5, -1] <- lapply(
+  metrics_table[5, -1],
+  function(x) {
+    sprintf("%.2f", as.numeric(x))
+  }
+)
 ```
 
 ```{r}
@@ -315,14 +453,26 @@ training and testing to a conversation transcript the authors provided
 [@morin2024], albeit with two open LLMs: Mistral Small 3.2 24B Instruct
 [@mistralai2026] and OpenAI GPT OSS 120B [@openai2026].
 
+```{r, echo=FALSE}
+kable(
+  metrics_table,
+  col.names = c(
+    "Metric",
+    "Mistral",
+    "GPT",
+    "Claude (original study)"
+  ),
+  caption = "Classification metrics of the three models"
+)
+```
+
 Based on accuracy compared to the human gold standard, GPT showed
 comparable and even slightly better performance than Claude in the
 original study (GPT: `r round(100 * gpt_accuracy)`% vs. Claude
 `r round(100 * claude_accuracy)`%), while Mistral performed considerably
 worse (`r round(100 * mistral_accuracy)`%). Inter-rater agreement
 metrics support these observations: GPT showed strong agreement with the
-human gold standard ($\kappa$\$\\kappa\$\$\\kappa\$\$\\kappa\$ =
-`r round(gpt_kappa, 2)`), whereas Mistral showed only slight agreement
+human gold standard ($\kappa$ = `r round(gpt_kappa, 2)`),, whereas Mistral showed only slight agreement
 beyond chance ($\kappa$ = `r round(mistral_kappa, 2)`). While Mistral's
 67% accuracy might initially sound moderately good, investigating these
 results as 2 x 2 matrices **(see Appendix.R**) reveals that it is
