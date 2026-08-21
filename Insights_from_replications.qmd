@@ -412,31 +412,47 @@ We want to investigate the following research questions (RQs):
     same task as Claude Sonnet 3.5 based on the accuracy metrics
     reported in @morin2025?
 2.  Can 1.
-    <!--# HB: I did not find an acceptable formulation including, task, accuracy metrics etc., but this is not explicit enough I guess? -->
+    <!--# HB: I did not find an acceptable formulation including, task, accuracy metrics etc., but I don't know if this explicit enough? -->
     be achieved with a significantly less extensive training process
     than in @morin2025?
 3.  Can a small encoder-only transformer model from the BERT family,
     distilBERT, perform as well or better on the same task as Claude
     Sonnet 3.5 based on the accuracy metrics reported in @morin2025?
 
-The open-source models used for this replication are Mistral Small 3.2
-24B Instruct 2506 [@mistralai2026] (further referred to as "Mistral"),
-an open-weight model released in 2025 under Apache 2.0 license by the
-French AI company Mistral AI, andOpenAI GPT OSS 120B [@openai2026], an
-open-weight large language model that was also released under Apache 2.0
-license by OpenAI (referred to as "GPT").
+While the first RQ is examined in the close replication, the extended
+replication is concerned with RQ2 and RQ3. The open-source models used
+for this replication are Mistral Small 3.2 24B Instruct 2506
+[@mistralai2026] (further referred to as "Mistral"), an open-weight
+model released in 2025 under Apache 2.0 license by the French AI company
+Mistral AI, and OpenAI GPT OSS 120B [@openai2026], an open-weight large
+language model that was also released under Apache 2.0 license by OpenAI
+(referred to as "GPT").
 
 The results from this replication will be compared and assessed based on
 the metrics @morin2025 provided in their evaluation: Accuracy,
 Precision, Recall, F1 score, and Matthew's correlation coefficient
-[@morin2025: 6].
+[@morin2025: 6]. To make our results measurable, we formulate the
+following hypotheses:
 
-<!--# HB: I was unsure if we should formulate these questions into hypotheses as well, because it would be somewhat redundant, but also contribute to make it clearly testable? -->
+Hypothesis 1.1: The model Mistral Small 3.2 24B Instruct 2506performs as
+well as or better than Claude Sonnet 3.5 on the same task, as measured
+by the accuracy metrics reported in @morin2025.
 
-While the first RQ is examined in the close replication, the extended
-replication is concerned with RQ2 and RQ3.
+Hypothesis 1.2: The model OpenAI GPT OSS 120B performs as well as or
+better than Claude Sonnet 3.5 on the same task, as measured by the
+accuracy metrics reported in @morin2025.
 
-<!--# HB: Should we get into more detail here e.g. how the close replication has qualities of both reproduction and replication? Or is this too much?-->
+Hypothesis 2: The task can be performed with a significantly less
+extensive training process than that used by @morin2025, while achieving
+performance comparable to or better than Claude Sonnet 3.5 according to
+the accuracy metrics reported in @morin2025.
+
+Hypothesis 3: DistilBERT, a small encoder-only transformer model from
+the BERT family, performs as well as or better than Claude Sonnet 3.5 on
+the same task, as measured by the accuracy metrics reported in
+@morin2025.
+
+<!--# HB: I dont know if this is too much or too redundant, but I now included both RQs and hypotheses and also split the first RQ into 2 hypotheses so we can give clearer answers. -->
 
 # Close replication
 
@@ -476,7 +492,11 @@ similar or better in all evaluated metrics, Mistral fails to achieve
 comparable results. While Mistral's 67% accuracy might initially sound
 moderately good, investigating these results as 2 x 2 matrices **(see
 `Appendix.R`**) reveals that it is heavily biased toward predicting
-'non-evaluative'. This shows especially in the particularly low Recall of `r sprintf("%.1f%%", as.numeric(conf_matrix_mistral$byClass["Sensitivity"]) * 100)`, since this metric answers the question how many positives of the actual positives were correctly identified.
+'non-evaluative'. This shows especially in the particularly low Recall
+of
+`r sprintf("%.1f%%", as.numeric(conf_matrix_mistral$byClass["Sensitivity"]) * 100)`,
+since this metric answers the question how many positives of the actual
+positives were correctly identified.
 
 Looking at this result, it is important to consider the distribution of
 *consider*-meanings in the testing dataset. The 'non-evaluative'
@@ -484,7 +504,9 @@ classification was the majority class
 (`r majority_count`/`r test_total`,
 `r round(100 * majority_accuracy)`%), and a classifier that always
 predicted the majority class would have achieved an accuracy of
-`r round(100 * majority_accuracy)`%. The imbalance in this dataset makes it especially important to consider other metrics when assessing model performance.
+`r round(100 * majority_accuracy)`%. The imbalance in this dataset makes
+it especially important to consider other metrics when assessing model
+performance.
 
 **Inter-rater agreement metrics support these observations: GPT showed
 strong agreement with the human gold standard (**$\kappa$ **=
@@ -493,11 +515,14 @@ beyond chance (**$\kappa$ **= `r round(mistral_kappa, 2)`).**
 <!--# HB: should I drop the inter-rater agreement part now since we are looking at so many other metrics? -->
 
 The results suggest that the (close) replicability of the approach
-evidently depends on the comparability of the models. Recalling RQ1, the GPT model was in fact able to perform better than Claude 3.5 Sonnet; however, the smaller Mistral model was clearly not. On a
-methodological level, we found that essential information to
-independently replicate the study (e.g., whether the web interface or an
-API was used, analysis code, etc.) was missing - forcing us to make some
-educated guesses as to the exact procedure.
+evidently depends on the comparability of the models. Recalling RQ1, the
+GPT performed slightly better than Claude 3.5 Sonnet, whereas the
+smaller Mistral model did not. Therefore, Hypothesis 1.1 is rejected,
+while hypothesis 1.2 is supported by the results. On a methodological
+level, we found that essential information to independently replicate
+the study (e.g., whether the web interface or an API was used, analysis
+code, etc.) was missing - forcing us to make some educated guesses as to
+the exact procedure.
 
 # Extended replication
 
