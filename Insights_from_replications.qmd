@@ -470,22 +470,30 @@ Based on accuracy compared to the human gold standard, GPT showed
 comparable and even slightly better performance than Claude in the
 original study (GPT: `r round(100 * gpt_accuracy)`% vs. Claude
 `r round(100 * claude_accuracy)`%), while Mistral performed considerably
-worse (`r round(100 * mistral_accuracy)`%). Inter-rater agreement
-metrics support these observations: GPT showed strong agreement with the
-human gold standard ($\kappa$ = `r round(gpt_kappa, 2)`),, whereas Mistral showed only slight agreement
-beyond chance ($\kappa$ = `r round(mistral_kappa, 2)`). While Mistral's
-67% accuracy might initially sound moderately good, investigating these
-results as 2 x 2 matrices **(see Appendix.R**) reveals that it is
-heavily biased toward predicting 'non-evaluative'. Looking at the
-distribution of *consider*-meanings in the testing dataset, the
-'non-evaluative' classification was the majority class
+worse (`r round(100 * mistral_accuracy)`%). This observation is
+reflected in the other metrics as well: While GPT's performance is
+similar or better in all evaluated metrics, Mistral fails to achieve
+comparable results. While Mistral's 67% accuracy might initially sound
+moderately good, investigating these results as 2 x 2 matrices **(see
+`Appendix.R`**) reveals that it is heavily biased toward predicting
+'non-evaluative'. This shows especially in the particularly low Recall of `r sprintf("%.1f%%", as.numeric(conf_matrix_mistral$byClass["Sensitivity"]) * 100)`, since this metric answers the question how many positives of the actual positives were correctly identified.
+
+Looking at this result, it is important to consider the distribution of
+*consider*-meanings in the testing dataset. The 'non-evaluative'
+classification was the majority class
 (`r majority_count`/`r test_total`,
 `r round(100 * majority_accuracy)`%), and a classifier that always
-predicted the majority class would achieve an accuracy of
-`r round(100 * majority_accuracy)`%.
+predicted the majority class would have achieved an accuracy of
+`r round(100 * majority_accuracy)`%. The imbalance in this dataset makes it especially important to consider other metrics when assessing model performance.
+
+**Inter-rater agreement metrics support these observations: GPT showed
+strong agreement with the human gold standard (**$\kappa$ **=
+`r round(gpt_kappa, 2)`), whereas Mistral showed only slight agreement
+beyond chance (**$\kappa$ **= `r round(mistral_kappa, 2)`).**
+<!--# HB: should I drop the inter-rater agreement part now since we are looking at so many other metrics? -->
 
 The results suggest that the (close) replicability of the approach
-evidently depends on the comparability of the models. On a
+evidently depends on the comparability of the models. Recalling RQ1, the GPT model was in fact able to perform better than Claude 3.5 Sonnet; however, the smaller Mistral model was clearly not. On a
 methodological level, we found that essential information to
 independently replicate the study (e.g., whether the web interface or an
 API was used, analysis code, etc.) was missing - forcing us to make some
