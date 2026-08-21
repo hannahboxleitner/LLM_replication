@@ -9,12 +9,21 @@ execute:
 # Full results
 
 ```{r}
-#| label: appendix-results-close-replication
+#| label: setup
 #| include: false
+#| warning: false
+#| message: false
 
 library(readr)
 library(irr)
 library(knitr)
+library(caret)
+library(kableExtra)
+```
+
+```{r}
+#| label: appendix-results-close-replication
+#| include: false
 
 comparison_all <- read_csv2(
   "replication_data/comparison_all_results.csv",
@@ -145,67 +154,363 @@ kable(results_table)
 ### Tables representing accuracy as 2 x 2 matrices
 
 ```{r}
-#| label: tbl-gpt-confusion
-#| tbl-cap: "Confusion matrix: GPT classifications compared with the human gold standard"
+#| label: tbl-gpt-close-confusion
+#| tbl-cap: "GPT classifications compared with the human gold standard"
+#| warning: false
+#| message: false
 
-gpt_matrix <- table(
-  Human = factor(
-    comparison_all$Human_classification,
-    levels = classification_levels
-  ),
-  GPT = factor(
-    comparison_all$GPT_classification,
-    levels = classification_levels
-  )
+actual_GPT_close <- factor(
+  comparison_all$Human_classification,
+  levels = classification_levels
 )
 
-kable(gpt_matrix)
+predicted_GPT_close <- factor(
+  comparison_all$GPT_classification,
+  levels = classification_levels
+)
 
-# Other option: Using caret package puts out other statistics as well
-# library(caret)
-# actual_GPT_close <- factor(comparison_all$Human_classification)
-# predicted_GPT_close <- factor(comparison_all$GPT_classification)
-# conf_matrix_GPT_close <- confusionMatrix(actual, predicted)
-# print(conf_matrix_GPT_close$table)
+conf_matrix_GPT_close <- confusionMatrix(
+  data = predicted_GPT_close,
+  reference = actual_GPT_close,
+  positive = "evaluative"
+)
+
+#print(conf_matrix_GPT_close$table)
+#kable(conf_matrix_GPT_close$table)
+
+# create table output with model names
+kable(
+  conf_matrix_GPT_close$table,
+  caption = "Prediction (GPT) vs Reference (Human)")
+
 ```
 
 ```{r}
 #| label: tbl-mistral-confusion
 #| tbl-cap: "Mistral classifications compared with the human gold standard"
+#| warning: false
+#| message: false
 
-mistral_matrix <- table(
-  Human = factor(
-    comparison_all$Human_classification,
-    levels = classification_levels
-  ),
-  Mistral = factor(
-    comparison_all$Mistral_classification,
-    levels = classification_levels
-  )
+actual_mistral <- factor(
+  comparison_all$Human_classification,
+  levels = classification_levels
 )
 
-kable(mistral_matrix)
+predicted_mistral <- factor(
+  comparison_all$Mistral_classification,
+  levels = classification_levels
+)
+
+conf_matrix_mistral <- confusionMatrix(
+  data = predicted_mistral,
+  reference = actual_mistral,
+  positive = "evaluative"
+)
+
+kable(
+  conf_matrix_mistral$table,
+  caption = "Prediction (Mistral) vs Reference (Human)")
 ```
 
 ```{r}
 #| label: tbl-claude-confusion
 #| tbl-cap: "Claude classifications compared with the human gold standard"
+#| warning: false
+#| message: false
 
-claude_matrix <- table(
-  Human = factor(
-    comparison_all$Human_classification,
-    levels = classification_levels
-  ),
-  Claude = factor(
-    comparison_all$Claude_classification,
-    levels = classification_levels
-  )
+actual_claude <- factor(
+  comparison_all$Human_classification,
+  levels = classification_levels
 )
 
-kable(claude_matrix)
+predicted_claude <- factor(
+  comparison_all$Claude_classification,
+  levels = classification_levels
+)
+
+conf_matrix_claude <- confusionMatrix(
+  data = predicted_claude,
+  reference = actual_claude,
+  positive = "evaluative"
+)
+
+kable(
+  conf_matrix_claude$table,
+  caption = "Prediction (Claude) vs Reference (Human)")
 ```
 
 For the Mistral model, the matrix reveals that it is biased toward predicting non-evaluative: it gets 61 of the 63 human non-evaluative cases right, but misses 32 of the 39 evaluative cases.
+
+```{r}
+#| label: tbl-accuracy-metrics-close
+#| tbl-cap: "Classification performance of the three models compared with the human gold standard in the close replication"
+
+# Extracting metrics from confusionMatrix objects
+
+# Accuracy
+accuracy_mistral <- conf_matrix_mistral$overall["Accuracy"]
+accuracy_gpt     <- conf_matrix_GPT_close$overall["Accuracy"]
+accuracy_claude  <- conf_matrix_claude$overall["Accuracy"]
+
+# Precision
+precision_mistral <- conf_matrix_mistral$byClass["Pos Pred Value"]
+precision_gpt     <- conf_matrix_GPT_close$byClass["Pos Pred Value"]
+precision_claude  <- conf_matrix_claude$byClass["Pos Pred Value"]
+
+# Recall
+recall_mistral <- conf_matrix_mistral$byClass["Sensitivity"]
+recall_gpt     <- conf_matrix_GPT_close$byClass["Sensitivity"]
+recall_claude  <- conf_matrix_claude$byClass["Sensitivity"]
+
+# F1-score
+f1_mistral <- conf_matrix_mistral$byClass["F1"]
+f1_gpt     <- conf_matrix_GPT_close$byClass["F1"]
+f1_claude  <- conf_matrix_claude$byClass["F1"]
+
+# Combine into one table
+metrics_table <- data.frame(
+  Metric = c(
+    "Accuracy",
+    "Precision",
+    "Recall",
+    "F1-score"
+  ),
+  Mistral = c(
+    accuracy_mistral,
+    precision_mistral,
+    recall_mistral,
+    f1_mistral
+  ),
+  GPT = c(
+    accuracy_gpt,
+    precision_gpt,
+    recall_gpt,
+    f1_gpt
+  ),
+  Claude = c(
+    accuracy_claude,
+    precision_claude,
+    recall_claude,
+    f1_claude
+  )
+)
+
+kable(
+  metrics_table,
+  digits = 3,
+  col.names = c(
+    "Metric",
+    "Mistral",
+    "GPT",
+    "Claude (original study)"
+  )
+)
+```
+
+```{r}
+#| label: tbl-model-metrics-2
+#| tbl-cap: "Classification performance of the three models compared with the human gold standard"
+#| warning: false
+#| message: false
+
+# Calculate Matthews correlation coefficient
+calculate_mcc <- function(cm) {
+  TP <- cm[1, 1]
+  FN <- cm[2, 1]
+  FP <- cm[1, 2]
+  TN <- cm[2, 2]
+  
+  denominator <- sqrt(
+    (TP + FP) *
+      (TP + FN) *
+      (TN + FP) *
+      (TN + FN)
+  )
+  
+  if (denominator == 0) {
+    return(NA_real_)
+  }
+  
+  (TP * TN - FP * FN) / denominator
+}
+
+# Create table with metrics for all three models
+metrics_table <- data.frame(
+  Metric = c(
+    "Accuracy",
+    "Precision",
+    "Recall",
+    "F1-score",
+    "Matthews correlation coefficient"
+  ),
+  
+  Mistral = c(
+    conf_matrix_mistral$overall["Accuracy"],
+    conf_matrix_mistral$byClass["Pos Pred Value"],
+    conf_matrix_mistral$byClass["Sensitivity"],
+    conf_matrix_mistral$byClass["F1"],
+    calculate_mcc(conf_matrix_mistral$table)
+  ),
+  
+  GPT = c(
+    conf_matrix_GPT_close$overall["Accuracy"],
+    conf_matrix_GPT_close$byClass["Pos Pred Value"],
+    conf_matrix_GPT_close$byClass["Sensitivity"],
+    conf_matrix_GPT_close$byClass["F1"],
+    calculate_mcc(conf_matrix_GPT_close$table)
+  ),
+  
+  Claude = c(
+    conf_matrix_claude$overall["Accuracy"],
+    conf_matrix_claude$byClass["Pos Pred Value"],
+    conf_matrix_claude$byClass["Sensitivity"],
+    conf_matrix_claude$byClass["F1"],
+    calculate_mcc(conf_matrix_claude$table)
+  )
+)
+
+# Format Accuracy as a whole percentage
+metrics_table[1, -1] <- paste0(
+  round(as.numeric(metrics_table[1, -1]) * 100, 0),
+  "%"
+)
+
+# Format all other metrics to one decimal place
+metrics_table[2:5, -1] <- lapply(
+  metrics_table[2:5, -1],
+  function(x) paste0(
+    round(as.numeric(x) * 100, 1),
+    "%"
+  )
+)
+
+# Display table
+kable(
+  metrics_table,
+  col.names = c(
+    "Metric",
+    "Mistral",
+    "GPT",
+    "Claude (original study)"
+  )
+)
+```
+
+```{r}
+#| label: tbl-model-metrics-3
+#| tbl-cap: "Classification performance of the three models compared with the human gold standard"
+#| warning: false
+#| message: false
+
+# Calculate Matthews correlation coefficient
+calculate_mcc <- function(cm) {
+  
+  # Extract the four cells from the confusion matrix
+  TP <- cm[1, 1]
+  FN <- cm[2, 1]
+  FP <- cm[1, 2]
+  TN <- cm[2, 2]
+  
+  # Calculate the denominator of the MCC formula
+  denominator <- sqrt(
+    (TP + FP) *
+      (TP + FN) *
+      (TN + FP) *
+      (TN + FN)
+  )
+  
+  # Avoid division by zero
+  if (denominator == 0) {
+    return(NA_real_)
+  }
+  
+  # Calculate Matthews correlation coefficient
+  (TP * TN - FP * FN) / denominator
+}
+
+
+# Create table with metrics for all three models
+metrics_table <- data.frame(
+  
+  # Names of the metrics
+  Metric = c(
+    "Accuracy",
+    "Precision",
+    "Recall",
+    "F1-score",
+    "Matthews correlation coefficient"
+  ),
+  
+  # Mistral metrics
+  Mistral = c(
+    as.numeric(conf_matrix_mistral$overall["Accuracy"]),
+    as.numeric(conf_matrix_mistral$byClass["Pos Pred Value"]),
+    as.numeric(conf_matrix_mistral$byClass["Sensitivity"]),
+    as.numeric(conf_matrix_mistral$byClass["F1"]),
+    calculate_mcc(conf_matrix_mistral$table)
+  ),
+  
+  # GPT metrics
+  GPT = c(
+    as.numeric(conf_matrix_GPT_close$overall["Accuracy"]),
+    as.numeric(conf_matrix_GPT_close$byClass["Pos Pred Value"]),
+    as.numeric(conf_matrix_GPT_close$byClass["Sensitivity"]),
+    as.numeric(conf_matrix_GPT_close$byClass["F1"]),
+    calculate_mcc(conf_matrix_GPT_close$table)
+  ),
+  
+  # Claude metrics
+  Claude = c(
+    as.numeric(conf_matrix_claude$overall["Accuracy"]),
+    as.numeric(conf_matrix_claude$byClass["Pos Pred Value"]),
+    as.numeric(conf_matrix_claude$byClass["Sensitivity"]),
+    as.numeric(conf_matrix_claude$byClass["F1"]),
+    calculate_mcc(conf_matrix_claude$table)
+  )
+)
+
+
+# Format Accuracy as a whole percentage
+metrics_table[1, -1] <- paste0(
+  round(as.numeric(metrics_table[1, -1]) * 100, 0),
+  "%"
+)
+
+
+# Format Precision, Recall and F1-score
+# as percentages with one decimal place
+metrics_table[2:4, -1] <- lapply(
+  metrics_table[2:4, -1],
+  function(x) {
+    paste0(
+      round(as.numeric(x) * 100, 1),
+      "%"
+    )
+  }
+)
+
+
+# Format MCC to two decimal places
+# MCC is NOT displayed as a percentage
+metrics_table[5, -1] <- lapply(
+  metrics_table[5, -1],
+  function(x) {
+    sprintf("%.2f", as.numeric(x))
+  }
+)
+
+
+# Display the final table
+kable(
+  metrics_table,
+  col.names = c(
+    "Metric",
+    "Mistral",
+    "GPT",
+    "Claude (original study)"
+  )
+)
+```
 
 ## Extended replication
 
