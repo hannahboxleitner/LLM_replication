@@ -364,13 +364,12 @@ for linguistic annotation. The original study was conducted using a
 commercial, closed-source LLM: Anthropic's model Claude 3.5 Sonnet
 [@morin2025: 4], which is no longer available for use. We therefore
 first sought to apply the original methodological pipeline to the same
-data, but using two locally-run
-<!--# HB: is this accurate, since I used them via KI:connect API? -->,
-open-source LLMs, whose parameters can be controlled to generate
-reproducible results. In an extended replication, we subsequently re-ran
-the task with a much simpler pipeline than that proposed in the original
-paper. Finally, we repeated the classification task using a simpler and
-widely used NLP tool from the BERT family, distilBERT.
+data, but using two open-source LLMs, whose parameters can be controlled
+to generate reproducible results. In an extended replication, we
+subsequently re-ran the task with a much simpler pipeline than that
+proposed in the original paper. Finally, we repeated the classification
+task using a simpler and widely used NLP tool from the BERT family,
+distilBERT.
 
 While large, cloud-based, proprietary LLMs continue to top performance
 benchmarks, open-source LLMs have made significant progress in closing
@@ -385,7 +384,7 @@ environmental reasons: Training and operating LLMs with billions of
 parameters requires substantial computational resources, including large
 amounts of water (e.g. for cooling data centers) and electricity,
 generating substantial carbon emissions
-<!--# ELF: insert refs! HB: also cited from jegham2015 - or meaning more refs?-->.
+<!--# ELF: insert refs! HB: also cited from jegham2015 - or meaning more refs? ELF: I mean more recent refs on studies quantifying the energy and water consumption associated with AI training and inference -->.
 Although AI becomes cheaper and faster, its global adoption is rapidly
 increasing resource consumption [@jegham2025].
 
@@ -406,53 +405,52 @@ between evaluative and non-evaluative uses of the verb *consider*. The
 model outputs were evaluated against a human gold standard provided by
 the authors.
 
-We want to investigate the following research questions (RQs):
+We seek answers to the following research questions (RQs):
 
-1.  Can smaller, open-source models perform as well or better on the
-    same task as Claude Sonnet 3.5 based on the accuracy metrics
-    reported in @morin2025?
-2.  Can 1.
-    <!--# HB: I did not find an acceptable formulation including, task, accuracy metrics etc., but I don't know if this explicit enough? -->
-    be achieved with a significantly less extensive training process
-    than in @morin2025?
-3.  Can a small encoder-only transformer model from the BERT family,
+1.  Can smaller, open-source models perform as well or better on
+    @morin2025's consider annotation task as Claude Sonnet 3.5 based on
+    the accuracy metrics reported in
+    @morin2025<!--# ELF: Add page number where the metrics are reported here -->?
+2.  If RQ1 is answered in the positive, can this also be achieved with a
+    significantly less extensive training process than that proposed in
+    @morin2025?
+3.  Can a small, encoder-only transformer model from the BERT family,
     distilBERT, perform as well or better on the same task as Claude
-    Sonnet 3.5 based on the accuracy metrics reported in @morin2025?
+    Sonnet 3.5 based on the accuracy metrics reported in
+    @morin2025<!--# ELF: Add page number where the metrics are reported here -->?
 
-While the first RQ is examined in the close replication, the extended
-replication is concerned with RQ2 and RQ3. The open-source models used
-for this replication are Mistral Small 3.2 24B Instruct 2506
-[@mistralai2026] (further referred to as "Mistral"), an open-weight
-model released in 2025 under Apache 2.0 license by the French AI company
-Mistral AI, and OpenAI GPT OSS 120B [@openai2026], an open-weight large
-language model that was also released under Apache 2.0 license by OpenAI
-(referred to as "GPT").
+While our close replication examines RQ1, the extended replication
+serves to answer RQ2 and RQ3. We test the performance of two open-source
+LLMs: Mistral Small 3.2 24B Instruct 2506 [@mistralai2026] (hereafter
+referred to as "Mistral"), an open-weight model released in 2025 under
+Apache 2.0 license by the French AI company Mistral AI, and OpenAI GPT
+OSS 120B [@openai2026], an open-weight large language model that was
+also released under Apache 2.0 license by OpenAI (hereafter "GPT").
 
-The results from this replication will be compared and assessed based on
+The outcome of the replications will be compared and assessed based on
 the metrics @morin2025 provided in their evaluation: Accuracy,
 Precision, Recall, F1 score, and Matthew's correlation coefficient
-[@morin2025: 6]. To make our results measurable, we formulate the
-following hypotheses:
+[@morin2025: 6]. We formulate the following hypotheses:
 
-Hypothesis 1.1: The model Mistral Small 3.2 24B Instruct 2506performs as
-well as or better than Claude Sonnet 3.5 on the same task, as measured
-by the accuracy metrics reported in @morin2025.
+Hypothesis 1.1: The model Mistral Small 3.2 24B Instruct 2506 performs
+as well as or better than Claude Sonnet 3.5 on the *consider* task, as
+measured by the accuracy metrics reported in @morin2025.
 
 Hypothesis 1.2: The model OpenAI GPT OSS 120B performs as well as or
-better than Claude Sonnet 3.5 on the same task, as measured by the
+better than Claude Sonnet 3.5 on the *consider* task, as measured by the
 accuracy metrics reported in @morin2025.
 
-Hypothesis 2: The task can be performed with a significantly less
-extensive training process than that used by @morin2025, while achieving
-performance comparable to or better than Claude Sonnet 3.5 according to
-the accuracy metrics reported in @morin2025.
+Hypothesis 2: The annotation task can be performed with a significantly
+less extensive training process than that used by @morin2025, while
+achieving performance comparable to or better than Claude Sonnet 3.5
+according to the accuracy metrics reported in @morin2025.
 
 Hypothesis 3: DistilBERT, a small encoder-only transformer model from
 the BERT family, performs as well as or better than Claude Sonnet 3.5 on
 the same task, as measured by the accuracy metrics reported in
 @morin2025.
 
-<!--# HB: I dont know if this is too much or too redundant, but I now included both RQs and hypotheses and also split the first RQ into 2 hypotheses so we can give clearer answers. -->
+<!--# HB: I dont know if this is too much or too redundant, but I now included both RQs and hypotheses and also split the first RQ into 2 hypotheses so we can give clearer answers. ELF: One could argue that they are a bit redundant, but I do think that they are helpful for now (at least for us!). -->
 
 # Close replication
 
@@ -509,10 +507,10 @@ it especially important to consider other metrics when assessing model
 performance.
 
 **Inter-rater agreement metrics support these observations: GPT showed
-strong agreement with the human gold standard (**$\kappa$ **=
+strong agreement with the human gold standard (**$\kappa$\$\\kappa\$ **=
 `r round(gpt_kappa, 2)`), whereas Mistral showed only slight agreement
 beyond chance (**$\kappa$ **= `r round(mistral_kappa, 2)`).**
-<!--# HB: should I drop the inter-rater agreement part now since we are looking at so many other metrics? -->
+<!--# HB: should I drop the inter-rater agreement part now since we are looking at so many other metrics? ELF: Yes, I think that recall and precision are easier to compare and also most widely used in NLP -->
 
 The results suggest that the (close) replicability of the approach
 evidently depends on the comparability of the models. Recalling RQ1, the
