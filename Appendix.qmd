@@ -738,30 +738,34 @@ metrics_table <- data.frame(
     "Matthews correlation coefficient"
   ),
   
+  # DistilBERT (pretraining only)
   `DistilBERT (pretraining only)` = c(
-    conf_matrix_bert$overall["Accuracy"],
-    conf_matrix_bert$byClass["Pos Pred Value"],
-    conf_matrix_bert$byClass["Sensitivity"],
-    conf_matrix_bert$byClass["F1"],
+    unname(conf_matrix_bert$overall["Accuracy"]),
+    unname(conf_matrix_bert$byClass["Pos Pred Value"]),
+    unname(conf_matrix_bert$byClass["Sensitivity"]),
+    unname(conf_matrix_bert$byClass["F1"]),
     calculate_mcc(conf_matrix_bert$table)
   ),
   
+  # DistilBERT (extended training)
   `DistilBERT (extended training)` = c(
-    conf_matrix_bert_extended$overall["Accuracy"],
-    conf_matrix_bert_extended$byClass["Pos Pred Value"],
-    conf_matrix_bert_extended$byClass["Sensitivity"],
-    conf_matrix_bert_extended$byClass["F1"],
+    unname(conf_matrix_bert_extended$overall["Accuracy"]),
+    unname(conf_matrix_bert_extended$byClass["Pos Pred Value"]),
+    unname(conf_matrix_bert_extended$byClass["Sensitivity"]),
+    unname(conf_matrix_bert_extended$byClass["F1"]),
     calculate_mcc(conf_matrix_bert_extended$table)
   ),
   
+  # Claude (original study)
   `Claude (original study)` = c(
-    conf_matrix_claude$overall["Accuracy"],
-    conf_matrix_claude$byClass["Pos Pred Value"],
-    conf_matrix_claude$byClass["Sensitivity"],
-    conf_matrix_claude$byClass["F1"],
+    unname(conf_matrix_claude$overall["Accuracy"]),
+    unname(conf_matrix_claude$byClass["Pos Pred Value"]),
+    unname(conf_matrix_claude$byClass["Sensitivity"]),
+    unname(conf_matrix_claude$byClass["F1"]),
     calculate_mcc(conf_matrix_claude$table)
   )
 )
+
 
 
 # Format each metric individually
@@ -813,3 +817,5 @@ Precision = NA because caret reports it as undefined when there are no positive 
 Pos Pred Value = NaN because it effectively involves 0 / 0.
 F1 = NA because it cannot be calculated when precision is undefined.
 Recall = 0 because there are 39 actual evaluative cases, but the model correctly identifies 0 of them: 0 / 39 = 0.
+
+For the distilBERT with more training data, the numbers are also not very useful. For example, Precision is 100%, because this metric measures how often the model is correct when it predicts positives. Since the model only predicted 'evaluative' in one singular case, it is misleading here.
