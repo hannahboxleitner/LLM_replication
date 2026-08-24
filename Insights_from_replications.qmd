@@ -641,15 +641,14 @@ We seek answers to the following research questions (RQs):
 
 1.  Can smaller, open-source models perform as well or better on
     @morin2025's consider annotation task as Claude Sonnet 3.5 based on
-    the accuracy metrics reported in
-    @morin2025<!--# ELF: Add page number where the metrics are reported here -->?
+    the accuracy metrics reported in [@morin2025: 6]?
 2.  If RQ1 is answered in the positive, can this also be achieved with a
     significantly less extensive training process than that proposed in
     @morin2025?
 3.  Can a small, encoder-only transformer model from the BERT family,
     distilBERT, perform as well or better on the same task as Claude
-    Sonnet 3.5 based on the accuracy metrics reported in
-    @morin2025<!--# ELF: Add page number where the metrics are reported here -->?
+    Sonnet 3.5 based on the accuracy metrics reported in [@morin2025:
+    6]?
 
 While our close replication examines RQ1, the extended replication
 serves to answer RQ2 and RQ3. We test the performance of two open-source
@@ -681,8 +680,6 @@ Hypothesis 3: DistilBERT, a small encoder-only transformer model from
 the BERT family, performs as well as or better than Claude Sonnet 3.5 on
 the same task, as measured by the accuracy metrics reported in
 @morin2025.
-
-<!--# HB: I dont know if this is too much or too redundant, but I now included both RQs and hypotheses and also split the first RQ into 2 hypotheses so we can give clearer answers. ELF: One could argue that they are a bit redundant, but I do think that they are helpful for now (at least for us!). -->
 
 # Close replication
 
@@ -738,12 +735,6 @@ predicted the majority class would have achieved an accuracy of
 it especially important to consider other metrics when assessing model
 performance.
 
-**Inter-rater agreement metrics support these observations: GPT showed
-strong agreement with the human gold standard (**$\kappa$\$\\kappa\$ **=
-`r round(gpt_kappa, 2)`), whereas Mistral showed only slight agreement
-beyond chance (**$\kappa$ **= `r round(mistral_kappa, 2)`).**
-<!--# HB: should I drop the inter-rater agreement part now since we are looking at so many other metrics? ELF: Yes, I think that recall and precision are easier to compare and also most widely used in NLP -->
-
 The results suggest that the (close) replicability of the approach
 evidently depends on the comparability of the models. Recalling RQ1, the
 GPT performed slightly better than Claude 3.5 Sonnet, whereas the
@@ -781,14 +772,13 @@ kable(
 When only using the pretraining set and directly proceeding to testing
 afterwards, GPT achieved an accuracy of
 `r round(100 * gpt_reduced_2_accuracy)`%
-(`r gpt_reduced_2_agreement`/`r gpt_reduced_2_total`), with a Cohen's
-$\kappa$ of `r round(gpt_reduced_2_kappa, 2)`.
-<!--# HB: leave out Cohens kappa??) --> While the accuracy is equivalent
-to the GPT result in the close replication, the other metrics reveal
-some minor differences in classification performance: Recall is 100%,
-meaning that GPT did not miss any positives ('evaluative' sentences) in
-the extended replication. Compared to the original study, the accuracy
-metrics are comparable: Precision is slightly lower (GPT:
+(`r gpt_reduced_2_agreement`/`r gpt_reduced_2_total`). While the
+accuracy is equivalent to the GPT result in the close replication, the
+other metrics reveal some minor differences in classification
+performance: Recall is 100%, meaning that GPT did not miss any positives
+('evaluative' sentences) in the extended replication. Compared to the
+original study, the accuracy metrics are comparable: Precision is
+slightly lower (GPT:
 `r round(conf_matrix_gpt_reduced_2$byClass["Pos Pred Value"] * 100, 1)`%
 vs. Claude:
 `r round(conf_matrix_claude$byClass["Pos Pred Value"] * 100, 1)`%),
@@ -796,7 +786,6 @@ meaning GPT predicted more false positives ('evaluative' for actual
 'non-evaluative'). All the other metrics are higher than Claude for the
 GPT replication with fewer training. Therefore, these results provide
 support for hypothesis 2.
-<!--# HB: this still depends on how exactly we handle the metrics/benchmarks in the hypotheses.-->
 
 ```{r, echo=FALSE}
 kable(
@@ -854,11 +843,11 @@ successfully complete this kind of linguistic task.
 We consider this replication successful with regard to the replicability
 of the methodological pipeline using an open LLM (OpenAI GPT OSS 120B),
 both with the iterative training outlined in @morin2025 and with a
-reduced training process. However, both the smaller model and DistilBERT
-failed to achieve the desired accuracy metrics, suggesting that the
-approach may only be replicable with models comparable in size and
-functionality. DistilBERT's performance in particular indicates that it
-is not well suited for this task, although this result needs to be
+reduced training process. However, both the smaller Mistral model and
+DistilBERT failed to achieve the desired accuracy metrics, suggesting
+that the approach may only be replicable with models comparable in size
+and functionality. DistilBERT's performance in particular indicates that
+it is not well suited for this task, although this result needs to be
 interpreted in light of important differences between distilBERT and the
 other models: In addition to being a considerably smaller, encoder-only
 transformer, distilBERT could not be given the same type of
@@ -905,7 +894,7 @@ whether differences between the original and replication results are
 attributable to the models, implementation details, or other aspects.
 
 Another thing that we want to address in terms of replicability is the
-claim that this pipeline may be applied to other tasks in other
+claim that this pipeline may be applied to other tasks and other
 languages. While the authors already stress that the exact conditions
 will vary based on the task and some languages will be harder to study
 due to less available training data [@morin2025: 7], existing research
