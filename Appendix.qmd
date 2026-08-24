@@ -558,7 +558,6 @@ kable(
 )
 ```
 
-
 ## Extended replication with distilBERT
 
 The distilBERT was once trained with only the pretraining dataset. The associated script is called `BERT_working_script.R` and the results can be found in `BERT_transcripts` folder.
@@ -813,9 +812,6 @@ kable(
 
 ```
 
-Precision = NA because caret reports it as undefined when there are no positive predictions.
-Pos Pred Value = NaN because it effectively involves 0 / 0.
-F1 = NA because it cannot be calculated when precision is undefined.
-Recall = 0 because there are 39 actual evaluative cases, but the model correctly identifies 0 of them: 0 / 39 = 0.
+Precision = NA because caret reports it as undefined when there are no positive predictions. Pos Pred Value = NaN because it effectively involves 0 / 0. F1 = NA because it cannot be calculated when precision is undefined. Recall = 0 because there are 39 actual evaluative cases, but the model correctly identifies 0 of them: 0 / 39 = 0.
 
 For the distilBERT with more training data, the numbers are also not very useful. For example, Precision is 100%, because this metric measures how often the model is correct when it predicts positives. Since the model only predicted 'evaluative' in one singular case, it is misleading here.
