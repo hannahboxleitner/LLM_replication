@@ -853,17 +853,34 @@ successfully complete this kind of linguistic task.
 
 ## Suitability of LLMs and training process
 
+We consider this replication successful with regard to the replicability
+of the methodological pipeline using an open LLM, both with the
+iterative training process outlined in @morin2025 and with a reduced
+training process. However, both the smaller model and DistilBERT failed
+to achieve the desired accuracy metrics, suggesting that the approach
+may only be replicable with models comparable in size and functionality.
+DistilBERT's performance in particular indicates that it is not well
+suited for this task, although this result needs to be interpreted in
+light of important differences between distilBERT and the other models:
+In addition to being a considerably smaller, encoder-only transformer,
+distilBERT could not be given the same type of 'in-conversation'
+instructions during pretraining as the LLMs. Thus, although the same
+datasets were used, the training conditions were not fully equivalent
+across model types.
+
 As the results of this replication indicate, an open-source LLM can
 compete with a closed LLM on this linguistic classification task. As
 already mentioned in the introduction, open models constitute an
-important part of open research. Aside from limited availability,
-closed, commercial LLMs are often developed intransparently and without
-ethical oversight [@liesenfeld2023]. Since their training relies on vast
-amounts of data, including text from the internet, publicly available
-datasets, or proprietary sources, they are susceptible to passive
-privacy leakage, whereby sensitive information contained in training
-data may be revealed. Also, LLMs can be vulnerable to different kinds of
-active privacy attacks [@yan2025: 1].
+integral part of open research, which is why we consider this aspect
+very important when doing research with LLMs. Aside from limited
+availability, closed, commercial LLMs are often developed
+intransparently and without ethical oversight [@liesenfeld2023]. Since
+their training relies on vast amounts of data, including text from the
+internet, publicly available datasets, or proprietary sources, they are
+susceptible to passive privacy leakage, whereby sensitive information
+contained in training data may be revealed. Also, LLMs can be vulnerable
+to different kinds of active privacy attacks [@yan2025: 1], though, this
+is true for open LLMs as well.
 
 ## "Replicable" methods
 
@@ -872,8 +889,14 @@ Method-focused papers with (commercial) LLMs -\> what does that mean?
 reproducibility **(might turn into 2 chapters?)**
 
 missing: report of test set distribution, code, programming language,
-information, also human gold standard was only from 1 person. There is
-no information of if inter-rater agreemtn was tested with this
+model parameters, information, also human gold standard was only from 1
+person. There is no information of if inter-rater agreemtn was tested
+with this
+
+reproducibilty? (see original paper for inspiration)
+
+generalisation to other languages (mentioned in MML2025) questionable
+since most research is in English) -\> or mention in Introduction?
 
 # Conclusion (whole paper: max. 4000 words)
 
