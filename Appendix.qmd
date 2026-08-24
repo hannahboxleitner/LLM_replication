@@ -25,6 +25,7 @@ library(kableExtra)
 #| label: appendix-results-close-replication
 #| include: false
 
+# everything needed for test distribution, close replication, and later results
 comparison_all <- read_csv2(
   "replication_data/comparison_all_results.csv",
   show_col_types = FALSE
@@ -695,8 +696,10 @@ kable(
 )
 ```
 
+### Accuracy metrics for both distilBERT models and Claude
+
 ```{r}
-#| label: tbl-accuracy-metrics-bert
+#| label: tbl-accuracy-metrics-bert-altered-presentation
 #| tbl-cap: "Classification performance of DistilBERT models and Claude compared with the human gold standard"
 #| warning: false
 #| message: false
@@ -704,13 +707,11 @@ kable(
 # Calculate Matthews correlation coefficient
 calculate_mcc <- function(cm) {
   
-  # Extract the four cells from confusion matrix
   TP <- cm[1, 1]
   FN <- cm[2, 1]
   FP <- cm[1, 2]
   TN <- cm[2, 2]
   
-  # Calculate denominator
   denominator <- sqrt(
     (TP + FP) *
       (TP + FN) *
@@ -718,20 +719,17 @@ calculate_mcc <- function(cm) {
       (TN + FN)
   )
   
-  # Avoid division by 0
   if (denominator == 0) {
     return(NA_real_)
   }
   
-  # Calculate Matthews correlation coefficient
   (TP * TN - FP * FN) / denominator
 }
 
 
-# Create table with metrics for all three models
+# Create table with raw numeric metrics
 metrics_table <- data.frame(
   
-  # Names of metrics
   Metric = c(
     "Accuracy",
     "Precision",
@@ -740,66 +738,62 @@ metrics_table <- data.frame(
     "Matthews correlation coefficient"
   ),
   
-  # DistilBERT (pretraining only)
   `DistilBERT (pretraining only)` = c(
-    as.numeric(conf_matrix_bert$overall["Accuracy"]),
-    as.numeric(conf_matrix_bert$byClass["Pos Pred Value"]),
-    as.numeric(conf_matrix_bert$byClass["Sensitivity"]),
-    as.numeric(conf_matrix_bert$byClass["F1"]),
+    conf_matrix_bert$overall["Accuracy"],
+    conf_matrix_bert$byClass["Pos Pred Value"],
+    conf_matrix_bert$byClass["Sensitivity"],
+    conf_matrix_bert$byClass["F1"],
     calculate_mcc(conf_matrix_bert$table)
   ),
   
-  # DistilBERT (extended training)
   `DistilBERT (extended training)` = c(
-    as.numeric(conf_matrix_bert_extended$overall["Accuracy"]),
-    as.numeric(conf_matrix_bert_extended$byClass["Pos Pred Value"]),
-    as.numeric(conf_matrix_bert_extended$byClass["Sensitivity"]),
-    as.numeric(conf_matrix_bert_extended$byClass["F1"]),
+    conf_matrix_bert_extended$overall["Accuracy"],
+    conf_matrix_bert_extended$byClass["Pos Pred Value"],
+    conf_matrix_bert_extended$byClass["Sensitivity"],
+    conf_matrix_bert_extended$byClass["F1"],
     calculate_mcc(conf_matrix_bert_extended$table)
   ),
   
-  # Claude (original study)
   `Claude (original study)` = c(
-    as.numeric(conf_matrix_claude$overall["Accuracy"]),
-    as.numeric(conf_matrix_claude$byClass["Pos Pred Value"]),
-    as.numeric(conf_matrix_claude$byClass["Sensitivity"]),
-    as.numeric(conf_matrix_claude$byClass["F1"]),
+    conf_matrix_claude$overall["Accuracy"],
+    conf_matrix_claude$byClass["Pos Pred Value"],
+    conf_matrix_claude$byClass["Sensitivity"],
+    conf_matrix_claude$byClass["F1"],
     calculate_mcc(conf_matrix_claude$table)
   )
 )
 
 
-# Format Accuracy as whole percentage
-metrics_table[1, -1] <- paste0(
-  round(as.numeric(metrics_table[1, -1]) * 100, 0),
-  "%"
-)
-
-
-# Format Precision, Recall and F1-score (as percentages with one decimal place); display undefined values as "-"
-metrics_table[2:4, -1] <- lapply(
-  metrics_table[2:4, -1],
-  function(x) {
-    ifelse(
-      is.na(x),
-      "-",
-      paste0(round(as.numeric(x) * 100, 1), "%")
-    )
+# Format each metric individually
+for (i in 1:nrow(metrics_table)) {
+  
+  for (j in 2:ncol(metrics_table)) {
+    
+    value <- as.numeric(metrics_table[i, j])
+    
+    if (is.na(value) || is.nan(value)) {
+      metrics_table[i, j] <- "-"
+      
+    } else if (i == 1) {
+      metrics_table[i, j] <- paste0(
+        round(value * 100, 0),
+        "%"
+      )
+      
+    } else if (i %in% 2:4) {
+      metrics_table[i, j] <- paste0(
+        round(value * 100, 1),
+        "%"
+      )
+      
+    } else if (i == 5) {
+      metrics_table[i, j] <- sprintf(
+        "%.2f",
+        value
+      )
+    }
   }
-)
-
-
-# Format MCC to two decimal places; display undefined values as "-"
-metrics_table[5, -1] <- lapply(
-  metrics_table[5, -1],
-  function(x) {
-    ifelse(
-      is.na(x) | is.nan(x),
-      "-",
-      sprintf("%.2f", as.numeric(x))
-    )
-  }
-)
+}
 
 
 # Final table
