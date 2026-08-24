@@ -869,18 +869,19 @@ datasets were used, the training conditions were not fully equivalent
 across model types.
 
 As the results of this replication indicate, an open-source LLM can
-compete with a closed LLM on this linguistic classification task. As
-already mentioned in the introduction, open models constitute an
-integral part of open research, which is why we consider this aspect
-very important when doing research with LLMs. Aside from limited
-availability, closed, commercial LLMs are often developed
-intransparently and without ethical oversight [@liesenfeld2023]. Since
-their training relies on vast amounts of data, including text from the
-internet, publicly available datasets, or proprietary sources, they are
-susceptible to passive privacy leakage, whereby sensitive information
-contained in training data may be revealed. Also, LLMs can be vulnerable
-to different kinds of active privacy attacks [@yan2025: 1], though, this
-is true for open LLMs as well.
+achieve performance comparable to that of a closed LLM on this
+linguistic classification task. As already mentioned in the
+introduction, open models constitute an integral part of open research,
+which is why we consider this aspect very relevant when doing research
+with LLMs. In addition to their limited availability, closed, commercial
+LLMs are often developed intransparently and without ethical oversight
+[@liesenfeld2023]. Since their training relies on vast amounts of data,
+including text from the internet, publicly available datasets, or
+proprietary sources, they are susceptible to passive privacy leakage,
+whereby sensitive information contained in training data may be
+revealed. Also, LLMs can be vulnerable to different kinds of active
+privacy attacks [@yan2025: 1]. However, these risks affect open LLMs as
+well.
 
 ## "Replicable" methods
 
