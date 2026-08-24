@@ -852,23 +852,23 @@ successfully complete this kind of linguistic task.
 ## Suitability of LLMs and training process
 
 We consider this replication successful with regard to the replicability
-of the methodological pipeline using an open LLM, both with the
-iterative training process outlined in @morin2025 and with a reduced
-training process. However, both the smaller model and DistilBERT failed
-to achieve the desired accuracy metrics, suggesting that the approach
-may only be replicable with models comparable in size and functionality.
-DistilBERT's performance in particular indicates that it is not well
-suited for this task, although this result needs to be interpreted in
-light of important differences between distilBERT and the other models:
-In addition to being a considerably smaller, encoder-only transformer,
-distilBERT could not be given the same type of 'in-conversation'
-instructions during pretraining as the LLMs. Thus, although the same
-datasets were used, the training conditions were not fully equivalent
-across model types.
+of the methodological pipeline using an open LLM (OpenAI GPT OSS 120B),
+both with the iterative training outlined in @morin2025 and with a
+reduced training process. However, both the smaller model and DistilBERT
+failed to achieve the desired accuracy metrics, suggesting that the
+approach may only be replicable with models comparable in size and
+functionality. DistilBERT's performance in particular indicates that it
+is not well suited for this task, although this result needs to be
+interpreted in light of important differences between distilBERT and the
+other models: In addition to being a considerably smaller, encoder-only
+transformer, distilBERT could not be given the same type of
+'in-conversation' instructions during pretraining as the LLMs. Thus,
+although the same datasets were used, the training conditions were not
+fully equivalent across model types.
 
 As the results of this replication indicate, an open-source LLM can
-achieve performance comparable to that of a closed LLM on this
-linguistic classification task. As already mentioned in the
+achieve performance comparable to that of a closed LLM on the linguistic
+classification task in @morin2025. As already mentioned in the
 introduction, open models constitute an integral part of open research,
 which is why we consider this aspect very relevant when doing research
 with LLMs. In addition to their limited availability, closed, commercial
@@ -915,12 +915,38 @@ attention to LLMs trained on or evaluated in other languages [@yao2025:
 research in that regard, as in some cases, pretraining data and language
 distribution are made transparent.
 
-# Conclusion (whole paper: max. 4000 words)
+# Conclusion
 
-While LLMs have shown promising results in a range of tasks, further
-exploration is needed to effectively and reliably leverage them for
-linguistic data annotation [@lidiiaostyakova2025: 131].
+This study investigated the replicability of an LLM-based methodological
+pipeline for linguistic data annotation. While smaller model and
+distilBERT did not achieve comparable results, @morin2025's approach was
+successfully replicated with one open model, and also with a
+significantly less extensive training approach. At the same time, it is
+worth noting that the study by @morin2025 represents an early
+contribution to this specific area. Regarding the generalisability of
+this method, it is important to note that the grammatical construction
+annotated here constitutes a rather clear-cut formal case [@morin2025:
+7]. Even with promising results from some LLMs, further exploration is
+needed to effectively and reliably leverage them for linguistic data
+annotation, especially when they are used for more complex tasks or
+under-researched languages.
 
-*what we may learn from the extensions about the approach and LLM use in
-corpus studies method and replicability open science practices esp.
-important when we throw LLMs on everything*
+The extensions explored in this study give insights into what can be
+learned from testing LLM-based methods beyond the conditions of the
+original study. They illustrate the importance of investigating not only
+which results an approach produces, but also under which conditions it
+remains reliable and replicable. As LLMs are increasingly used in
+corpus-based research, open-science practices, such as making datasets,
+code, model parameters, and evaluation procedures as transparent as
+possible, become particularly relevant.
+
+More braodly, this study highlights the importance of replicability in
+linguistic research with LLMs and the advantages of using open models,
+which can offer at least some amount of control, and greater
+possibilities for reproducibility. To leverage LLMs in linguistic
+research, it is important to weigh their potential and their
+limitations, rather than assuming they can be applied to every task
+reliably. This also means considering broader issues associated with
+their usage, ranging from data rights to environmental impact.
+
+# References
