@@ -558,15 +558,13 @@ kable(
 ```
 
 
-### Extended replication with distilBERT
+## Extended replication with distilBERT
 
 The distilBERT was once trained with only the pretraining dataset. The associated script is called `BERT_working_script.R` and the results can be found in `BERT_transcripts` folder.
 
 ```{r}
 #| label: bert-results
 #| include: false
-
-library(knitr)
 
 load("BERT_transcripts/BERT_experiment_workspace.RData")
 
@@ -602,25 +600,33 @@ kable(bert_results_table)
 
 ```{r}
 #| label: bert-confusion-matrix
-#| tbl-cap: "Confusion matrix for the original DistilBERT model"
+#| tbl-cap: "Confusion matrix for the DistilBERT model"
 
-confusion_matrix_bert <- table(
-  Actual = factor(
-    labels_test,
-    levels = c(0, 1),
-    labels = c("evaluative", "non-evaluative")
-  ),
-  Predicted = factor(
-    preds_test,
-    levels = c(0, 1),
-    labels = c("evaluative", "non-evaluative")
-  )
+actual_bert <- factor(
+  labels_test,
+  levels = c(0, 1),
+  labels = c("evaluative", "non-evaluative")
 )
 
-kable(confusion_matrix_bert)
+predicted_bert <- factor(
+  preds_test,
+  levels = c(0, 1),
+  labels = c("evaluative", "non-evaluative")
+)
+
+conf_matrix_bert <- confusionMatrix(
+  data = predicted_bert,
+  reference = actual_bert,
+  positive = "evaluative"
+)
+
+kable(
+  conf_matrix_bert$table,
+  caption = "Prediction (DistilBERT) vs Reference (Human)"
+)
 ```
 
-Also trained with a larger training dataset consisting of the pretraining set and the two unsupervised training sets (script: `BERT_extended_script.R)`:
+In a second approach, distilBERT was trained with a larger training dataset created through combining the pretraining set with the two unsupervised training sets (script: `BERT_extended_script.R)`:
 
 ```{r}
 #| label: bert-extended-results
@@ -663,20 +669,153 @@ kable(bert_extended_results_table)
 
 ```{r}
 #| label: bert-extended-confusion-matrix
-#| tbl-cap: "Confusion matrix for the extended DistilBERT model"
+#| tbl-cap: "Confusion matrix for the DistilBERT model with larger training dataset"
 
-confusion_matrix_extended <- table(
-  Actual = factor(
-    labels_test_extended,
-    levels = c(0, 1),
-    labels = c("evaluative", "non-evaluative")
+actual_bert_extended <- factor(
+  labels_test_extended,
+  levels = c(0, 1),
+  labels = c("evaluative", "non-evaluative")
+)
+
+predicted_bert_extended <- factor(
+  preds_test_extended,
+  levels = c(0, 1),
+  labels = c("evaluative", "non-evaluative")
+)
+
+conf_matrix_bert_extended <- confusionMatrix(
+  data = predicted_bert_extended,
+  reference = actual_bert_extended,
+  positive = "evaluative"
+)
+
+kable(
+  conf_matrix_bert_extended$table,
+  caption = "Prediction (DistilBERT extended) vs Reference (Human)"
+)
+```
+
+```{r}
+#| label: tbl-accuracy-metrics-bert
+#| tbl-cap: "Classification performance of DistilBERT models and Claude compared with the human gold standard"
+#| warning: false
+#| message: false
+
+# Calculate Matthews correlation coefficient
+calculate_mcc <- function(cm) {
+  
+  # Extract the four cells from confusion matrix
+  TP <- cm[1, 1]
+  FN <- cm[2, 1]
+  FP <- cm[1, 2]
+  TN <- cm[2, 2]
+  
+  # Calculate denominator
+  denominator <- sqrt(
+    (TP + FP) *
+      (TP + FN) *
+      (TN + FP) *
+      (TN + FN)
+  )
+  
+  # Avoid division by 0
+  if (denominator == 0) {
+    return(NA_real_)
+  }
+  
+  # Calculate Matthews correlation coefficient
+  (TP * TN - FP * FN) / denominator
+}
+
+
+# Create table with metrics for all three models
+metrics_table <- data.frame(
+  
+  # Names of metrics
+  Metric = c(
+    "Accuracy",
+    "Precision",
+    "Recall",
+    "F1-score",
+    "Matthews correlation coefficient"
   ),
-  Predicted = factor(
-    preds_test_extended,
-    levels = c(0, 1),
-    labels = c("evaluative", "non-evaluative")
+  
+  # DistilBERT (pretraining only)
+  `DistilBERT (pretraining only)` = c(
+    as.numeric(conf_matrix_bert$overall["Accuracy"]),
+    as.numeric(conf_matrix_bert$byClass["Pos Pred Value"]),
+    as.numeric(conf_matrix_bert$byClass["Sensitivity"]),
+    as.numeric(conf_matrix_bert$byClass["F1"]),
+    calculate_mcc(conf_matrix_bert$table)
+  ),
+  
+  # DistilBERT (extended training)
+  `DistilBERT (extended training)` = c(
+    as.numeric(conf_matrix_bert_extended$overall["Accuracy"]),
+    as.numeric(conf_matrix_bert_extended$byClass["Pos Pred Value"]),
+    as.numeric(conf_matrix_bert_extended$byClass["Sensitivity"]),
+    as.numeric(conf_matrix_bert_extended$byClass["F1"]),
+    calculate_mcc(conf_matrix_bert_extended$table)
+  ),
+  
+  # Claude (original study)
+  `Claude (original study)` = c(
+    as.numeric(conf_matrix_claude$overall["Accuracy"]),
+    as.numeric(conf_matrix_claude$byClass["Pos Pred Value"]),
+    as.numeric(conf_matrix_claude$byClass["Sensitivity"]),
+    as.numeric(conf_matrix_claude$byClass["F1"]),
+    calculate_mcc(conf_matrix_claude$table)
   )
 )
 
-kable(confusion_matrix_extended)
+
+# Format Accuracy as whole percentage
+metrics_table[1, -1] <- paste0(
+  round(as.numeric(metrics_table[1, -1]) * 100, 0),
+  "%"
+)
+
+
+# Format Precision, Recall and F1-score (as percentages with one decimal place); display undefined values as "-"
+metrics_table[2:4, -1] <- lapply(
+  metrics_table[2:4, -1],
+  function(x) {
+    ifelse(
+      is.na(x),
+      "-",
+      paste0(round(as.numeric(x) * 100, 1), "%")
+    )
+  }
+)
+
+
+# Format MCC to two decimal places; display undefined values as "-"
+metrics_table[5, -1] <- lapply(
+  metrics_table[5, -1],
+  function(x) {
+    ifelse(
+      is.na(x) | is.nan(x),
+      "-",
+      sprintf("%.2f", as.numeric(x))
+    )
+  }
+)
+
+
+# Final table
+kable(
+  metrics_table,
+  col.names = c(
+    "Metric",
+    "DistilBERT (pretraining only)",
+    "DistilBERT (extended training)",
+    "Claude (original study)"
+  )
+)
+
 ```
+
+Precision = NA because caret reports it as undefined when there are no positive predictions.
+Pos Pred Value = NaN because it effectively involves 0 / 0.
+F1 = NA because it cannot be calculated when precision is undefined.
+Recall = 0 because there are 39 actual evaluative cases, but the model correctly identifies 0 of them: 0 / 39 = 0.
