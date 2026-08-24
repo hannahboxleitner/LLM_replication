@@ -89,10 +89,9 @@ classification_levels <- c(
   "evaluative",
   "non-evaluative"
 )
-
 ```
 
-### Distribution of classifications in the testing set
+## Distribution of classifications in the testing set
 
 ```{r}
 #| label: tbl-test-distribution
@@ -151,7 +150,7 @@ kable(results_table)
 
 ```
 
-### Tables representing accuracy as 2 x 2 matrices
+### Tables representing accuracy as 2x2 matrices
 
 ```{r}
 #| label: tbl-gpt-close-confusion
@@ -159,16 +158,19 @@ kable(results_table)
 #| warning: false
 #| message: false
 
+# Reference
 actual_GPT_close <- factor(
   comparison_all$Human_classification,
   levels = classification_levels
 )
 
+# Prediction
 predicted_GPT_close <- factor(
   comparison_all$GPT_classification,
   levels = classification_levels
 )
 
+# Confusion matrix
 conf_matrix_GPT_close <- confusionMatrix(
   data = predicted_GPT_close,
   reference = actual_GPT_close,
@@ -178,7 +180,7 @@ conf_matrix_GPT_close <- confusionMatrix(
 #print(conf_matrix_GPT_close$table)
 #kable(conf_matrix_GPT_close$table)
 
-# create table output with model names
+# Create table output with model names
 kable(
   conf_matrix_GPT_close$table,
   caption = "Prediction (GPT) vs Reference (Human)")
@@ -240,6 +242,8 @@ kable(
 ```
 
 For the Mistral model, the matrix reveals that it is biased toward predicting non-evaluative: it gets 61 of the 63 human non-evaluative cases right, but misses 32 of the 39 evaluative cases.
+
+### Accuracy metrics for all models in close replication
 
 ```{r}
 #| label: tbl-accuracy-metrics-close
@@ -355,19 +359,15 @@ kable(
 )
 ```
 
-## Extended replication
+## Extended replication with GPT: simpler training process
 
-### Extended replication with GPT: simpler training process
+### Accuracy and Cohen's Kappa compared to the human gold standard
 
 The GPT part includes only the replication where we went from the pretraining dataset straight to testing.
 
 ```{r}
-#| label: reduced-training-2-results
+#| label: appendix-results-GPT-reduced-training-2-extended
 #| include: false
-
-library(readr)
-library(irr)
-library(knitr)
 
 gpt_reduced_2 <- read_csv2(
   "reduced_training/GPT_reduced_training_2_results.csv",
@@ -399,7 +399,7 @@ gpt_reduced_2_total <- nrow(gpt_reduced_2)
 ```
 
 ```{r}
-#| label: tbl-reduced-training-2
+#| label: tbl-GPT-reduced-training-2
 #| tbl-cap: "GPT performance in the reduced training replication (only pretraining dataset and testing)"
 
 reduced_training_2_table <- data.frame(
@@ -420,6 +420,143 @@ reduced_training_2_table <- data.frame(
 
 kable(reduced_training_2_table)
 ```
+
+### Tables representing accuracy as 2x2 matrices
+
+```{r}
+#| label: tbl-gpt-reduced-2-confusion
+#| tbl-cap: "GPT classifications after reduced training compared with the human gold standard"
+#| warning: false
+#| message: false
+
+actual_gpt_reduced_2 <- factor(
+  gpt_reduced_2$Human_classification,
+  levels = classification_levels
+)
+
+predicted_gpt_reduced_2 <- factor(
+  gpt_reduced_2$GPT_classification,
+  levels = classification_levels
+)
+
+conf_matrix_gpt_reduced_2 <- confusionMatrix(
+  data = predicted_gpt_reduced_2,
+  reference = actual_gpt_reduced_2,
+  positive = "evaluative"
+)
+
+kable(
+  conf_matrix_gpt_reduced_2$table,
+  caption = "Prediction (GPT reduced training) vs Reference (Human)"
+)
+```
+
+### Accuracy metrics of GPT reduced training extension compared to Claude in original study
+
+```{r}
+#| label: tbl-accuracy-metrics-reduced-2
+#| tbl-cap: "Classification performance of GPT after reduced training and Claude compared with the human gold standard"
+#| warning: false
+#| message: false
+
+# Calculate Matthews correlation coefficient
+calculate_mcc <- function(cm) {
+  
+  # Extract the four cells from confusion matrix
+  TP <- cm[1, 1]
+  FN <- cm[2, 1]
+  FP <- cm[1, 2]
+  TN <- cm[2, 2]
+  
+  # Calculate denominator
+  denominator <- sqrt(
+    (TP + FP) *
+      (TP + FN) *
+      (TN + FP) *
+      (TN + FN)
+  )
+  
+  # Avoid division by 0
+  if (denominator == 0) {
+    return(NA_real_)
+  }
+  
+  # Calculate Matthews correlation coefficient
+  (TP * TN - FP * FN) / denominator
+}
+
+
+# Create table with metrics for both models
+metrics_table <- data.frame(
+  
+  # Names of metrics
+  Metric = c(
+    "Accuracy",
+    "Precision",
+    "Recall",
+    "F1-score",
+    "Matthews correlation coefficient"
+  ),
+  
+  # GPT reduced training metrics
+  `GPT (reduced training)` = c(
+    as.numeric(conf_matrix_gpt_reduced_2$overall["Accuracy"]),
+    as.numeric(conf_matrix_gpt_reduced_2$byClass["Pos Pred Value"]),
+    as.numeric(conf_matrix_gpt_reduced_2$byClass["Sensitivity"]),
+    as.numeric(conf_matrix_gpt_reduced_2$byClass["F1"]),
+    calculate_mcc(conf_matrix_gpt_reduced_2$table)
+  ),
+  
+  # Claude metrics
+  Claude = c(
+    as.numeric(conf_matrix_claude$overall["Accuracy"]),
+    as.numeric(conf_matrix_claude$byClass["Pos Pred Value"]),
+    as.numeric(conf_matrix_claude$byClass["Sensitivity"]),
+    as.numeric(conf_matrix_claude$byClass["F1"]),
+    calculate_mcc(conf_matrix_claude$table)
+  )
+)
+
+
+# Format Accuracy as whole percentage
+metrics_table[1, -1] <- paste0(
+  round(as.numeric(metrics_table[1, -1]) * 100, 0),
+  "%"
+)
+
+
+# Format Precision, Recall and F1-score (as percentages with one decimal place)
+metrics_table[2:4, -1] <- lapply(
+  metrics_table[2:4, -1],
+  function(x) {
+    paste0(
+      round(as.numeric(x) * 100, 1),
+      "%"
+    )
+  }
+)
+
+
+# Format MCC to two decimal places
+metrics_table[5, -1] <- lapply(
+  metrics_table[5, -1],
+  function(x) {
+    sprintf("%.2f", as.numeric(x))
+  }
+)
+
+
+# Final table
+kable(
+  metrics_table,
+  col.names = c(
+    "Metric",
+    "GPT (reduced training)",
+    "Claude (original study)"
+  )
+)
+```
+
 
 ### Extended replication with distilBERT
 
@@ -506,7 +643,7 @@ bert_extended_total <- length(labels_test_extended)
 
 ```{r}
 #| label: tbl-bert-extended-results
-#| tbl-cap: "DistilBERT performance on extended training dataset"
+#| tbl-cap: "DistilBERT performance with larger training dataset"
 
 bert_extended_results_table <- data.frame(
   Accuracy = paste0(
