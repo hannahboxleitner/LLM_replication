@@ -881,21 +881,39 @@ revealed. Also, LLMs can be vulnerable to different kinds of active
 privacy attacks [@yan2025: 1]. However, these risks affect open LLMs as
 well.
 
-## "Replicable" methods
+## Replicable methods
 
-Method-focused papers with (commercial) LLMs -\> what does that mean?
-"replicable" pipeline (!) -\> make things replicable importance of
-reproducibility **(might turn into 2 chapters?)**
+This replication contributes to the broader discussion of replicability
+in linguistic research involving LLMs by examining not only whether the
+methodological pipeline of the original study can be implemented with
+different (open) models and amounts of training, but also which aspects
+of the pipeline and paper allow or constrain reproducibility and
+replicability. This is particularly important for method-focused studies
+using commercial LLMs, where access to the model and its underlying
+configurations are limited. Rather than seeing replicability as a binary
+outcome, our results illustrate that different components of such a
+paper may be replicable to different degrees.
 
-missing: report of test set distribution, code, programming language,
-model parameters, information, also human gold standard was only from 1
-person. There is no information of if inter-rater agreemtn was tested
-with this
+In view of this, several aspects of the original study limit the extent
+to which the results can be replicated independently. Some important
+details, like the programming language and analysis code for
+implementing the pipeline, were not reported by @morin2025. In addition,
+the human gold standard used for evaluation seems to be established by a
+single annotator. It is not clear if inter-rater agreement was assessed
+during its creation. Such limitations leave some uncertainty about
+whether differences between the original and replication results are
+attributable to the models, implementation details, or other aspects.
 
-reproducibilty? (see original paper for inspiration)
-
-generalisation to other languages (mentioned in MML2025) questionable
-since most research is in English) -\> or mention in Introduction?
+Another thing that we want to address in terms of replicability is the
+claim that this pipeline may be applied to other tasks in other
+languages. While the authors already stress that the exact conditions
+will vary based on the task and some languages will be harder to study
+due to less available training data [@morin2025: 7], existing research
+has predominantly focused on English-language contexts and paid less
+attention to LLMs trained on or evaluated in other languages [@yao2025:
+2; @kargaran]. Open-source models offer another advantage for linguistic
+research in that regard, as in some cases, pretraining data and language
+distribution are made transparent.
 
 # Conclusion (whole paper: max. 4000 words)
 
