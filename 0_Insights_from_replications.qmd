@@ -697,8 +697,8 @@ worse (`r round(100 * mistral_accuracy)`%). This observation is
 reflected in the other metrics as well: While GPT's performance is
 similar or better in all evaluated metrics, Mistral fails to achieve
 comparable results. While Mistral's 67% accuracy might initially sound
-moderately good, investigating these results as 2 x 2 matrices **(see
-`Appendix.R`**) reveals that it is heavily biased toward predicting
+moderately good, investigating these results as 2 x 2 matrices **(**see
+**`0_Appendix.R`**) reveals that it is heavily biased toward predicting
 'non-evaluative'. This shows especially in the particularly low Recall
 of
 `r sprintf("%.1f%%", as.numeric(conf_matrix_mistral$byClass["Sensitivity"]) * 100)`,
@@ -791,11 +791,11 @@ achieved an accuracy of `r round(100 * bert_accuracy)`%
 baseline, as it classified all test items as 'non-evaluative'. In a
 second round, we combined the two unsupervised training sets and the
 pretraining set into one bigger training dataset, and ran the same test
-(see `BERT_extended_script.R`). In this case, distilBERT categorized one
-sentence as 'evaluative', and is still almost completely aligning with
-the majority baseline. For the first analysis with distilBERT, most of
-the metrics become meaningless when there are no positive predictions at
-all. Recall is
+(see `6_BERT_extended_script.R`). In this case, distilBERT categorized
+one sentence as 'evaluative', and is still almost completely aligning
+with the majority baseline. For the first analysis with distilBERT, most
+of the metrics become meaningless when there are no positive predictions
+at all. Recall is
 `r round(conf_matrix_bert$byClass["Sensitivity"] * 100, 1)`%, because
 there are 39 actual 'evaluative' cases, but the model correctly
 identifies 0 of them. For the second round with the expanded training

@@ -560,7 +560,7 @@ kable(
 
 ## Extended replication with distilBERT
 
-The distilBERT was once trained with only the pretraining dataset. The associated script is called `BERT_working_script.R` and the results can be found in `BERT_transcripts` folder.
+The distilBERT was trained with the pretraining dataset from the original study. The associated script is called `5_BERT_working_script.R` and the results can be found in the `BERT_transcripts` folder.
 
 ```{r}
 #| label: bert-results
@@ -626,7 +626,7 @@ kable(
 )
 ```
 
-In a second approach, distilBERT was trained with a larger training dataset created through combining the pretraining set with the two unsupervised training sets (script: `BERT_extended_script.R)`:
+In a second approach, distilBERT was trained with a larger training dataset created through combining the pretraining set with the two unsupervised training sets (script: `6_BERT_extended_script.R)`:
 
 ```{r}
 #| label: bert-extended-results

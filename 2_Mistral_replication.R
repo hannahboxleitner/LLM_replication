@@ -2,14 +2,14 @@
 
 # With this code, I intended to create a methodological pipeline similar to the one proposed by Morin & Marttinen Larsson (2025). I use the same code basis and original study datasets as in the replication with the GPT model.
 # This script contains the conversation with the model, which is divided into pretraining, training and testing of the model, and also contains analysis and evaluation.
-# The setup of the model (including API call) and the data import are called here from other R scripts.
+# The setup of the model (including API call) and the data import are called from other R scripts.
 # Important note: This script also contains additional evaluations regarding inter-rater agreement (of all models).
 
 # Load setup script
-source("LLM_setup.R")
+source("1_LLM_setup.R")
 
 # Load data
-source("Data_import.R")
+source("1_Data_import.R")
 
 # 1. PRETRAINING
 

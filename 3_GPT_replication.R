@@ -5,10 +5,10 @@
 # The setup of the model (including API call) and the data import are called here from other R scripts.
 
 # Load setup script
-source("LLM_setup.R")
+source("1_LLM_setup.R")
 
 # Load data import script
-source("Data_import.R")
+source("1_Data_import.R")
 
 # 1. PRETRAINING
 

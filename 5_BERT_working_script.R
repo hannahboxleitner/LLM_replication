@@ -12,7 +12,7 @@ use_virtualenv("r-transformers", required = TRUE)
 py_config()
 
 # load R packages
-#library(text) # if I need it
+#library(text)
 library(dplyr)
 library(ggplot2)
 
@@ -48,7 +48,7 @@ outputs$last_hidden_state$shape # check output shape
 ## Moving on to study data: LLM-replication
 
 # Import data (from replication of Morin & Marttinen Larssons's study)
-source("Data_import.R")
+source("1_Data_import.R")
 
 # Fine-tuning distilbert (with pretraining dataset)
 

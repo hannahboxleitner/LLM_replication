@@ -12,7 +12,7 @@ use_virtualenv("r-transformers", required = TRUE)
 py_config()
 
 # load R packages
-#library(text) # if I need it
+#library(text) 
 library(dplyr)
 library(ggplot2)
 
@@ -22,7 +22,7 @@ datasets <- import("datasets")
 torch <- import("torch")
 
 # Import data (from replication of Morin & Marttinen Larssons's study)
-source("Data_import.R")
+source("1_Data_import.R")
 
 # label mapping
 label_map <- c(

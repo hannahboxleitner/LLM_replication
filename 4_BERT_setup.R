@@ -1,4 +1,4 @@
-# BERT setup script
+# BERT one-time setup script
 # This script contains: Python selection, virtualenv creation, Python packages installations.
 # One-time environment setup for Python + HuggingFace stack
 
