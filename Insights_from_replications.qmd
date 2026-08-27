@@ -541,9 +541,10 @@ development for linguistics research, offering new possibilities for
 complementing and extending existing automated methods for processing
 larger datasets and corpora. In recent years, a growing number of
 publications have reported on the usefulness of LLMs for a range of
-linguistic annotation tasks [e.g. @yu2024; @heseltine2024] **maybe add
-more?**
-<!--# ELF: Yes, and specifying the kinds of linguistic tasks. E.g. on metaphor detection (Fuoli et al., 2025), annotation of speech acts (Yu et al. 2024; Su & Ye 2025), word sense or function disambiguation (Fonteyn et al., 2023; Morin & Marttinen Larsson 2025). + mostly on English so far -->.
+linguistic annotation tasks, such as the annotation of speech acts
+[@yu2024; @su2025], metaphor detection [@fuoli2026], word sense or
+function disambiguation [@fonteyn2024; @morin2025], and poitical text
+classification and annotation [@heseltine2024].
 
 While LLMs are increasingly prevalent in both linguistic research and
 our everyday lives, they also raise a number of concerns. For research
