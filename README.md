@@ -1,31 +1,34 @@
-# Using (open) LLMs for linguistic annotation tasks: Replication of a study by Morin & Marttinen Larsson (2025)
+# LLMs for corpus annotation: Close and extended replications of Morin & Marttinen Larsson (2025) using smaller open LLMs and BERT
 ## Project overview
-The first part of this project is a close replication of Morin & Marttinen Larsson (2025) with different LLMs (Mistral Small 3.2 24B Instruct 2506 and OpenAI GPT OSS 120B. In a second part, the replication was extended to try a simpler, more compact training approach with a BERT model and again with OpenAI GPT OSS 120B. Each part is represented in a separate papers.
+This study is a replication of Morin & Marttinen Larsson (2025). The first part of this project is a close replication of Morin & Marttinen Larsson (2025) with different LLMs (Mistral Small 3.2 24B Instruct 2506 and OpenAI GPT OSS 120B. The second part consists of an extended replication of this approach: Using the same data, a simpler, more compact training approach was tested with OpenAI GPT OSS 120B, and also with a distilBERT model.
 
-This repository contains the following materials:
+## Materials
+The supplementary materials in this repository contain the following files:
 
-For the original (close) replication (of Morin & Marttinen Larsson 2025)
+Basis:
+- 0_LLM_replication.Rproj (project file)
+- 0_Insights_from_replications.qmd (paper)
+- 0_Appendix (appendix to paper)
 
-1. Data
-   - Folder "data": contains all the datasets from the original study, which were downloaded from the OSF repository corresponding to Morin & Marttinen Larsson (2025). The file names remain unchanged.
-   - Folder "replication_data": contains datasets derived from the replication.
-   - Folder "transcripts": contains transcripts of the conversations conducted with LLMs for replication.
-3. R files, qmd files
-   - "Data_import.R": R script containing all data imports
-   - "LLM_setup.R": R script containing the basic setup of LLMs via remote API.
-   - "GPT_replication.R": R script containing the replication with the GPT model.
-   - "Mistral_replication.R": R script containing the replication with the Mistral model.
-   - "LLM_replication_paper.qmd": contains a Quarto document containg the actual paper (also as .html file)
-5. Other
-   - "references.bib": bibliographic entries.
-   - "LLM_replication.Rroj": project file
+Essential files for all parts of replication:
+- 1_Data_import.R (importing and preprocessing of data)
+- 1_LLM_setup.R (Setup script for LLMs)
+- /data (folder containing all data provided by Morin & Marttinen Larsson 2025, including 'conversation' transcript)
 
-For the extended replications and the related paper:
+Close replication:
+- 2_Mistral_replication.R (script used for replication with Mistral model)
+- 3_GPT_replication.R (script used for replication with GPT, both closed and extended)
+- /replication_data (folder containing results of close replication)
+- /transcripts (folder containing 'conversation' transcripts)
 
-1. Data:
-   - folder "reduced_training" contains both the results of reduced training with the open GPT model (as a .csv) and a raw transcript
-   - (folder "BERT_transcripts" contains the session info and console output as .txt files)
-2. R files, qmd files
-   - "BERT_setup.R" contains setup for BERT use
-   - "BERT_working_script.R" contains script used for BERT training
-   - "Insights_from_replications.qmd" contains a Quarto document with abstract and paper
+Extended replication with GPT:
+- 3_GPT_replication.R (script)
+- /reduced_training (folder containing results of replication with reduced training with GPT)
+- /reduced_training/GPT_reduced_training_2_results.csv (csv file containing results from replication with only pretraining dataset + testing)
+
+Extended replication with distilBERT:
+- 4_BERT_setup.R (script for one-time setup)
+- 5_BERT_working_script.R (script for BERT analysis using only pretraining dataset + testing)
+- /BERT_transcripts (folder containing results of first run with distilBERT)
+- 6_BERT_extended.script.R (script for BERT analysis with more training data (pretraining + unsupervised training set)
+- /BERT_extended_transcripts (folder containing results of BERT run with more training data)
