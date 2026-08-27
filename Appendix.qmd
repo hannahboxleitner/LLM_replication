@@ -812,6 +812,14 @@ kable(
 
 ```
 
-Precision = NA because caret reports it as undefined when there are no positive predictions. Pos Pred Value = NaN because it effectively involves 0 / 0. F1 = NA because it cannot be calculated when precision is undefined. Recall = 0 because there are 39 actual evaluative cases, but the model correctly identifies 0 of them: 0 / 39 = 0.
+# Further details on the study
 
-For the distilBERT with more training data, the numbers are also not very useful. For example, Precision is 100%, because this metric measures how often the model is correct when it predicts positives. Since the model only predicted 'evaluative' in one singular case, it is misleading here.
+## Technical details regarding the models
+
+The open LLMs were accessed remotely via an API [@ki:conne]. The generation parameters in the API call were set to *temperature* = 0, *top~p~* = 1, and a constant random seed was used. Setting *temperature* to 0, meaning the model always chooses the most probable next token, removes random sampling and therefore makes additional constraints such as *top~k~* (sampling only from the k most probable tokens) unnecessary and potentially confounding. Even though these measures were taken to improve reproducibility, identical outputs across runs cannot be guaranteed.
+
+***mention scripts/files when numbered***
+
+## Data leakage
+
+For this study, it iss assumed that the models, functioning as several "annotators", independently label the data without knowledge of each other's work. It can only be *assumed* because there is a possibility that the models might have the gold standard provided in the original study as part of their training data, which would mean they would not be totally independent. The Mistral model used for this study was released in June 2025 [@mistralai2026], and the GPT model in August 2025 [@openai2026]. @morin2025, who used data from the NOW corpus and Sketch Engine’s EnTenTen21 corpus for their study [@morin2025: 3], created their OSF-database containing the (annotated) datasets in November 2024 [@morin2024]. When and on which data the models were trained exactly remains unclear, but since they were released after the repository went public, the possibility of data leakage cannot be entirely ruled out.
