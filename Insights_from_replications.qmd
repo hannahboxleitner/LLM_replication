@@ -596,10 +596,9 @@ believe that smaller, locally-run LLMs are worth considering for
 environmental reasons: Training and operating LLMs with billions of
 parameters requires substantial computational resources, including large
 amounts of water (e.g. for cooling data centers) and electricity,
-generating substantial carbon emissions
-<!--# ELF: insert refs! HB: also cited from jegham2015 - or meaning more refs? ELF: I mean more recent refs on studies quantifying the energy and water consumption associated with AI training and inference -->.
-Although AI becomes cheaper and faster, its global adoption is rapidly
-increasing resource consumption [@jegham2025].
+generating substantial carbon emissions [@özcan; @kron]. Although AI
+becomes cheaper and faster, its global adoption is rapidly increasing
+resource consumption [@jegham2025].
 
 # Research aims and questions
 
