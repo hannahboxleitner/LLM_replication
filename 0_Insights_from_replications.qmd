@@ -616,12 +616,15 @@ The original authors made the data associated with this project
 available in an OSF repository [@morin2024]. It contains a "conversation
 transcript", from which the iterative training process could be traced,
 and several datasets for training and testing an LLM to differentiate
-between evaluative and non-evaluative uses of the verb *consider*.
+between evaluative and non-evaluative uses of the verb *consider*, which can be illustrated on the following examples:
 
-<!--# ELF: I suggest we add two examples here, illustrating the two meanings to be disambiguated. These should be taken from the original study with the appropriate citation, of course. -->
+a) Cain is *considered* a master of American hard boiled crime fiction (…) [@morin2025: 2]
 
-The model outputs were evaluated against a human gold standard provided
-by the authors.
+b) Please *consider* all classes when punching number in to spread-sheet and designing new items [@morin2025: 2].
+
+The verb *consider* in example a) constitutes an evaluation of the subject. Such evaluative constructions can be and are often formulated using *consider as* or *consider to be*. In example b) however, the meaning is equivalent to 'take into account' or 'think about', and has no evaluative component.
+
+The model outputs, which classified sentences as 'evaluative', 'non-evaluative' or '?', were evaluated against a human gold standard provided by the authors.
 
 We seek answers to the following research questions (RQs):
 
