@@ -1,5 +1,7 @@
 ---
 title: "Appendix"
+subtitle: "LLMs for corpus annotation: Close and extended replications of Morin & Marttinen Larsson (2025) using smaller open LLMs"
+date: last-modified
 format: pdf
 editor: visual
 execute:
@@ -134,7 +136,7 @@ kable(results_table)
 
 ```
 
-### Tables representing accuracy as 2x2 matrices
+### Accuracy as 2x2 matrices
 
 ```{r}
 #| label: tbl-gpt-close-confusion
@@ -224,8 +226,6 @@ kable(
   conf_matrix_claude$table,
   caption = "Prediction (Claude) vs Reference (Human)")
 ```
-
-For the Mistral model, the matrix reveals that it is biased toward predicting non-evaluative: it gets 61 of the 63 human non-evaluative cases right, but misses 32 of the 39 evaluative cases.
 
 ### Accuracy metrics for all models in close replication
 
