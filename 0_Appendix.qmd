@@ -1,6 +1,6 @@
 ---
 title: "Appendix"
-format: html
+format: pdf
 editor: visual
 execute:
   echo: false
@@ -92,11 +92,11 @@ classification_levels <- c(
 )
 ```
 
-## Distribution of classifications in the testing set
+## Distribution of classifications in the testing set provided by Morin & Marttinen Larsson (2025)
 
 ```{r}
 #| label: tbl-test-distribution
-#| tbl-cap: "Distribution of classifications in the test set according to the human gold standard"
+#| tbl-cap: "Distribution of classifications in the testing set according to the human gold standard"
 
 test_distribution_table <- data.frame(
   Classification = names(test_distribution),
@@ -452,7 +452,7 @@ kable(
 )
 ```
 
-### Accuracy metrics of GPT reduced training extension compared to Claude in original study
+### Accuracy metrics of GPT few-shot training extension compared to Claude in original study
 
 ```{r}
 #| label: tbl-accuracy-metrics-reduced-2
@@ -558,268 +558,12 @@ kable(
 )
 ```
 
-## Extended replication with distilBERT
-
-The distilBERT was trained with the pretraining dataset from the original study. The associated script is called `5_BERT_working_script.R` and the results can be found in the `BERT_transcripts` folder.
-
-```{r}
-#| label: bert-results
-#| include: false
-
-load("BERT_transcripts/BERT_experiment_workspace.RData")
-
-bert_accuracy <- mean(
-  preds_test == labels_test
-)
-
-bert_agreement <- sum(
-  preds_test == labels_test
-)
-
-bert_total <- length(labels_test)
-```
-
-```{r}
-#| label: tbl-bert-results
-#| tbl-cap: "distilBERT performance on the test set"
-
-bert_results_table <- data.frame(
-  Accuracy = paste0(
-    round(100 * bert_accuracy),
-    "%"
-  ),
-  Alignments = paste0(
-    bert_agreement,
-    "/",
-    bert_total
-  )
-)
-
-kable(bert_results_table)
-```
-
-```{r}
-#| label: bert-confusion-matrix
-#| tbl-cap: "Confusion matrix for the DistilBERT model"
-
-actual_bert <- factor(
-  labels_test,
-  levels = c(0, 1),
-  labels = c("evaluative", "non-evaluative")
-)
-
-predicted_bert <- factor(
-  preds_test,
-  levels = c(0, 1),
-  labels = c("evaluative", "non-evaluative")
-)
-
-conf_matrix_bert <- confusionMatrix(
-  data = predicted_bert,
-  reference = actual_bert,
-  positive = "evaluative"
-)
-
-kable(
-  conf_matrix_bert$table,
-  caption = "Prediction (DistilBERT) vs Reference (Human)"
-)
-```
-
-In a second approach, distilBERT was trained with a larger training dataset created through combining the pretraining set with the two unsupervised training sets (script: `6_BERT_extended_script.R)`:
-
-```{r}
-#| label: bert-extended-results
-#| include: false
-
-library(knitr)
-
-load("BERT_extended_transcripts/BERT_extended.RData")
-
-bert_extended_accuracy <- mean(
-  preds_test_extended == labels_test_extended
-)
-
-bert_extended_agreement <- sum(
-  preds_test_extended == labels_test_extended
-)
-
-bert_extended_total <- length(labels_test_extended)
-```
-
-```{r}
-#| label: tbl-bert-extended-results
-#| tbl-cap: "DistilBERT performance with larger training dataset"
-
-bert_extended_results_table <- data.frame(
-  Accuracy = paste0(
-    round(100 * bert_extended_accuracy),
-    "%"
-  ),
-  Alignments = paste0(
-    bert_extended_agreement,
-    "/",
-    bert_extended_total
-  )
-)
-
-kable(bert_extended_results_table)
-
-```
-
-```{r}
-#| label: bert-extended-confusion-matrix
-#| tbl-cap: "Confusion matrix for the DistilBERT model with larger training dataset"
-
-actual_bert_extended <- factor(
-  labels_test_extended,
-  levels = c(0, 1),
-  labels = c("evaluative", "non-evaluative")
-)
-
-predicted_bert_extended <- factor(
-  preds_test_extended,
-  levels = c(0, 1),
-  labels = c("evaluative", "non-evaluative")
-)
-
-conf_matrix_bert_extended <- confusionMatrix(
-  data = predicted_bert_extended,
-  reference = actual_bert_extended,
-  positive = "evaluative"
-)
-
-kable(
-  conf_matrix_bert_extended$table,
-  caption = "Prediction (DistilBERT extended) vs Reference (Human)"
-)
-```
-
-### Accuracy metrics for both distilBERT models and Claude
-
-```{r}
-#| label: tbl-accuracy-metrics-bert-altered-presentation
-#| tbl-cap: "Classification performance of DistilBERT models and Claude compared with the human gold standard"
-#| warning: false
-#| message: false
-
-# Calculate Matthews correlation coefficient
-calculate_mcc <- function(cm) {
-  
-  TP <- cm[1, 1]
-  FN <- cm[2, 1]
-  FP <- cm[1, 2]
-  TN <- cm[2, 2]
-  
-  denominator <- sqrt(
-    (TP + FP) *
-      (TP + FN) *
-      (TN + FP) *
-      (TN + FN)
-  )
-  
-  if (denominator == 0) {
-    return(NA_real_)
-  }
-  
-  (TP * TN - FP * FN) / denominator
-}
-
-
-# Create table with raw numeric metrics
-metrics_table <- data.frame(
-  
-  Metric = c(
-    "Accuracy",
-    "Precision",
-    "Recall",
-    "F1-score",
-    "Matthews correlation coefficient"
-  ),
-  
-  # DistilBERT (pretraining only)
-  `DistilBERT (pretraining only)` = c(
-    unname(conf_matrix_bert$overall["Accuracy"]),
-    unname(conf_matrix_bert$byClass["Pos Pred Value"]),
-    unname(conf_matrix_bert$byClass["Sensitivity"]),
-    unname(conf_matrix_bert$byClass["F1"]),
-    calculate_mcc(conf_matrix_bert$table)
-  ),
-  
-  # DistilBERT (extended training)
-  `DistilBERT (extended training)` = c(
-    unname(conf_matrix_bert_extended$overall["Accuracy"]),
-    unname(conf_matrix_bert_extended$byClass["Pos Pred Value"]),
-    unname(conf_matrix_bert_extended$byClass["Sensitivity"]),
-    unname(conf_matrix_bert_extended$byClass["F1"]),
-    calculate_mcc(conf_matrix_bert_extended$table)
-  ),
-  
-  # Claude (original study)
-  `Claude (original study)` = c(
-    unname(conf_matrix_claude$overall["Accuracy"]),
-    unname(conf_matrix_claude$byClass["Pos Pred Value"]),
-    unname(conf_matrix_claude$byClass["Sensitivity"]),
-    unname(conf_matrix_claude$byClass["F1"]),
-    calculate_mcc(conf_matrix_claude$table)
-  )
-)
-
-
-
-# Format each metric individually
-for (i in 1:nrow(metrics_table)) {
-  
-  for (j in 2:ncol(metrics_table)) {
-    
-    value <- as.numeric(metrics_table[i, j])
-    
-    if (is.na(value) || is.nan(value)) {
-      metrics_table[i, j] <- "-"
-      
-    } else if (i == 1) {
-      metrics_table[i, j] <- paste0(
-        round(value * 100, 0),
-        "%"
-      )
-      
-    } else if (i %in% 2:4) {
-      metrics_table[i, j] <- paste0(
-        round(value * 100, 1),
-        "%"
-      )
-      
-    } else if (i == 5) {
-      metrics_table[i, j] <- sprintf(
-        "%.2f",
-        value
-      )
-    }
-  }
-}
-
-
-# Final table
-kable(
-  metrics_table,
-  col.names = c(
-    "Metric",
-    "DistilBERT (pretraining only)",
-    "DistilBERT (extended training)",
-    "Claude (original study)"
-  )
-)
-
-```
-
 # Further details on the study
 
 ## Technical details regarding the models
 
 The open LLMs were accessed remotely via an API [@ki:conne]. The generation parameters in the API call were set to *temperature* = 0, *top~p~* = 1, and a constant random seed was used. Setting *temperature* to 0, meaning the model always chooses the most probable next token, removes random sampling and therefore makes additional constraints such as *top~k~* (sampling only from the k most probable tokens) unnecessary and potentially confounding. Even though these measures were taken to improve reproducibility, identical outputs across runs cannot be guaranteed.
 
-***mention scripts/files when numbered***
-
 ## Data leakage
 
-For this study, it iss assumed that the models, functioning as several "annotators", independently label the data without knowledge of each other's work. It can only be *assumed* because there is a possibility that the models might have the gold standard provided in the original study as part of their training data, which would mean they would not be totally independent. The Mistral model used for this study was released in June 2025 [@mistralai2026], and the GPT model in August 2025 [@openai2026]. @morin2025, who used data from the NOW corpus and Sketch Engine’s EnTenTen21 corpus for their study [@morin2025: 3], created their OSF-database containing the (annotated) datasets in November 2024 [@morin2024]. When and on which data the models were trained exactly remains unclear, but since they were released after the repository went public, the possibility of data leakage cannot be entirely ruled out.
+For this study, it is assumed that the models, functioning as several "annotators", independently label the data without knowledge of each other's work. It can only be *assumed* because there is a possibility that the models might have the gold standard provided in the original study as part of their training data, which would mean they would not be totally independent. The Mistral model used for this study was released in June 2025 [@mistralai2026], and the GPT model in August 2025 [@openai2026]. @morin2025, who used data from the NOW corpus and Sketch Engine’s EnTenTen21 corpus for their study [@morin2025: 3], created their OSF-database containing the (annotated) datasets in November 2024 [@morin2024]. When and on which data the models were trained exactly remains unclear, but since they were released after the repository went public, the possibility of data leakage cannot be entirely ruled out.

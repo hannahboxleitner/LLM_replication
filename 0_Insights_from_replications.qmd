@@ -334,7 +334,6 @@ metrics_table_ext[5, -1] <- lapply(
     )
   }
 )
-
 ```
 
 
@@ -455,9 +454,9 @@ transcript", from which the iterative training process could be traced,
 and several datasets for training and testing an LLM to differentiate
 between evaluative and non-evaluative uses of the verb *consider*, which can be illustrated on the following examples:
 
-a) Cain is *considered* a master of American hard boiled crime fiction (…) [@morin2025: 2]
+a. Cain is *considered* a master of American hard boiled crime fiction (…) [@morin2025: 2]
 
-b) Please *consider* all classes when punching number in to spread-sheet and designing new items [@morin2025: 2].
+b. Please *consider* all classes when punching number in to spread-sheet and designing new items [@morin2025: 2].
 
 The verb *consider* in example a) constitutes an evaluation of the subject. Such evaluative constructions can be and are often formulated using *consider as* or *consider to be*. In example b) however, the meaning is equivalent to 'take into account' or 'think about', and has no evaluative component.
 
@@ -497,8 +496,7 @@ Precision, Recall, F1 score, and Matthew's correlation coefficient
 - Hypothesis 2: The annotation task can be performed with a
   significantly less extensive training process than that used by
   @morin2025, while achieving performance comparable to or better than
-  Claude Sonnet 3.5 according to the accuracy metrics reported in
-  @morin2025.
+  Claude Sonnet 3.5 according to the accuracy metrics reported in @morin2025.
 
 # Close replication
 
@@ -538,8 +536,7 @@ reflected in the other metrics as well: While the GPT model's
 performance is similar or better in all evaluated metrics, Mistral's
 much smaller model fails to achieve comparable results. While Mistral's
 67% accuracy might initially sound moderately good, investigating these
-results as 2 x 2 matrices **(**see **`0_Appendix.R`**
-<!--# ELF: I suggest we point to a rendered version of the appendix, e.g. as a PDF rendered version of a .qmd document (that we should also share). -->)
+results as 2 x 2 matrices (see `0_Appendix.pdf`)
 reveals that it is heavily biased toward predicting 'non-evaluative'
 meaning. This poor accuracy is best observed in the extremely low recall
 of
@@ -558,12 +555,10 @@ The results suggest that the (close) replicability of the approach
 evidently depends on the comparability of the models. Recalling RQ1, the
 open GPT model performed slightly better than Claude 3.5 Sonnet, whereas
 the smaller Mistral model did not. We therefore have strong evidence in
-support of hypothesis 1a, but can reject hypothesis 1b. On a
-methodological level, we found that essential information to
-independently replicate the study (e.g., whether the web interface or an
-API was used, analysis code, etc.) were missing - forcing us to make
-some educated guesses as to the exact procedure.
-<!--# ELF: We need to explain this a bit more here. All the relevant information is currently only very briefly mentioned in brackets. -->
+support of hypothesis 1a, but can reject hypothesis 1b.
+On a methodological level, we found that essential information to
+independently replicate the study was missing, forcing us to make
+some educated guesses as to the exact procedure. Most importantly, the paper does not disclose how the pipeline was implemented at the programmatic level. This includes e.g. whether the web interface or an API was used, how the model parameters were configured, which programming language was used, and how the datasets were provided as input to the models. Access to the analysis code would have been very useful to ensure a close replication of the original approach. Since the paper only outlines the iterative training approach, many details of the actual process could only be inferred from the 'conversation transcript', which also contains all the 'answers' and explanations given to the model in unsupervised training.
 
 # Extended replication
 
