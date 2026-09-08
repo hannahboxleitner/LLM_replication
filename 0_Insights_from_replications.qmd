@@ -1,5 +1,5 @@
 ---
-title: "LLMs for corpus annotation: Close and extended replications of Morin & Marttinen Larsson (2025) using smaller open LLMs and BERT"
+title: "LLMs for corpus annotation: Close and extended replications of Morin & Marttinen Larsson (2025) using smaller open LLMs"
 author: Hannah Boxleitner & Elen Le Foll
 date: last-modified
 language: 
@@ -520,14 +520,6 @@ with the best-performing open LLM from our first replication. Our
 results suggest that the training process need not be as elaborate as in
 @morin2025 to accomplish similarly high accuracy rates.
 
-Finally, we replicated the annotation study using a fine-tuned
-DistilBERT model [@sanh]. Although this encoder-only transformer is
-considerably smaller than even a small generative LLM, it performed
-approximately on par with the 24B Mistral model used in our first
-replication. These findings indicate that task-specific supervised
-models may provide a competitive and certainly more computationally
-efficient alternative to generative LLMs.
-
 Our results have important implications for the replicability of
 corpus-linguistic research involving LLMs as part of the annotation
 process. Although the authors published their data and a full transcript
@@ -591,8 +583,6 @@ guaranteed for independent verification and future replications and
 whose parameters can be controlled to generate reproducible results. In
 an extended replication, we subsequently re-ran the classification task
 with a much simpler pipeline than that proposed in the original paper.
-Finally, we repeated the classification task using a simpler and widely
-used NLP tool from the BERT family, distilBERT.
 
 While large, cloud-based, proprietary LLMs continue to top performance
 benchmarks, open-source LLMs have made significant progress in closing
@@ -624,7 +614,7 @@ b) Please *consider* all classes when punching number in to spread-sheet and des
 
 The verb *consider* in example a) constitutes an evaluation of the subject. Such evaluative constructions can be and are often formulated using *consider as* or *consider to be*. In example b) however, the meaning is equivalent to 'take into account' or 'think about', and has no evaluative component.
 
-The model outputs, which classified sentences as 'evaluative', 'non-evaluative' or '?', were evaluated against a human gold standard provided by the authors.
+The model outputs, which classified sentences as 'evaluative', 'non-evaluative' or '?' in ambiguous cases, were evaluated against a human gold standard provided by the authors.
 
 We seek answers to the following research questions (RQs):
 
@@ -636,14 +626,8 @@ We seek answers to the following research questions (RQs):
     significantly less extensive training process than that proposed in
     @morin2025?
 
-3.  Can a small, encoder-only transformer model from the BERT family,
-    distilBERT, perform as well or better on the same task as Claude
-    Sonnet 3.5 based on the accuracy metrics reported in [@morin2025:
-    6]?
-    <!--# ELF: I actually suggest that we remove the BERT part of this article because, having now spoken with Natalia Levshina who is an expert on BERT, we would typically need thousands of examples to fine-tune a BERT model which would defy the point, here. I hope this is not too disapointing for you given how much work this has represented...  -->
-
 While the close replication examines RQ1, our extended replication
-serves to answer RQ2 and RQ3. We test the performance of two open-source
+serves to answer RQ2. We test the performance of two open-source
 LLMs: Mistral Small 3.2 24B Instruct 2506 [@mistralai2026] (hereafter
 referred to as 'Mistral'), an open-weight model released in 2025 under
 Apache 2.0 license by the French AI company Mistral AI, and OpenAI GPT
@@ -667,11 +651,6 @@ Precision, Recall, F1 score, and Matthew's correlation coefficient
   significantly less extensive training process than that used by
   @morin2025, while achieving performance comparable to or better than
   Claude Sonnet 3.5 according to the accuracy metrics reported in
-  @morin2025.
-
-- Hypothesis 3: DistilBERT, a small encoder-only transformer model from
-  the BERT family, performs as well as or better than Claude Sonnet 3.5
-  on the same task, as measured by the accuracy metrics reported in
   @morin2025.
 
 # Close replication
@@ -781,75 +760,23 @@ kable(
 )
 ```
 
-```{r, echo=FALSE}
-kable(
-  metrics_table_bert,
-  col.names = c(
-    "Metric",
-    "DistilBERT (pretraining only)",
-    "DistilBERT (extended training)",
-    "Claude (original study)"
-  ),
-  caption = "Classification metrics of distilBERT and Claude compared to the human gold standard"
-)
-```
-
-As a second extension, we replicated the annotation study using a
-fine-tuned distilBERT model [@sanh]. This encoder-only transformer is
-considerably smaller than even a small generative LLM. The first run was
-similar to the reduced training approach with GPT: only the pretraining
-set was used for training the model, and, after using the "unsupervised
-training" sets for validation, we proceeded to testing. DistilBERT
-achieved an accuracy of `r round(100 * bert_accuracy)`%
-(`r bert_agreement`/`r bert_total`), matching the majority-class
-baseline, as it classified all test items as 'non-evaluative'. In a
-second round, we combined the two unsupervised training sets and the
-pretraining set into one bigger training dataset, and ran the same test
-(see `6_BERT_extended_script.R`). In this case, distilBERT categorized
-one sentence as 'evaluative', and is still almost completely aligning
-with the majority baseline. For the first analysis with distilBERT, most
-of the metrics become meaningless when there are no positive predictions
-at all. Recall is
-`r round(conf_matrix_bert$byClass["Sensitivity"] * 100, 1)`%, because
-there are 39 actual 'evaluative' cases, but the model correctly
-identifies 0 of them. For the second round with the expanded training
-dataset, numbers could be defined because there was a positive
-prediction. While most of them are very low compared to Claude, the
-reported Precision is
-`r round(conf_matrix_bert_extended$byClass["Pos Pred Value"] * 100, 1)`%.
-This metric measures how often the model is correct when it predicts
-positives. Since the model only predicted 'evaluative' in one singular
-case, this result is misleading. Based on both the accuracy and the
-further examined metrics for distilBERT, hypothesis 3 is rejected.
-<!--# ELF: The above code chunk and paragraph will need to be removed if we decide not to mention BERT in our paper. -->
-
 # Discussion
 
 Our results suggest that, when using a comparable open-source LLM, the
 training process need not be as elaborate as in @morin2025 to accomplish
-similarly high accuracy rates. However, the smaller Mistral model and
-the distilBERT model showed a strong tendency toward the majority class
-and performed only slightly above or exactly at the majority-class
+similarly high accuracy rates. However, the smaller Mistral model showed a strong tendency toward the majority class
+and performed only slightly above the majority-class
 baseline, indicating to not be suitable to successfully complete this
 kind of linguistic task.
-<!--# ELF: Similarly, this paragraph will need to be adjusted.  -->
 
 ## Suitability of LLMs and training process
 
 We consider this replication successful with regard to the replicability
 of the methodological pipeline using an open LLM (OpenAI GPT OSS 120B),
 both with the iterative training outlined in @morin2025 and with a
-few-shot prompting approach. However, both the smaller Mistral model and
-DistilBERT failed to achieve the desired accuracy metrics, suggesting
+few-shot prompting approach. However, the smaller Mistral model failed to achieve the desired accuracy metrics, suggesting
 that the approach may only be replicable with models comparable in size
-and functionality. DistilBERT's performance in particular indicates that
-it is not well suited for this task, although this result needs to be
-interpreted in light of important differences between distilBERT and the
-other models: In addition to being a considerably smaller, encoder-only
-transformer, distilBERT could not be given the same type of
-'in-conversation' instructions during pretraining as the LLMs. Thus,
-although the same datasets were used, the training conditions were not
-fully equivalent across model types.
+and functionality.
 
 As the results of this replication indicate, an open-source LLM can
 achieve performance comparable to that of a closed LLM on the linguistic
@@ -913,13 +840,12 @@ resource consumption [@jegham2025].
 # Conclusion
 
 This study investigated the replicability of an LLM-based methodological
-pipeline for linguistic data annotation. While smaller model and
-distilBERT did not achieve comparable results, @morin2025's approach was
+pipeline for linguistic data annotation. While the smaller model did not achieve comparable results, @morin2025's approach was
 successfully replicated with one open model, and also with a
 significantly less extensive training approach. At the same time, it is
 worth noting that the study by @morin2025 represents an early
 contribution to this specific area. Regarding the generalisability of
-this method, it is important to note that the grammatical construction
+this method, it is important to consider that the grammatical construction
 annotated here constitutes a rather clear-cut formal case [@morin2025:
 7]. Even with promising results from some LLMs, further exploration is
 needed to effectively and reliably leverage them for linguistic data
