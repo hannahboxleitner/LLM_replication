@@ -72,19 +72,6 @@ claude_agreement <- sum(
     comparison_all$Claude_classification
 )
 
-# Cohen's kappa
-gpt_kappa <- kappa2(
-  comparison_all[c("Human_classification", "GPT_classification")]
-)$value
-
-mistral_kappa <- kappa2(
-  comparison_all[c("Human_classification", "Mistral_classification")]
-)$value
-
-claude_kappa <- kappa2(
-  comparison_all[c("Human_classification", "Claude_classification")]
-)$value
-
 # Classification order for confusion matrices
 classification_levels <- c(
   "evaluative",
@@ -123,7 +110,7 @@ kable(test_distribution_table)
 
 The following tables represent the results of the close replication.
 
-### Accuracy and Cohen's Kappa compared to the human gold standard
+### Accuracy of all models compared to the human gold standard
 
 ```{r}
 #| label: close-rep-tbl-full-results
@@ -140,12 +127,8 @@ results_table <- data.frame(
     paste0(claude_agreement, "/", nrow(comparison_all)),
     paste0(gpt_agreement, "/", nrow(comparison_all)),
     paste0(mistral_agreement, "/", nrow(comparison_all))
-  ),
-  `Cohen's κ` = round(
-    c(claude_kappa, gpt_kappa, mistral_kappa),
-    2
   )
-)
+  )
 
 kable(results_table)
 
@@ -362,9 +345,7 @@ kable(
 
 ## Extended replication with GPT: simpler training process
 
-### Accuracy and Cohen's Kappa compared to the human gold standard
-
-The GPT part includes only the replication where we went from the pretraining dataset straight to testing.
+### Accuracy compared to the human gold standard
 
 ```{r}
 #| label: appendix-results-GPT-reduced-training-2-extended
@@ -387,12 +368,6 @@ gpt_reduced_2_agreement <- sum(
     gpt_reduced_2$GPT_classification
 )
 
-# Cohen's kappa
-gpt_reduced_2_kappa <- kappa2(
-  gpt_reduced_2[
-    c("Human_classification", "GPT_classification")
-  ]
-)$value
 
 # Number of test items
 gpt_reduced_2_total <- nrow(gpt_reduced_2)
@@ -412,21 +387,17 @@ reduced_training_2_table <- data.frame(
     gpt_reduced_2_agreement,
     "/",
     gpt_reduced_2_total
-  ),
-  `Cohen's κ` = round(
-    gpt_reduced_2_kappa,
-    2
   )
-)
+  )
 
 kable(reduced_training_2_table)
 ```
 
-### Tables representing accuracy as 2x2 matrices
+### Accuracy as 2x2 matrices
 
 ```{r}
 #| label: tbl-gpt-reduced-2-confusion
-#| tbl-cap: "GPT classifications after reduced training compared with the human gold standard"
+#| tbl-cap: "GPT classifications with few-shot training compared to the human gold standard"
 #| warning: false
 #| message: false
 
