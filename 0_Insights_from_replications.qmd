@@ -336,8 +336,7 @@ metrics_table_ext[5, -1] <- lapply(
 )
 ```
 
-
-# Abstract  {.unnumbered}
+# Abstract {.unnumbered}
 
 Large language models (LLMs) are increasingly being leveraged for the
 annotation of large corpora. In a relatively early evaluation of such an
@@ -389,9 +388,9 @@ complementing and extending existing automated methods for processing
 larger datasets and corpora. In recent years, a growing number of
 publications have reported on the usefulness of LLMs for a range of
 linguistic annotation tasks, such as the annotation of speech acts
-[@yu2024; @su2025], metaphor detection [@fuoli2026], word sense or
-function disambiguation [@fonteyn2024; @morin2025], and political text
-classification and annotation [@heseltine2024].
+[@yu2024; @su2025; @ostyakova2025], metaphor detection [@fuoli2026],
+word sense or function disambiguation [@fonteyn2024; @morin2025], and
+political text classification and annotation [@heseltine2024].
 
 While LLMs are increasingly prevalent in both linguistic research and
 our everyday lives, they also raise a number of concerns. For research
@@ -452,15 +451,24 @@ The original authors made the data associated with this project
 available in an OSF repository [@morin2024]. It contains a "conversation
 transcript", from which the iterative training process could be traced,
 and several datasets for training and testing an LLM to differentiate
-between evaluative and non-evaluative uses of the verb *consider*, which can be illustrated on the following examples:
+between evaluative and non-evaluative uses of the verb *consider*, which
+can be illustrated with the following examples:
 
-a. Cain is *considered* a master of American hard boiled crime fiction (…) [@morin2025: 2]
+a.  Cain is *considered* a master of American hard boiled crime fiction
+    (…) [@morin2025: 2]
 
-b. Please *consider* all classes when punching number in to spread-sheet and designing new items [@morin2025: 2].
+b.  Please *consider* all classes when punching number in to
+    spread-sheet and designing new items [@morin2025: 2].
 
-The verb *consider* in example a) constitutes an evaluation of the subject. Such evaluative constructions can be and are often formulated using *consider as* or *consider to be*. In example b) however, the meaning is equivalent to 'take into account' or 'think about', and has no evaluative component.
+The verb *consider* in example a) constitutes an evaluation of the
+subject. Such evaluative constructions can be and are often formulated
+using *consider as* or *consider to be*. In example b) however, the
+meaning is equivalent to 'take into account' or 'think about', and has
+no evaluative component.
 
-The model outputs, which classified sentences as 'evaluative', 'non-evaluative' or '?' in ambiguous cases, were evaluated against a human gold standard provided by the authors.
+The model outputs, which classified sentences as 'evaluative',
+'non-evaluative' or '?' in ambiguous cases, were evaluated against a
+human gold standard provided by the authors.
 
 We seek answers to the following research questions (RQs):
 
@@ -473,12 +481,12 @@ We seek answers to the following research questions (RQs):
     @morin2025?
 
 While the close replication examines RQ1, our extended replication
-serves to answer RQ2. We test the performance of two open-source
-LLMs: Mistral Small 3.2 24B Instruct 2506 [@mistralai2026] (hereafter
-referred to as 'Mistral'), an open-weight model released in 2025 under
-Apache 2.0 license by the French AI company Mistral AI, and OpenAI GPT
-OSS 120B [@openai2026], an open-weight large language model that was
-also released under Apache 2.0 license by OpenAI (hereafter 'GPT').
+serves to answer RQ2. We test the performance of two open-source LLMs:
+Mistral Small 3.2 24B Instruct 2506 [@mistralai2026] (hereafter referred
+to as 'Mistral'), an open-weight model released in 2025 under Apache 2.0
+license by the French AI company Mistral AI, and OpenAI GPT OSS 120B
+[@openai2026], an open-weight large language model that was also
+released under Apache 2.0 license by OpenAI (hereafter 'GPT').
 
 The outcome of the replications will be compared and assessed based on
 the metrics @morin2025 provided in their evaluation: Accuracy,
@@ -496,7 +504,8 @@ Precision, Recall, F1 score, and Matthew's correlation coefficient
 - Hypothesis 2: The annotation task can be performed with a
   significantly less extensive training process than that used by
   @morin2025, while achieving performance comparable to or better than
-  Claude Sonnet 3.5 according to the accuracy metrics reported in @morin2025.
+  Claude Sonnet 3.5 according to the accuracy metrics reported in
+  @morin2025.
 
 # Close replication
 
@@ -504,13 +513,20 @@ Precision, Recall, F1 score, and Matthew's correlation coefficient
 automatic annotation of grammatical data, based on the case study of the
 evaluative *consider* construction in English. Having engaged in a
 complex "conversation" with Claude 3.5 Sonnet over several iterative
-phases of training and testing, @morin2025\[: 6\] were able to achieve
-an accuracy of 93% compared to the gold standard provided by a human
-annotator. @tbl-CloseRepAcc compares the original accuracy metrics with
-those of our close replication in which we attempted to follow the
-"replicable method" as closely as possible, using the same data and
-matching the training and testing to a conversation transcript the
-authors provided \[@morin2024\], but with two open LLMs.
+phases of training and testing (see @fig-Pipeline), @morin2026\[: 6\]
+were able to achieve an accuracy of 93% compared to the gold standard
+provided by a human annotator.
+
+![Morin & Marttinen Larsson (2025)’s pipeline for LLM-assisted
+annotation of linguistic data, based on the case study of consider
+constructions [from @morin2025c:
+10]](figures/MorinLarsson2026-10.png){#fig-Pipeline fig-align="center"}
+
+@tbl-CloseRepAcc compares the original accuracy metrics with those of
+our close replication in which we attempted to follow the "replicable
+method" as closely as possible, using the same data and matching the
+training and testing to a conversation transcript the authors provided
+\[@morin2024\], but with two open LLMs.
 
 ```{r, echo=FALSE}
 #| label: tbl-CloseRepAcc
@@ -536,10 +552,9 @@ reflected in the other metrics as well: While the GPT model's
 performance is similar or better in all evaluated metrics, Mistral's
 much smaller model fails to achieve comparable results. While Mistral's
 67% accuracy might initially sound moderately good, investigating these
-results as 2 x 2 matrices (see `0_Appendix.pdf`)
-reveals that it is heavily biased toward predicting 'non-evaluative'
-meaning. This poor accuracy is best observed in the extremely low recall
-of
+results as 2 x 2 matrices (see `0_Appendix.pdf`) reveals that it is
+heavily biased toward predicting 'non-evaluative' meaning. This poor
+accuracy is best observed in the extremely low recall of
 `r sprintf("%.1f%%", as.numeric(conf_matrix_mistral$byClass["Sensitivity"]) * 100)`.
 Given the distribution of *consider*-meanings in the testing dataset
 ('non-evaluative' was the majority class accounting for
@@ -555,10 +570,20 @@ The results suggest that the (close) replicability of the approach
 evidently depends on the comparability of the models. Recalling RQ1, the
 open GPT model performed slightly better than Claude 3.5 Sonnet, whereas
 the smaller Mistral model did not. We therefore have strong evidence in
-support of hypothesis 1a, but can reject hypothesis 1b.
-On a methodological level, we found that essential information to
-independently replicate the study was missing, forcing us to make
-some educated guesses as to the exact procedure. Most importantly, the paper does not disclose how the pipeline was implemented at the programmatic level. This includes e.g. whether the web interface or an API was used, how the model parameters were configured, which programming language was used, and how the datasets were provided as input to the models. Access to the analysis code would have been very useful to ensure a close replication of the original approach. Since the paper only outlines the iterative training approach, many details of the actual process could only be inferred from the 'conversation transcript', which also contains all the 'answers' and explanations given to the model in unsupervised training.
+support of hypothesis 1a, but can reject hypothesis 1b. On a
+methodological level, we found that essential information to
+independently replicate the study was missing, forcing us to make some
+educated guesses as to the exact procedure. Most importantly, the paper
+does not disclose how the pipeline was implemented at the programmatic
+level. This includes e.g. whether the web interface or an API was used,
+how the model parameters were configured, which programming language was
+used, and how the datasets were provided as input to the models. Access
+to the analysis code would have been very useful to ensure a close
+replication of the original approach. Since the paper only outlines the
+iterative training approach, many details of the actual process could
+only be inferred from the 'conversation transcript', which also contains
+all the 'answers' and explanations given to the model in unsupervised
+training.
 
 # Extended replication
 
@@ -606,19 +631,19 @@ kable(
 
 Our results suggest that, when using a comparable open-source LLM, the
 training process need not be as elaborate as in @morin2025 to accomplish
-similarly high accuracy rates. However, the smaller Mistral model showed a strong tendency toward the majority class
-and performed only slightly above the majority-class
-baseline, indicating to not be suitable to successfully complete this
-kind of linguistic task.
+similarly high accuracy rates. However, the smaller Mistral model showed
+a strong tendency toward the majority class and performed only slightly
+above the majority-class baseline, indicating to not be suitable to
+successfully complete this kind of linguistic task.
 
 ## Suitability of LLMs and training process
 
 We consider this replication successful with regard to the replicability
 of the methodological pipeline using an open LLM (OpenAI GPT OSS 120B),
 both with the iterative training outlined in @morin2025 and with a
-few-shot prompting approach. However, the smaller Mistral model failed to achieve the desired accuracy metrics, suggesting
-that the approach may only be replicable with models comparable in size
-and functionality.
+few-shot prompting approach. However, the smaller Mistral model failed
+to achieve the desired accuracy metrics, suggesting that the approach
+may only be replicable with models comparable in size and functionality.
 
 As the results of this replication indicate, an open-source LLM can
 achieve performance comparable to that of a closed LLM on the linguistic
@@ -682,17 +707,18 @@ resource consumption [@jegham2025].
 # Conclusion
 
 This study investigated the replicability of an LLM-based methodological
-pipeline for linguistic data annotation. While the smaller model did not achieve comparable results, @morin2025's approach was
-successfully replicated with one open model, and also with a
-significantly less extensive training approach. At the same time, it is
-worth noting that the study by @morin2025 represents an early
-contribution to this specific area. Regarding the generalisability of
-this method, it is important to consider that the grammatical construction
-annotated here constitutes a rather clear-cut formal case [@morin2025:
-7]. Even with promising results from some LLMs, further exploration is
-needed to effectively and reliably leverage them for linguistic data
-annotation, especially when they are used for more complex tasks or
-under-researched languages.
+pipeline for linguistic data annotation. While the smaller model did not
+achieve comparable results, @morin2025's approach was successfully
+replicated with one open model, and also with a significantly less
+extensive training approach. At the same time, it is worth noting that
+the study by @morin2025 represents an early contribution to this
+specific area. Regarding the generalisability of this method, it is
+important to consider that the grammatical construction annotated here
+constitutes a rather clear-cut formal case [@morin2025: 7]. Even with
+promising results from some LLMs, further exploration is needed to
+effectively and reliably leverage them for linguistic data annotation,
+especially when they are used for more complex tasks or under-researched
+languages.
 
 The extensions explored in this study give insights into what can be
 learned from testing LLM-based methods beyond the conditions of the
