@@ -642,12 +642,18 @@ kable(
 
 # Discussion
 
-Our results suggest that, when using a comparable open-source LLM, the
-training process need not be as elaborate as in @morin2025 to accomplish
-similarly high accuracy rates. However, the smaller Mistral model showed
-a strong tendency toward the majority class and performed only slightly
-above the majority-class baseline, indicating to not be suitable to
-successfully complete this kind of linguistic task.
+Our results suggest that, when using a comparable open-source LLM,
+similarly high accuracy rates can be accomplished with a less elaborate
+training process as in @morin2025. However, the smaller Mistral model
+showed a strong tendency toward the majority class and performed only
+slightly above the majority-class baseline, indicating to not be
+suitable to successfully complete this kind of linguistic task.
+
+In a recent paper following up on this project, @morin2026 themselves
+propose a much simpler workflow. At the same time, their focus seems to
+distance itself from the goal of an easily accessible and replicable
+pipeline, as it now involves some programming using the API, and
+processing the data in batches [@morin2026].
 
 ## Suitability of LLMs and training process
 
