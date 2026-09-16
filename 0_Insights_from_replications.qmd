@@ -368,7 +368,7 @@ results suggest that the training process need not be as elaborate as in
 Our results have important implications for the replicability of corpus-linguistic research involving LLMs as part of the annotation process. Although the authors published their data and a full transcript
 of their "conversation" with the model [@morin2024], we found that
 essential information to independently replicate the study (e.g.,
-whether the web interface or an API was used ^[In a more recent paper it was disclosed that they actually used a chat interface [@morin2026]], analysis code, etc.) was
+whether the web interface or an API was used ^[While this information was missing in [@morin2025], in a more recent paper it was disclosed that they actually used a chat interface [@morin2026]], analysis code, etc.) was
 missing - forcing us to make some educated guesses as to the exact
 procedure. We argue that, when choosing a method, issues around model
 accessibility, data leakage, and carbon footprint can and should be
@@ -471,11 +471,11 @@ human gold standard provided by the authors.
 
 We seek answers to the following research questions (RQs):
 
-1  Can smaller, open-source models perform as well or better on
+1.  Can smaller, open-source models perform as well or better on
     @morin2025's *consider* annotation task as Claude Sonnet 3.5 based
     on the accuracy metrics reported in [@morin2025: 6]?
 
-2  If RQ1 is answered in the positive, can this also be achieved with a
+2.  If RQ1 is answered in the positive, can this also be achieved with a
     significantly less extensive training process than that proposed in
     @morin2025?
 
