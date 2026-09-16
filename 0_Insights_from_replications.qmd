@@ -365,12 +365,10 @@ with the best-performing open LLM from our first replication. Our
 results suggest that the training process need not be as elaborate as in
 @morin2025 to accomplish similarly high accuracy rates.
 
-The authors of this study have since published a follow-up paper as a preprint [@morin2026], in which they further develop this approach. On the one hand, the follow-up study adopts a less extensive methodology while annotating a larger amount of data. On the other hand, it appears to pursue a somewhat different focus, placing greater emphasis on the different types of evaluative *consider* uses and on the role of genre. Moreover, the analysis is again conducted using a commercial Claude model. Thus, evaluating the approach with open LLMs remains a relevant and worthwhile direction.
-
 Our results have important implications for the replicability of corpus-linguistic research involving LLMs as part of the annotation process. Although the authors published their data and a full transcript
 of their "conversation" with the model [@morin2024], we found that
 essential information to independently replicate the study (e.g.,
-whether the web interface or an API was used, analysis code, etc.) was
+whether the web interface or an API was used ^[In a more recent paper it was disclosed that they actually used a chat interface [@morin2026]], analysis code, etc.) was
 missing - forcing us to make some educated guesses as to the exact
 procedure. We argue that, when choosing a method, issues around model
 accessibility, data leakage, and carbon footprint can and should be
@@ -428,6 +426,7 @@ guaranteed for independent verification and future replications and
 whose parameters can be controlled to generate reproducible results. In
 an extended replication, we subsequently re-ran the classification task
 with a much simpler pipeline than that proposed in the original paper.
+The authors of this study have since published a follow-up paper as a preprint [@morin2026], in which they further develop this approach. On the one hand, the follow-up study adopts a less extensive methodology while annotating a larger amount of data. On the other hand, it appears to pursue a somewhat different focus, placing greater emphasis on the different types of evaluative *consider* uses and on the role of genre. Moreover, the analysis is again conducted using a commercial Claude model. Thus, evaluating the approach with open LLMs remains a relevant and worthwhile direction.
 
 While large, cloud-based, proprietary LLMs continue to top performance
 benchmarks, open-source LLMs have made significant progress in closing
@@ -472,11 +471,11 @@ human gold standard provided by the authors.
 
 We seek answers to the following research questions (RQs):
 
-1.  Can smaller, open-source models perform as well or better on
+1  Can smaller, open-source models perform as well or better on
     @morin2025's *consider* annotation task as Claude Sonnet 3.5 based
     on the accuracy metrics reported in [@morin2025: 6]?
 
-2.  If RQ1 is answered in the positive, can this also be achieved with a
+2  If RQ1 is answered in the positive, can this also be achieved with a
     significantly less extensive training process than that proposed in
     @morin2025?
 
