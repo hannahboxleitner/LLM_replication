@@ -365,9 +365,9 @@ with the best-performing open LLM from our first replication. Our
 results suggest that the training process need not be as elaborate as in
 @morin2025 to accomplish similarly high accuracy rates.
 
-Our results have important implications for the replicability of
-corpus-linguistic research involving LLMs as part of the annotation
-process. Although the authors published their data and a full transcript
+The authors of this study have since published a follow-up paper as a preprint [@morin2026], in which they further develop this approach. On the one hand, the follow-up study adopts a less extensive methodology while annotating a larger amount of data. On the other hand, it appears to pursue a somewhat different focus, placing greater emphasis on the different types of evaluative *consider* uses and on the role of genre. Moreover, the analysis is again conducted using a commercial Claude model. Thus, evaluating the approach with open LLMs remains a relevant and worthwhile direction.
+
+Our results have important implications for the replicability of corpus-linguistic research involving LLMs as part of the annotation process. Although the authors published their data and a full transcript
 of their "conversation" with the model [@morin2024], we found that
 essential information to independently replicate the study (e.g.,
 whether the web interface or an API was used, analysis code, etc.) was
