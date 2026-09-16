@@ -694,13 +694,15 @@ paper may be replicable to different degrees.
 
 In view of this, several aspects of the original study limit the extent
 to which the results can be replicated independently. Some important
-details, like the programming language and analysis code for
-implementing the pipeline, were not reported by @morin2025. In addition,
-the human gold standard used for evaluation seems to be established by a
-single annotator. It is not clear if inter-rater agreement was assessed
-during its creation. Such limitations leave some uncertainty about
-whether differences between the original and replication results are
-attributable to the models, implementation details, or other aspects.
+details were not reported by @morin2025, as for example the information
+that they used a chat interface instead of an API (which is later
+mentioned in @morin2026) or further details on the implementation were
+not disclosed. In addition, the human gold standard used for evaluation
+seems to be established by a single annotator. It is not clear if
+inter-rater agreement was assessed during its creation. Such limitations
+leave some uncertainty about whether differences between the original
+and replication results are attributable to the models, implementation
+details, or other aspects.
 
 Another thing that we want to address in terms of replicability is the
 claim that this pipeline may be applied to other tasks and other
