@@ -365,14 +365,20 @@ with the best-performing open LLM from our first replication. Our
 results suggest that the training process need not be as elaborate as in
 @morin2025 to accomplish similarly high accuracy rates.
 
-Our results have important implications for the replicability of corpus-linguistic research involving LLMs as part of the annotation process. Although the authors published their data and a full transcript
+Our results have important implications for the replicability of
+corpus-linguistic research involving LLMs as part of the annotation
+process. Although the authors published their data and a full transcript
 of their "conversation" with the model [@morin2024], we found that
 essential information to independently replicate the study (e.g.,
-whether the web interface or an API was used ^[While this information was missing in [@morin2025], in a more recent paper it was disclosed that they actually used a chat interface [@morin2026]], analysis code, etc.) was
-missing - forcing us to make some educated guesses as to the exact
+whether the web interface or an API was used [^1], analysis code, etc.)
+was missing - forcing us to make some educated guesses as to the exact
 procedure. We argue that, when choosing a method, issues around model
 accessibility, data leakage, and carbon footprint can and should be
 taken into consideration.
+
+[^1]: While this information was missing in [@morin2025], in a more
+    recent paper it was disclosed that they actually used a chat
+    interface [@morin2026]
 
 # Introduction
 
@@ -426,7 +432,15 @@ guaranteed for independent verification and future replications and
 whose parameters can be controlled to generate reproducible results. In
 an extended replication, we subsequently re-ran the classification task
 with a much simpler pipeline than that proposed in the original paper.
-The authors of this study have since published a follow-up paper as a preprint [@morin2026], in which they further develop this approach. On the one hand, the follow-up study adopts a less extensive methodology while annotating a larger amount of data. On the other hand, it appears to pursue a somewhat different focus, placing greater emphasis on the different types of evaluative *consider* uses and on the role of genre. Moreover, the analysis is again conducted using a commercial Claude model. Thus, evaluating the approach with open LLMs remains a relevant and worthwhile direction.
+The authors of this study have since published a follow-up paper as a
+preprint [@morin2026], in which they further develop this approach. On
+the one hand, the follow-up study adopts a less extensive methodology
+while annotating a larger amount of data. On the other hand, it appears
+to pursue a somewhat different focus, placing greater emphasis on the
+different types of evaluative *consider* uses and on the role of genre.
+Moreover, the analysis is again conducted using a commercial Claude
+model. Thus, evaluating the approach with open LLMs remains a relevant
+and worthwhile direction.
 
 While large, cloud-based, proprietary LLMs continue to top performance
 benchmarks, open-source LLMs have made significant progress in closing
@@ -459,9 +473,9 @@ a.  Cain is *considered* a master of American hard boiled crime fiction
 b.  Please *consider* all classes when punching number in to
     spread-sheet and designing new items [@morin2025: 2].
 
-The verb *consider* in example a) constitutes an evaluation of the
+The verb *consider* in example a. constitutes an evaluation of the
 subject. Such evaluative constructions can be and are often formulated
-using *consider as* or *consider to be*. In example b) however, the
+using *consider as* or *consider to be*. In example b. however, the
 meaning is equivalent to 'take into account' or 'think about', and has
 no evaluative component.
 
@@ -518,14 +532,14 @@ provided by a human annotator.
 
 ![Morin & Marttinen Larsson (2025)’s pipeline for LLM-assisted
 annotation of linguistic data, based on the case study of consider
-constructions [from @morin2025c:
+constructions [from @morin2025:
 10]](figures/MorinLarsson2026-10.png){#fig-Pipeline fig-align="center"}
 
 @tbl-CloseRepAcc compares the original accuracy metrics with those of
 our close replication in which we attempted to follow the "replicable
 method" as closely as possible, using the same data and matching the
 training and testing to a conversation transcript the authors provided
-\[@morin2024\], but with two open LLMs.
+[@morin2024], but with two open LLMs.
 
 ```{r, echo=FALSE}
 #| label: tbl-CloseRepAcc
