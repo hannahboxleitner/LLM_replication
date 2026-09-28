@@ -711,9 +711,15 @@ will vary based on the task and some languages will be harder to study
 due to less available training data [@morin2025: 7], existing research
 has predominantly focused on English-language contexts and paid less
 attention to LLMs trained on or evaluated in other languages [@yao2025:
-2; @kargaran]. Open-source models offer another advantage for linguistic
-research in that regard, as in some cases, pretraining data and language
-distribution are made transparent.
+2; @kargaran]. Studies focusing on reasoning capabilities of LLMs show
+multilingual performance to be uneven on the explicit reasoning level,
+as models trained on English-centric corpora often struggle with
+underrepresented languages due to limited multilingual reasoning
+training data, weaker language understanding ability, and lower-quality
+reasoning. Latent reasoning processes are still almost exclusively
+examined on English [@liu2026: 22330]. Open-source models offer another
+advantage for linguistic research in that regard, as in some cases,
+pretraining data and language distribution are made transparent.
 
 ## Ethical and environmental concerns
 
@@ -721,9 +727,13 @@ We also believe that smaller, locally-run LLMs are worth considering for
 environmental reasons: Training and operating LLMs with billions of
 parameters requires substantial computational resources, including large
 amounts of water (e.g. for cooling data centers) and electricity,
-generating substantial carbon emissions [@özcan; @kron]. Although AI
-becomes cheaper and faster, its global adoption is rapidly increasing
-resource consumption [@jegham2025].
+generating substantial carbon emissions [@özcan; @kron]. Moreover, the
+environmental impact of LLM use depends not only on the model itself but
+also on the complexity and length of individual prompts, with more
+demanding prompts generally requiring more computational resources than
+shorter and less complex ones [@jegham2025: 11-12]. Although AI becomes
+cheaper and faster, its global adoption is rapidly increasing resource
+consumption [@jegham2025].
 
 # Conclusion
 
