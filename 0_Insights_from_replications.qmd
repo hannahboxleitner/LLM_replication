@@ -1,5 +1,5 @@
 ---
-title: "LLMs for corpus annotation: Close and extended replications of Morin & Marttinen Larsson (2025) using smaller open LLMs"
+title: "On the replicability of LLM-based linguistic annotation: Replicating Morin & Marttinen Larsson's (2025) 'replicable method' using open-weight LLMs"
 author: Author1 and Author2
 date: last-modified
 language: 
@@ -341,32 +341,33 @@ metrics_table_ext[5, -1] <- lapply(
 Large language models (LLMs) are increasingly being leveraged for corpus
 annotation. In an early evaluation of such an application, *Linguistics
 Vanguard* published "a replicable method for automating grammatical
-annotation" [@morin2025]. Using Claude 3.5 Sonnet, it involved several
-'conversational' phases of training and testing. The study reported an
-accuracy of 93% and concluded that the pipeline may also be effective
-for other linguistic tasks, including in languages other than English.
-We first aimed to replicate this "replicable method" as closely as
-possible, using the same data, but with two open LLMs. While a 24B
-Mistral model did not perform as well (67% accuracy), a 120B open GPT
-model yielded equally good results (94% accuracy). This suggest that, as
-of 2026, large commercial LLMs may not be necessary for this type of
-annotation task. In a second replication study, we tested the need for
-the extensive 'in-conversation' training process outlined in @morin2025.
-We compared it to a much simpler few-shot training approach, concluding
-that the training process need not be as elaborate as in the original
-study. Our results have important implications for the replicability of
-linguistic research involving LLMs. Although the authors published their
-data and prompts, we found that crucial information necessary to
-replicate the procedure was missing. We argue that issues around
-accessibility, reproducibility, data leakage, and carbon footprint can
-and should be taken into consideration when choosing a tool and warn
-against the risk of overgeneralising the results of a single, binary
-classification task in English to other linguistic tasks and languages.
+annotation" [@morin2025]. Using Claude 3.5 Sonnet, a commercial model no
+longer available, it involved iterative 'conversational' phases of
+training and testing. The study reported an accuracy of 93% and
+concluded that the pipeline may also be effective for other linguistic
+tasks, including in languages other than English. We first aimed to
+replicate this "replicable method" as closely as possible, using the
+same data, but with two open-weight LLMs. While a 24B Mistral model did
+not perform as well, a 120B open GPT model yielded equally good results.
+This suggest that, as of 2026, commercial LLMs may not be necessary for
+this type of annotation task. In a second replication study, we tested
+the need for the extensive 'in-conversation' training process outlined
+in @morin2025. We compared it to a simpler few-shot training approach,
+concluding that the training process need not be as elaborate as in the
+original study. Our results have important implications for the
+replicability of linguistic research involving LLMs. Although the
+authors published their data and prompts, we found that important
+details necessary to replicate the procedure was missing. We argue that
+issues around accessibility, reproducibility, data leakage, and carbon
+footprint can and should be taken into consideration when choosing a
+tool and warn against the risk of overgeneralising the results of a
+single, binary classification task in English to other tasks and
+languages.
 
-**Keywords**: Replication, Large language model, Reproducibility, Corpus
-linguistics, Open Science.
+**Keywords**: Replication, Large language model (LLM), Reproducibility,
+Generalisability, Corpus linguistics.
 
-<!--# ELF: The submission guidelines state "Your article should include an abstract of approx. 200 words (please note, citations to sources are not permitted in the abstract) and 3-5 relevant keywords". I don't think it makes sense to remove the citation of the original study but I have removed page references and have also reduced the length of the abstract considerably. Although it's still too long I suggest we leave like this for the first submission. -->
+<!--# ELF: The submission guidelines state "Your article should include an abstract of approx. 200 words (please note, citations to sources are not permitted in the abstract) and 3-5 relevant keywords". I don't think it makes sense to remove the citation of the original study but I have removed page references and have also reduced the length of the abstract considerably. Although it's still too long, I suggest we leave like this for the first submission. Please proofread for typos. -->
 
 # Introduction {#sec-Intro}
 
@@ -415,17 +416,16 @@ for linguistic annotation. The original study was conducted using a
 commercial, closed-source LLM: Anthropic's model Claude 3.5 Sonnet
 [@morin2025: 4]. It is no longer possible to reproduce the original
 results as Claude Sonnet 3.5, which was released in June 2024, was
-retired in October 2025
-(<https://web.archive.org/web/20260911184540/https://killedbyai.net/dead/claude-3-5-sonnet/>),
-just 18 months after its release and only six months after the online
-version of the original article was published. We therefore sought to
-apply the original methodological pipeline to the same data, but using
-two open-source LLMs, whose accessibility can be guaranteed for
-independent verification and future replications and whose parameters
-can be controlled to generate reproducible results (see @sec-CloseRep).
-In an extended replication, we subsequently re-ran the classification
-task with a much simpler pipeline than that proposed in the original
-paper (see @sec-ExtRep).
+retired in October 2025 \[@Claude35Sonnet2024\], just 18 months after
+its release and only six months after the online version of the original
+article was published. We therefore sought to apply the original
+methodological pipeline to the same data, but using two open-source
+LLMs, whose accessibility can be guaranteed for independent verification
+and future replications and whose parameters can be controlled to
+generate reproducible results (see @sec-CloseRep). In an extended
+replication, we subsequently re-ran the classification task with a much
+simpler pipeline than that proposed in the original paper (see
+@sec-ExtRep).
 
 In the meantime, the authors of the original study have published a
 follow-up paper as a preprint [@morin2026], in which they further
@@ -437,24 +437,24 @@ and the case study involves a larger dataset. It also pursues a somewhat
 different focus, placing greater emphasis on the different types of
 evaluative uses of the *consider* construction and on the role of genre.
 However, the classification tasks are again conducted using a large,
-commercial model -- this time from OpenAI [@morin2026: 17]. As such, we
+commercial model — this time from OpenAI [@morin2026: 17]. As such, we
 believe that evaluating the reproducibility of the original pipeline
 with smaller, open LLMs remains a very relevant and worthwhile
 undertaking.
 
 While large, cloud-based, proprietary LLMs continue to top performance
-benchmarks, open-source LLMs have made significant progress in closing
-this performance gap [@manchanda: 4]. We consider open models to form a
+benchmarks, open LLMs have made significant progress in closing this
+performance gap [@manchanda: 4]. We consider open models to form a
 crucial part of the open research ecosystem (alongside open materials,
 open data, open code, open documentation, open access, etc.). Openness
 promotes transparency, reproducibility, and quality control; which are
 necessary features to support accessible, reliable, and credible
-empirical findings [@liesenfeld2023]. In the discussion and conclusion
-section of their subsequent study, @morin2026 detail the limitations of
-using closed-source, commercial LLMs for linguistic research; however,
-both their studies do not test the necessity of relying on these
-products to achieve high accuracy. This is what we set out to do in the
-present study.
+empirical findings using AI technology [@liesenfeld2023]. In the
+discussion and conclusion section of their subsequent study, @morin2026
+outline the limitations of using closed-source, commercial LLMs for
+linguistic research; however, both their studies do not test the
+necessity of relying on these products to achieve high accuracy. This is
+what we set out to do in the present study.
 
 # Research aims and questions {#sec-RQs}
 
@@ -484,11 +484,9 @@ In example a. the verb *consider* constitutes an evaluation of the
 subject. Such evaluative constructions can be and are often formulated
 using *consider as* or *consider to be*. In example b., however, the
 meaning is equivalent to 'take into account' or 'think about', and has
-no evaluative component.
-
-The model outputs classified sentences as 'evaluative', 'non-evaluative'
-or '?' in ambiguous cases. They were evaluated against a human gold
-standard also provided in @morin2024.
+no evaluative component. The model outputs classified sentences as
+'evaluative', 'non-evaluative' or '?' in ambiguous cases. They were
+evaluated against a human gold standard also provided in @morin2024.
 
 In this study, we seek answers to the following three research questions
 (RQs):
@@ -497,10 +495,10 @@ In this study, we seek answers to the following three research questions
     replicable using the information and materials made available by the
     authors in the article and associated OSF repository?
 
-2.  Following the original pipeline, can smaller, open-source models
-    perform as well or better on @morin2025's *consider* annotation task
-    as Claude Sonnet 3.5 based on the accuracy metrics reported in
-    @morin2025\[: 6\]?
+2.  Following the original pipeline, can smaller, open models perform as
+    well or better on @morin2025's *consider* annotation task as Claude
+    Sonnet 3.5 based on the accuracy metrics reported in @morin2025 [:
+    6]?
 
 3.  If RQ2 is answered in the positive, can this also be achieved with a
     significantly less extensive training process than that proposed in
@@ -508,12 +506,11 @@ In this study, we seek answers to the following three research questions
 
 While the close replication seeks answers to RQ1 and RQ2, our extended
 replication serves to answer RQ3. We test the performance of two
-open-source LLMs: Mistral Small 3.2 24B Instruct 2506 [@mistralai2026]
-(hereafter referred to as 'Mistral 24B'), an open-weight model released
-in 2025 under Apache 2.0 license by the French AI company Mistral AI,
-and OpenAI GPT OSS 120B [@openai2026], an open-weight large language
-model that was also released under Apache 2.0 license by OpenAI
-(hereafter 'GPT 120B').
+open-weight LLMs: Mistral Small 3.2 24B Instruct 2506 [@mistralai2026]
+(hereafter referred to as 'Mistral 24B'), released in June 2025 under
+the Apache 2.0 license by the French AI company Mistral AI, and OpenAI's
+GPT OSS 120B [@openai2026], a larger model released in August 2025 under
+the same open license (hereafter 'GPT 120B').
 
 The outcome of the replications will be compared and assessed based on
 the metrics @morin2025 provided in their evaluation: Accuracy,
@@ -533,7 +530,7 @@ less extensive training process than that used by @morin2025, while
 achieving performance comparable to or better than Claude Sonnet 3.5
 according to the accuracy metrics reported in @morin2025.
 
-<!--# ELF: I've had to remove the bullet points for the hypotheses as otherwise RStudio refused to view the doc in visual mode. As you will have noticed, I have also added a RQ and renumbered the hypotheses. -->
+<!--# ELF: I've had to remove the bullet points for the hypotheses as otherwise RStudio refused to view the doc in visual mode. As you will have noticed, I have also added a RQ and renumbered the hypotheses. Please do re-read the entire paper with this and new framing in mind to check for consistency and coherence.-->
 
 # Close replication {#sec-CloseRep}
 
@@ -541,7 +538,7 @@ according to the accuracy metrics reported in @morin2025.
 automatic annotation of grammatical data, based on the case study of the
 evaluative *consider* construction in English. Having engaged in a
 complex "conversation" with Claude 3.5 Sonnet over several iterative
-phases of training and testing (see @fig-Pipeline), @morin2026\[: 6\]
+phases of training and testing (see @fig-Pipeline), @morin2026 [: 6]
 were able to achieve an accuracy of 93% compared to the gold standard
 provided by a human annotator.
 
@@ -556,12 +553,12 @@ method" as closely as possible, using the same data and matching the
 training and testing to a conversation transcript the authors provided
 [@morin2024], but with two open LLMs. As explained in @sec-Intro, the
 commercial LLM used in the original study, Claude Sonnet 3.5, was
-already deprecated by October 2025, just six months after the online
-publication of the study. Whilst the authors could not have predicted
-that Anthropic would retire this particular model so quickly, this
-extremely quick turnaround illustrates the risks of attempting to build
-reproducible and sustainable research pipelines on the commercial
-services of AI companies.
+already deprecated by October 2025 [@Claude35Sonnet2024], just six
+months after the online publication of the study. Whilst the authors
+could not have predicted that Anthropic would retire this particular
+model so quickly, this extremely quick turnaround illustrates the risks
+of attempting to build reproducible and sustainable research pipelines
+on the commercial services of AI companies.
 
 In answer to RQ1, when designing our close replication, we found that
 essential information to independently replicate the annotation task was
@@ -575,19 +572,21 @@ only provides an outline of the iterative training approach, many
 details of the actual process had to be inferred from the so-called
 "conversation transcript" provided in the OSF repository, which contains
 all the "answers" and explanations given to the model during the
-training phases. It was unclear to us whether the authors used Claude's
-web interface or an API when we designed our replication studies, but we
-chose to use an API and to share all of our scripts to ensure that our
-replications are as reproducible as possible (see Data Availability
-Statement). Whilst not essential, having access to the authors' original
-analysis code would also have been useful to ensure more precise
-comparability of our results.
+training phases.
+<!--# ELF: Can you add a bit more detail here (once sentence is probably enough) to explain what was difficult and why? Perhaps referring to the additional materials if needs be. Our claim that important information was missing is currently too vague, especially as the most important information we didn't get was that the web-based chat interface was used but, re-reading the paper, they at least implicitly say that that's what they did. We just couldn't believe it because it sounded like so much unecesssary manual work! -->
+It was unclear to us whether the authors used Claude's web interface or
+an API when we designed our replication studies, but we chose to use an
+API and to share all of our scripts to ensure that our replications are
+as reproducible as possible (see Data Availability Statement). Whilst
+not essential, having access to the authors' original analysis code
+would also have been useful to ensure more precise comparability of our
+results.
 
-[^1]: While this information was missing in @morin2025, the authors
-    disclosed that they used Anthrophic's web chat interface in a more
-    recent preprint [@morin2026]. We designed and conducted our
-    replication studies prior to this publication and were not aware of
-    this follow-up study until recently.
+[^1]: While this information was not made explicit in @morin2025, the
+    authors made clear that they used Anthrophic's web-based chat
+    interface in a more recent preprint [@morin2026]. We designed and
+    conducted our replication studies prior to this publication and were
+    not aware of this follow-up study until recently.
 
 ```{r, echo=FALSE}
 #| label: tbl-CloseRepAcc
@@ -625,16 +624,24 @@ of examples), a classifier that always predicted the majority class
 would also have achieved an accuracy of
 `r round(100 * majority_accuracy)`%. The imbalance in this dataset is
 common to many linguistic annotation tasks and serves as a reminder
-that, as did @morin2025\[Table 1\], it is crucial to consider a range of
+that, as did @morin2025 [Table 1], it is crucial to consider a range of
 metrics -- not just accuracy -- when assessing model performance.
 
 Our results suggest that the replicability of @morin2025's approach
-using open LLMs may depend on the size of the models. In answer to RQ2,
-the open GPT model with 120 B parameters did perform at least as well
-than Claude 3.5 Sonnet, which is thought to have had around 175B
-parameters [@abacha2024: 6], whereas the considerably smaller 24B
-Mistral model did not. We therefore have strong evidence in support of
-hypothesis 1, but can reject hypothesis 2.
+using open LLMs may depend on model size. In answer to RQ2, the open GPT
+model with 120B parameters performed at least as well than Claude 3.5
+Sonnet, which is estimated to have around 440B parameters[^2], whereas
+the considerably smaller 24B Mistral model did not. We therefore have
+strong evidence in support of hypothesis 1, but can reject hypothesis 2.
+
+[^2]: Anthropic has not released any detailed technical information
+    about model size so that the number of parameters can only be
+    estimated. The cited estimation comes from research conducted by the
+    EcoLogits team and is based on extrapolation from comparable open
+    models, leaked data (in particular concerning the model architecture
+    of GPT-4), evaluation benchmarks, and pricing information (see
+    @EcoLogits2025 and
+    [https://ecologits.ai/latest/methodology/proprietary_models/](#0))
 
 # Extended replication {#sec-ExtRep}
 
@@ -651,15 +658,16 @@ As shown in @tbl-ExtRepAcc, only instructing the GPT model using the
 pretraining set and then directly proceeding to testing, resulted in an
 accuracy of `r round(100 * gpt_reduced_2_accuracy)`%
 (`r gpt_reduced_2_agreement`/`r gpt_reduced_2_total`). While the overall
-accuracy is equivalent to the open GPT result in our close replication,
-recall is even higher at 100%, meaning that this simpler process led to
-the GPT model not missing any positives ('evaluative' sentences).
-Compared to the original study, the accuracy metrics of this extended
-replication are also comparable: only precision is slightly lower (GPT:
+accuracy is equivalent to the open-weight GPT result in our close
+replication, recall is even higher at 100%, meaning that this simpler
+process led to the GPT model not missing any positives ('evaluative'
+sentences). Compared to the original study, the accuracy metrics of this
+extended replication are also comparable: only precision is slightly
+lower (GPT:
 `r round(conf_matrix_gpt_reduced_2$byClass["Pos Pred Value"] * 100, 1)`%
 vs. Claude:
 `r round(conf_matrix_claude$byClass["Pos Pred Value"] * 100, 1)`%),
-meaning that the open GPT model predicted marginally more false
+meaning that the open-weight GPT model predicted marginally more false
 positives ('evaluative' for actual 'non-evaluative') than Claude Sonnet
 3.5 using the considerably more complex 'in-conversation' training
 procedure. The other accuracy metrics are higher than in the original
@@ -681,7 +689,7 @@ kable(
 
 # Discussion
 
-Our results suggest that, when using a comparable open-source LLM,
+Our results suggest that, when using a comparable open-weight LLM,
 similarly high accuracy rates can be achieved with a considerably less
 elaborate "training" process than that described in @morin2025. The
 original study claimed that "the systematic prompt engineering and
@@ -699,11 +707,10 @@ publishing, and aim to make research more accessible, transparent,
 reproducible, replicable, and ultimately more robust and reliable [see
 e.g. @parsonsCommunitysourcedGlossaryOpen2022]. In the following, we
 reflect more generally on the replicability of corpus-processing
-pipelines that involve LLMs focussing on the physical and intellectual
-accessibility, computational reproducibility and generalisability, as
-well as ethical and environmental concerns associated with the use of
-both closed and open LLMs [which, as @liesenfeld2023l explain, is by no
-means not a clear-cut binary distinction].
+pipelines that involve LLMs, focussing on their physical and
+intellectual accessibility, computational reproducibility and
+generalisability, as well as ethical and environmental concerns
+associated with the use of both commercial and (partially) open LLMs.
 
 ## Accessibility
 
@@ -712,30 +719,35 @@ of accessibility must be considered. We begin with the physical
 accessibility of the models themselves.
 
 A primary factor influencing physical accessibility is financial cost.
-The cost of commercial LLMs is highly variable — ranging from free tiers
-to expensive enterprise plans — and can change unpredictably. For
-instance, in their follow-up study, @morin2026 describe switching from
-Anthropic’s Claude models to OpenAI’s GPT-5, citing Anthropic’s
-substantially higher API fees as the reason. This transition allowed
-them to complete two classification tasks across over 140,000
-concordance lines for a total of \$104 USD [@morin2026: 18]. However,
-this figure does not account for the significant costs incurred during
-their initial, more elaborate evaluation of the Claude Sonnet 3.5 model
-in @morin2025. Running open models, however, can also requires
-substantial equipment or infrastructure. For example, @shakir2026's
-comparison of 11 small to mid-size open LLMs for corpus annotation was
-completed locally on a laptop equipped with an RTX 4090 GPU and 24 GB of
-RAM, a set-up that carries a considerable price tag. For the present
-project, such hardware was unavailable; we were constrained to a
-considerably less powerful laptop, which limited our choice of open
-models to those accessible via API through our university’s platform. In
-this light, some "free" or "cheap" commercial models may appear more
-physically accessible than open ones, as they do not require local
-installation or server management. Yet, this apparent advantage is
-offset by a long-term financial vulnerability inherent to proprietary
-systems. If a commercial provider alters its pricing, discontinues a
-service, or restricts API access, as has already occurred in some cases,
-a previously accessible method may suddenly no longer be useable.
+At least in theory, LLMs are free to download and use. By contrast, the
+cost of commercial LLMs is highly variable, ranging from free tiers to
+expensive enterprise plans, and can change unpredictably. In their
+follow-up study, @morin2026 describe switching from Anthropic’s Claude
+models to OpenAI’s GPT-5, citing Anthropic’s substantially higher API
+fees as the reason. This transition allowed them to complete two
+classification tasks across over 140,000 concordance lines for a total
+of \$104 USD [@morin2026: 18]. Whether or not this is considered a low
+or high cost will depend on the circumstances in which the research is
+carried out. What is certain is that this figure does not account for
+the costs incurred during the initial, more elaborate evaluation of the
+Claude Sonnet 3.5 model resulting in the pipeline documented in
+@morin2025 which could not be reused due to higher costs.
+
+Running open models, however, also involves costs in equipment and/or
+infrastructure. For example, @shakir2026's comparison of 11 small to
+mid-sized open LLMs for corpus annotation was completed locally on a
+laptop equipped with an RTX 4090 GPU and 24 GB of RAM, a set-up that
+carries a considerable price tag. For the present project, such hardware
+was unavailable; we were constrained to a considerably less powerful
+laptop, which limited our choice of open models to those accessible via
+API through our university’s platform. In this light, some "free" or
+"cheap" commercial models may appear more physically accessible than
+open ones, as they do not require local installation or server
+management. Yet, this apparent advantage is offset by a long-term
+financial vulnerability inherent to proprietary systems. If a commercial
+provider alters its pricing, discontinues a service, or restricts API
+access, as has already occurred in the recent past, a previously
+accessible method may suddenly no longer be useable.
 
 The second dimension of accessibility is intellectual. A major argument
 in favour of commercial LLMs put forward by @morin2025 and others is
@@ -795,13 +807,13 @@ other unaccounted factors.
 
 A final reproducibility concern relates to the human gold standard used
 for evaluation. The original study appears to have relied on annotations
-from a single annotator, and it is unclear whether inter-rater agreement
+from a single annotator, and it is unclear whether interrater agreement
 was assessed during the creation of this gold standard. Without such
 validation, the reliability of the evaluation itself is uncertain, which
 in turn complicates the interpretation of any replication attempt. If
 the gold standard is idiosyncratic or contains errors, then high
 accuracy scores may reflect overfitting to a particular annotator's
-judgments rather than genuine model competence.
+judgements rather than genuine model competence.
 
 Taken together, these issues highlight that reproducibility in LLM-based
 research is not merely a matter of good documentation, but also of
@@ -812,18 +824,18 @@ transparency. However, as we discuss in the next subsection, even
 locally-run open models present their own challenges with respect to
 generalisability and environmental impact.
 
-## Generalisability 
+## Generalisability {#sec-General}
 
-In their conclusion section, @morin2025\[: 7\] claim to have "put
-forward this annotation method as a replicable one, which linguists can
-use for the analysis of other grammatical constructions, in English and
-in other languages". While the authors also acknowledge that "individual
+In their conclusion section, @morin2025 [: 7] claim to have "put forward
+this annotation method as a replicable one, which linguists can use for
+the analysis of other grammatical constructions, in English and in other
+languages". While the authors also acknowledge that "individual
 parameters, instructions, and evaluation criteria are of course bound to
 vary depending on the specific construction under study" and that some
 languages will be harder to study due to less available training data
-\[@morin2025: 7\], the generalisability of LLM-based annotation
-pipelines to other tasks, languages, and contexts warrants careful
-consideration.
+[@morin2025: 7], we believe that the generalisability of LLM-based
+annotation pipelines to other tasks, languages, and contexts warrants
+careful consideration.
 
 A primary issue is the linguistic bias inherent to the majority of LLMs,
 including those made available by AI companies as 'open' models such as
@@ -831,7 +843,7 @@ the OpenAI GPT OSS model used in the present reproduction. Research so
 far has predominantly focused on English-language contexts, with
 considerably less attention paid to LLMs trained on or evaluated in
 other languages [@yao2025: 2; @kargaran]. Models trained on
-English-centric corpora often struggle with underrepresented languages
+English-centric corpora often struggle with under-represented languages
 due to limited multilingual reasoning training data, weaker language
 processing abilities, and lower-quality 'reasoning chains'. Moreover,
 latent 'reasoning' processes, i.e. those that occur internally within
@@ -841,73 +853,113 @@ annotation: a pipeline that performs well on English data may yield
 substantially less accurate results when applied to other languages,
 particularly those with limited digital presence.
 
-A further concern relates to the intransparency of commercial LLM
-development. Closed models are developed with no public oversight or
+A further concern relates to the lack of transparency in LLM
+development. Most models are developed with no public oversight or
 ethical scrutiny [@liesenfeld2023]. Their training relies on vast
-amounts of data, including text from the internet, publicly available
-datasets, and proprietary sources. This opacity raises two distinct
-problems. First, these models are susceptible to passive privacy
-leakage, whereby sensitive information contained in training data may be
-revealed or reused in generation. Second, they are vulnerable to various
-forms of active privacy attacks [@yan2025: 1]. Both issues are
-particularly acute for linguistic research, where corpora may contain
-personal or sensitive data.
+amounts of data, including text from the internet, other copyrighted
+materials, and publicly available datasets. This is likely also true of
+most open LLMs. For example, whilst OpenAI has released the base and
+end-user model weights of the GPT OSS 120B model used in the present
+replication study, we have no insights into which data sources were used
+to train or fine-tune the model nor do have access to the training code
+or code documentation (see @fig-OpenAI).
 
-A related and often overlooked problem is the risk of data leakage in
-replication studies. Most so-called 'open' LLMs are in fact only
-open-weight models and are developed by companies that do not disclose
-their training data [@liesenfeld2023]. This means that the training data
-of such models could conceivably include the very test sets that were
-publicly released by the original study. If this were the case, high
-accuracy scores on a replication task might reflect the model having
-memorised the evaluation data rather than demonstrating genuine
-generalisation ability. This issue is particularly insidious because it
-is nearly impossible to detect without access to the training data,
-which is typically not provided. Given these challenges, we argue that
-it will always be necessary to conduct thorough evaluations of
-annotation procedures before deploying them in a linguistic study. This
-is particularly true for under-resourced languages and for more complex
-or less documented tasks, where the risk of poor performance is higher
-and the consequences of inaccurate annotation are more severe.
+![Degree of openness of OpenAI's GPT OSS 120B model according to the
+[European Open Source AI Index](https://osai-index.eu/model/GPT-OSS) (as
+of 13 March 2026)](figures/GPTOSS120B.png){#fig-OpenAI}
+
+This lack of transparency brings about a particularly insidious risk
+concerning the replicability of research based on LLMs and model
+evaluation more generally: data leakage. If not disclosed, a model's
+training data could conceivably include the very test sets that were
+designed to evaluate it. This concern is not merely hypothetical. The
+leakage of the test sets of numerous widely used NLP benchmarks into the
+training corpora of various LLMs is well documented (see the [LM
+Contamination Index](https://hitz-zentroa.github.io/lm-contamination/)).
+It goes without saying that if a model has encountered a evaluation set
+during training, its performance on that set can appear artificially
+inflated, potentially misleading researchers into drawing overly
+optimistic conclusions about a model's true capabilities
+[@aiyappaCanWeTrust2023]. Moreover, once a benchmark has been
+contaminated in this way, it ceases to be a reliable instrument for
+evaluating future models.
+
+Returning to the intellectual accessibility dimension of web-based
+chatbots mentioned earlier, it is important to understand that leakage
+can occur even when test sets are not openly accessible online.
+Researchers themselves may inadvertently find themselves exposing models
+to evaluation data by feeding them into commercial systems — some of
+which may be free to use — as part of their workflows. For example,
+@balloccuLeakCheatRepeat2024a examined 255 papers that used commercial
+OpenAI models within the first year following the release of GPT-3.5 and
+found evidence that these models had been exposed to approximately 4.7
+million samples drawn from 263 different benchmarks. This problem has
+likely intensified since then, as a growing number of researchers — most
+of whom are likely to lack formal training in LLM usage — interact with
+commercial, chat-based systems and inadvertently contribute to further
+contamination.
+
+The implications for replication studies are significant. If a
+replication attempt yields high accuracy scores, it may reflect the
+model having memorised the evaluation data rather than demonstrating
+genuine generalisation ability. This issue is particularly insidious
+because it is nearly impossible to detect without access to the training
+data, which is typically not provided. We acknowledge that this issue
+may have compromised the results of our own replications. Whilst we
+consider it unlikely given that the two open-weight models that we used
+were released only a few months after the original study was published,
+it is not a risk that we can exclude.
+
+Given these challenges, we argue that it will always be necessary to
+conduct thorough evaluations of annotation procedures before relying on
+them to conduct linguistic research. This is particularly true for
+under-resourced languages and for more complex or less documented tasks.
 Researchers should therefore treat LLM-based annotation pipelines with
 caution, validating their outputs against human annotations and
 carefully considering the linguistic and contextual scope of their
-claims.
+claims. In sum, the risk of data leakage suggests that we may be
+systematically overestimating the performance of LLMs—whether closed or
+open—and that there is no shortcut to rigorous evaluation. LLM-based
+annotation, while appealing for its speed and convenience, is not the
+magic bullet that some may be tempted to believe.
 
-## Ethical and environmental concerns
+## Ethical concerns
 
 Beyond the practical considerations of accessibility, reproducibility,
-and generalisability, the use of LLMs in research raises significant
-ethical and environmental questions that also merit careful reflection.
-These concerns apply to both closed and open models, albeit in different
-ways, and should be weighed before deciding whether an LLM-based
-approach is appropriate for a given task.
+data leakage, and generalisability, the use of LLMs in research also
+raises significant ethical questions. These concerns apply to both
+closed and open models, albeit in different ways, and also merit
+consideration before deciding whether an LLM-based approach is
+appropriate for any given task.
 
-We cannot ignore the substantial environmental cost associated with
-LLMs. Training and fine-tuning models with billions of parameters
-requires vast computational resources, including large amounts of
-electricity and water for cooling data centres, which in turn generate
-significant carbon emissions [@özcan; @kron]. Importantly, the
-environmental impact of LLMs is not limited to the training phase; it
-also depends on the complexity and length of individual prompts, with
-more demanding prompts generally requiring more computational resources
-than shorter and less complex ones [@jegham2025: 11-12]. Although AI
-systems are becoming cheaper and faster, their global adoption is
-rapidly increasing overall resource consumption [@jegham2025]. This
-creates a paradox: efficiency gains are offset by exponential growth in
-usage. Given these costs, we argue that researchers should critically
-assess whether an LLM is the most appropriate tool for their specific
-task. In addition, @shakir2026 have shown that smaller, locally-run
-models can perform as well as, or in some cases even outperform, larger,
-more computationally intensive ones. These finding suggests that the
-default assumption of "bigger is better" is not always warranted, and
-that researchers should consider more resource-efficient alternatives
-where possible. Whilst calculating the environmental footprint LLM usage
-is always tricky, it is notoriously difficult when accessing cloud-based
+From an ethical point of view, we cannot ignore the substantial
+environmental cost associated with LLMs. Training and fine-tuning models
+with billions of parameters requires vast computational resources,
+including large amounts of electricity and water for cooling data
+centres, which in turn generate significant carbon emissions [@özcan;
+@kron]. The environmental impact of LLMs is not limited to the training
+phase; it also depends on the complexity and length of individual
+prompts, with more demanding prompts generally requiring more
+computational resources than shorter and less complex ones [@jegham2025:
+11-12]. Although AI systems are becoming cheaper and faster, their
+global adoption is rapidly increasing overall resource consumption
+[@jegham2025]. This creates a paradox: efficiency gains are offset by
+exponential growth in usage. Given these costs, we argue that linguists
+should critically assess whether an LLM is the most appropriate tool for
+their specific task and, if so, how large the model needs to be.
+@shakir2026 have shown that smaller, locally-run models can perform as
+well as, or in some cases even outperform, larger, more computationally
+intensive ones. These finding suggests that the default assumption of
+"bigger is better" is not always warranted, and that researchers can and
+should consider more resource-efficient alternatives where possible.
+Calculating the environmental footprint of LLM usage is easier when
+running open models locally than when using proprietary cloud-based
 models as providers rarely disclose energy consumption or carbon
-emissions for individual requests. This opacity makes it challenging for
-researchers to make fully informed decisions about the environmental
-trade-offs involved.
+emissions for individual requests, but software such as the Python
+library [EcoLogits](https://ecologits.ai/latest/) [@EcoLogits2025] now
+make it feasible to at least make more informed decisions about the
+environmental trade-offs involved in the use of LLMs in research
+workflows.
 
 Yet environmental impact is only one of several ethical considerations
 that warrant attention. Depending on the nature of the annotation task,
@@ -924,56 +976,65 @@ on tools whose development is driven by commercial or geopolitical
 interests, and whose training data and internal mechanisms are largely
 opaque?
 
-In sum, we argue that the decision to use an LLM in a research pipeline
-should not be made solely on the basis of accuracy or accessibility.
-Researchers must also consider the environmental costs, the potential
-for biased or agenda-driven outputs, and the broader implications for
-academic sovereignty. While we acknowledged that these factors are
-difficult to quantify in practice, we believe that they are no less
-important for being hard to measure.
+Last but not least, LLMs are known to be susceptible to both passive and
+active privacy leakage, whereby sensitive information contained in
+training data, which may have been inadvertently provided by researchers
+(see @sec-General), may be revealed or reused in generation [@yan2025:
+1]. Linguists working with corpora containing personal or otherwise
+sensitive data need to be aware of these very genuine risks.
 
 # Conclusion
 
-This study investigated the replicability of an LLM-based methodological
-pipeline for linguistic data annotation. While the smaller 24B model did
-not achieve comparable results, @morin2025's approach was successfully
-replicated with the larger 120B open-weight model, as well as with a
-significantly less computationally intensive approach. At the same time,
-it is worth noting that the study by @morin2025 represents an early
-contribution to this specific area. Regarding the generalisability of
-this method, it is important to consider that the grammatical
-construction annotated here constitutes a rather clear-cut formal case
-[@morin2025: 7]. Even with promising results from some LLMs, further
-exploration is needed to effectively and reliably leverage them for
-linguistic data annotation at large, and we strongly caution against the
-risk of overgeneralising from this relatively simple binary
-classification task in standard English to more complex tasks in
-less-resourced languages.
+This study set out to investigate the replicability of an LLM-based
+methodological pipeline for linguistic data annotation. While a very
+small Mistral model did not achieve comparable results, @morin2025's
+approach was successfully replicated with a larger 120B open-weight
+model, as well as with a significantly less computationally intensive
+approach. Whilst we believe that this is an important finding, it is
+also worth noting that the study by @morin2025 represents an early
+contribution to this newly developing area of research on research.
 
-The extensions explored in this study give insights into what can be
-learned from testing LLM-based methods beyond the conditions of the
-original study. They illustrate the importance of investigating not only
-which results an approach produces, but also under which conditions it
-remains reliable and replicable. As LLMs are increasingly used in
-corpus-based research, open-science practices, such as making datasets,
-code, model parameters, and evaluation procedures as transparent as
-possible, are more relevant than ever.
+Regarding the generalisability of the approach proposed in @morin2025,
+it is important to consider that the grammatical construction annotated
+here constitutes a rather clear-cut formal case [@morin2025: 7]. Even
+with promising results from more than one LLMs, including an 120B
+open-weight model, further exploration is needed to effectively and
+reliably leverage them for linguistic data annotation at large. We
+strongly caution against the risk of overgeneralising from this
+relatively simple binary classification task in standard English to more
+complex tasks in less-resourced languages.
+
+Our two replications provide insights into what can be learned from
+testing LLM-based methods beyond the conditions of the original study.
+They illustrate the importance of investigating not only which results
+an approach produces, but also under which conditions it remains
+replicable. As LLMs are increasingly used in corpus-based research, we
+believe that Open Science practices, such as making datasets, code,
+model parameters, and evaluation procedures as transparent as possible,
+are more relevant than ever. At the same time, it may be necessary to
+take measures to protect test sets from leaking into training data for
+future model development.
 
 More broadly, this study highlights the importance of replicability in
 linguistic research with LLMs and the advantages of using (more) open
-models, which can offer at least some amount of control, and greater
-possibilities for reproducibility. To leverage LLMs in linguistic
-research, it is important to weigh their potential and their
-limitations. This also means considering broader issues associated with
-their usage, ranging from data leakage to environmental impact.
+models, which can offer at least some degree of control and
+reproducibility. We argue that the decision to use an LLM in a research
+pipeline should not be made solely on the basis of accuracy or
+accessibility. We therefore urge everyone considering the use of LLMs
+for linguistic annotation to also factor in the long-term dependencies,
+environmental costs, the potential for biased or agenda-driven outputs,
+as well as the broader implications for academic integrity and
+sovereignty. While we acknowledge that these factors are difficult to
+quantify, we believe that they are no less important for being hard to
+measure.
 
 ## Data availability statement {.unnumbered}
 
 The data and code that support the findings of this study are openly
-available in \[repository name e.g “figshare”\] at
-<http://doi.org/>\[doi\], reference number \[reference number\]. The
-current repository has been anonymised for double-blind peer review, but
-will be de-anonymised on acceptance.
+available in \[repository name\] at \[URL\]. The current repository has
+been anonymised for double-blind peer review, but will be de-anonymised
+on acceptance.
+<!--# ELF: We need to pick a repository and upload our anonymised materials for peer review. Usually, I would have chosen the OSF for this, but they have just changed their policy so we cannot use them anymore for this. Can you look into https://anonymous.4open.science/ and this if this might be an option for us? -->
 
 ## CRediT author statement {.unnumbered}
 
@@ -982,6 +1043,7 @@ analysis, Investigation, Writing - Original Draft, Writing - Review &
 Editing, Project administration. **Author2**: Conceptualisation,
 Methodology, Validation, Investigation, Writing - Original Draft,
 Writing - Review & Editing, Supervision, Project administration.
+<!--# ELF: These categories are not ideal but they are the official ones from the CRediT project and are widely used. Check that you are happy with what I picked and let me know if you think changes are necessary. -->
 
 ## Declaration of conflict of interest {.unnumbered}
 
