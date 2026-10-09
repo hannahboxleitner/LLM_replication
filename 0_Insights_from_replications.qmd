@@ -346,28 +346,27 @@ longer available, it involved iterative 'conversational' phases of
 training and testing. The study reported an accuracy of 93% and
 concluded that the pipeline may also be effective for other linguistic
 tasks, including in languages other than English. We first aimed to
-replicate this "replicable method" as closely as possible, using the
-same data, but with two open-weight LLMs. While a 24B Mistral model did
-not perform as well, a 120B open GPT model yielded equally good results.
-This suggest that, as of 2026, commercial LLMs may not be necessary for
-this type of annotation task. In a second replication study, we tested
-the need for the extensive 'in-conversation' training process outlined
-in @morin2025. We compared it to a simpler few-shot training approach,
-concluding that the training process need not be as elaborate as in the
-original study. Our results have important implications for the
-replicability of linguistic research involving LLMs. Although the
-authors published their data and prompts, we found that important
-details necessary to replicate the procedure was missing. We argue that
-issues around accessibility, reproducibility, data leakage, and carbon
-footprint can and should be taken into consideration when choosing a
-tool and warn against the risk of overgeneralising the results of a
-single, binary classification task in English to other tasks and
-languages.
+replicate this "replicable method"
+<!--# I think the combination of "this" and quotation marks also sounds harsh here -->
+as closely as possible, using the same data, but with two open-weight
+LLMs. While a 24B Mistral model did not perform as well, a 120B open GPT
+model yielded equally good results. This suggest that, as of 2026,
+commercial LLMs may not be necessary for this type of annotation task.
+In a second replication study, we tested the need for the extensive
+'in-conversation' training process outlined in @morin2025. We compared
+it to a simpler few-shot training approach, concluding that the training
+process need not be as elaborate as in the original study. Our results
+have important implications for the replicability of linguistic research
+involving LLMs. Although the authors published their data and prompts,
+we found that important details necessary to replicate the procedure was
+missing. We argue that issues around accessibility, reproducibility,
+data leakage, and carbon footprint can and should be taken into
+consideration when choosing a tool and warn against the risk of
+overgeneralising the results of a single, binary classification task in
+English to other tasks and languages.
 
 **Keywords**: Replication, Large language model (LLM), Reproducibility,
 Generalisability, Corpus linguistics.
-
-<!--# ELF: The submission guidelines state "Your article should include an abstract of approx. 200 words (please note, citations to sources are not permitted in the abstract) and 3-5 relevant keywords". I don't think it makes sense to remove the citation of the original study but I have removed page references and have also reduced the length of the abstract considerably. Although it's still too long, I suggest we leave like this for the first submission. Please proofread for typos. -->
 
 # Introduction {#sec-Intro}
 
@@ -416,8 +415,8 @@ for linguistic annotation. The original study was conducted using a
 commercial, closed-source LLM: Anthropic's model Claude 3.5 Sonnet
 [@morin2025: 4]. It is no longer possible to reproduce the original
 results as Claude Sonnet 3.5, which was released in June 2024, was
-retired in October 2025 \[@Claude35Sonnet2024\], just 18 months after
-its release and only six months after the online version of the original
+retired in October 2025 [@Claude35Sonnet2024], just 18 months after its
+release and only six months after the online version of the original
 article was published. We therefore sought to apply the original
 methodological pipeline to the same data, but using two open-source
 LLMs, whose accessibility can be guaranteed for independent verification
@@ -530,8 +529,6 @@ less extensive training process than that used by @morin2025, while
 achieving performance comparable to or better than Claude Sonnet 3.5
 according to the accuracy metrics reported in @morin2025.
 
-<!--# ELF: I've had to remove the bullet points for the hypotheses as otherwise RStudio refused to view the doc in visual mode. As you will have noticed, I have also added a RQ and renumbered the hypotheses. Please do re-read the entire paper with this and new framing in mind to check for consistency and coherence.-->
-
 # Close replication {#sec-CloseRep}
 
 @morin2025 present a methodological pipeline leveraging an LLM for the
@@ -549,8 +546,10 @@ constructions [CC BY @morin2025:
 
 @tbl-CloseRepAcc compares the original accuracy metrics with those of
 our close replication in which we attempted to follow the "replicable
-method" as closely as possible, using the same data and matching the
-training and testing to a conversation transcript the authors provided
+method"
+<!--#HB: I don't mind the quotation marks as much here, but could imagine a more concrete formulation, describing the author's iterative training and testing approach, or something similar. -->
+as closely as possible, using the same data and matching the training
+and testing to a conversation transcript the authors provided
 [@morin2024], but with two open LLMs. As explained in @sec-Intro, the
 commercial LLM used in the original study, Claude Sonnet 3.5, was
 already deprecated by October 2025 [@Claude35Sonnet2024], just six
@@ -572,15 +571,17 @@ only provides an outline of the iterative training approach, many
 details of the actual process had to be inferred from the so-called
 "conversation transcript" provided in the OSF repository, which contains
 all the "answers" and explanations given to the model during the
-training phases.
-<!--# ELF: Can you add a bit more detail here (once sentence is probably enough) to explain what was difficult and why? Perhaps referring to the additional materials if needs be. Our claim that important information was missing is currently too vague, especially as the most important information we didn't get was that the web-based chat interface was used but, re-reading the paper, they at least implicitly say that that's what they did. We just couldn't believe it because it sounded like so much unecesssary manual work! -->
-It was unclear to us whether the authors used Claude's web interface or
-an API when we designed our replication studies, but we chose to use an
-API and to share all of our scripts to ensure that our replications are
-as reproducible as possible (see Data Availability Statement). Whilst
-not essential, having access to the authors' original analysis code
-would also have been useful to ensure more precise comparability of our
-results.
+training phases. Reconstructing the procedure was further complicated by
+the lack of clear documentation regarding the sequence, purpose, and
+annotation status of the individual files, inconsistencies in naming,
+and the uncertainty surrounding how the datasets were presented to the
+model. It was unclear to us whether the authors used Claude's web
+interface or an API when we designed our replication studies, but we
+chose to use an API and to share all of our scripts to ensure that our
+replications are as reproducible as possible (see Data Availability
+Statement). Whilst not essential, having access to the authors' original
+analysis code would also have been useful to ensure more precise
+comparability of our results.
 
 [^1]: While this information was not made explicit in @morin2025, the
     authors made clear that they used Anthrophic's web-based chat
@@ -725,9 +726,9 @@ expensive enterprise plans, and can change unpredictably. In their
 follow-up study, @morin2026 describe switching from Anthropic’s Claude
 models to OpenAI’s GPT-5, citing Anthropic’s substantially higher API
 fees as the reason. This transition allowed them to complete two
-classification tasks across over 140,000 concordance lines for a total
-of \$104 USD [@morin2026: 18]. Whether or not this is considered a low
-or high cost will depend on the circumstances in which the research is
+classification tasks across 140,000 concordance lines for a total of
+\$104 USD [@morin2026: 18]. Whether or not this is considered a low or
+high cost will depend on the circumstances in which the research is
 carried out. What is certain is that this figure does not account for
 the costs incurred during the initial, more elaborate evaluation of the
 Claude Sonnet 3.5 model resulting in the pipeline documented in
