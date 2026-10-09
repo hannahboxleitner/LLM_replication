@@ -1035,7 +1035,7 @@ The data and code that support the findings of this study are openly
 available in \[repository name\] at \[URL\]. The current repository has
 been anonymised for double-blind peer review, but will be de-anonymised
 on acceptance.
-<!--# ELF: We need to pick a repository and upload our anonymised materials for peer review. Usually, I would have chosen the OSF for this, but they have just changed their policy so we cannot use them anymore for this. Can you look into https://anonymous.4open.science/ and this if this might be an option for us? -->
+<!--# HB: https://anonymous.4open.science/ looks good so far, though if I understand correctly, they also anonymize file and directory names, which would make our project quite chaotic I think? -->
 
 ## CRediT author statement {.unnumbered}
 
@@ -1044,7 +1044,7 @@ analysis, Investigation, Writing - Original Draft, Writing - Review &
 Editing, Project administration. **Author2**: Conceptualisation,
 Methodology, Validation, Investigation, Writing - Original Draft,
 Writing - Review & Editing, Supervision, Project administration.
-<!--# ELF: These categories are not ideal but they are the official ones from the CRediT project and are widely used. Check that you are happy with what I picked and let me know if you think changes are necessary. -->
+<!--# HB: checked these categories online and I did not fid "Code" anywhere, only "Software". -->
 
 ## Declaration of conflict of interest {.unnumbered}
 
