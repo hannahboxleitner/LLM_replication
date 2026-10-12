@@ -1,5 +1,5 @@
 ---
-title: "On the replicability of LLM-based linguistic annotation: Replicating Morin & Marttinen Larsson's (2025) 'replicable method' using open-weight LLMs"
+title: "On the replicability of LLM-based linguistic annotation: Insights from close and extended replications of Morin & Marttinen Larsson (2025) using open-weight LLMs"
 author: Author1 and Author2
 date: last-modified
 language: 
@@ -342,30 +342,28 @@ Large language models (LLMs) are increasingly being leveraged for corpus
 annotation. In an early evaluation of such an application, *Linguistics
 Vanguard* published "a replicable method for automating grammatical
 annotation" [@morin2025]. Using Claude 3.5 Sonnet, a commercial model no
-longer available, it involved iterative 'conversational' phases of
-training and testing. The study reported an accuracy of 93% and
-concluded that the pipeline may also be effective for other linguistic
-tasks, including in languages other than English. We first aimed to
-replicate this "replicable method"
-<!--# I think the combination of "this" and quotation marks also sounds harsh here -->
-as closely as possible, using the same data, but with two open-weight
-LLMs. While a 24B Mistral model did not perform as well, a 120B open GPT
-model yielded equally good results. This suggest that, as of 2026,
-commercial LLMs may not be necessary for this type of annotation task.
-In a second replication study, we tested the need for the extensive
-'in-conversation' training process outlined in @morin2025. We compared
-it to a simpler few-shot training approach, concluding that the training
-process need not be as elaborate as in the original study. Our results
+longer available, it involved pretraining, as well as iterative
+training, validation, and evaluation phases. The study reported an
+accuracy of 93% and concluded that the pipeline may also be effective
+for other linguistic tasks, including in languages other than English.
+We first present a close replication, using the same data, but with two
+open-weight LLMs. While a 24B Mistral model did not perform as well, a
+120B open GPT model yielded equally good results. This suggest that, as
+of 2026, commercial LLMs are not necessary for this type of annotation
+task. In a second extended replication, we tested the need for the
+extensive 'conversational' training process outlined in @morin2025. We
+compared it to a simpler few-shot training approach, concluding that the
+procedure need not be as elaborate as in the original study. Our results
 have important implications for the replicability of linguistic research
 involving LLMs. Although the authors published their data and prompts,
-we found that important details necessary to replicate the procedure was
-missing. We argue that issues around accessibility, reproducibility,
-data leakage, and carbon footprint can and should be taken into
-consideration when choosing a tool and warn against the risk of
+we found that details necessary for a close replication were missing. We
+argue that issues around accessibility, reproducibility, data leakage,
+and carbon footprint can and should be taken into consideration when
+choosing an annotation tool and warn against the risk of
 overgeneralising the results of a single, binary classification task in
 English to other tasks and languages.
 
-**Keywords**: Replication, Large language model (LLM), Reproducibility,
+**Keywords**: Replication, Large Language Models (LLM), Reproducibility,
 Generalisability, Corpus linguistics.
 
 # Introduction {#sec-Intro}
@@ -546,18 +544,17 @@ constructions [CC BY @morin2025:
 
 @tbl-CloseRepAcc compares the original accuracy metrics with those of
 our close replication in which we attempted to follow the "replicable
-method"
-<!--#HB: I don't mind the quotation marks as much here, but could imagine a more concrete formulation, describing the author's iterative training and testing approach, or something similar. -->
-as closely as possible, using the same data and matching the training
-and testing to a conversation transcript the authors provided
-[@morin2024], but with two open LLMs. As explained in @sec-Intro, the
-commercial LLM used in the original study, Claude Sonnet 3.5, was
-already deprecated by October 2025 [@Claude35Sonnet2024], just six
-months after the online publication of the study. Whilst the authors
-could not have predicted that Anthropic would retire this particular
-model so quickly, this extremely quick turnaround illustrates the risks
-of attempting to build reproducible and sustainable research pipelines
-on the commercial services of AI companies.
+method" described in the original study as closely as possible, using
+the same data and matching the training and testing to a conversation
+transcript the authors provided [@morin2024], but with two open LLMs. As
+explained in @sec-Intro, the commercial LLM used in the original study,
+Claude Sonnet 3.5, was already deprecated by October 2025
+[@Claude35Sonnet2024], just six months after the online publication of
+the study. It goes without saying that the authors could not have
+predicted that Anthropic would retire this particular model so quickly,
+yet this extremely quick turnaround highlights the risks of attempting
+to build reproducible and sustainable research pipelines on the
+commercial services of AI companies.
 
 In answer to RQ1, when designing our close replication, we found that
 essential information to independently replicate the annotation task was
@@ -567,14 +564,16 @@ the pipeline was implemented at the programmatic level. This includes
 whether the web interface or an API was used[^1], how the model
 parameters were configured, which programming language was used, and how
 the datasets were provided as input to the models. Since the article
-only provides an outline of the iterative training approach, many
-details of the actual process had to be inferred from the so-called
-"conversation transcript" provided in the OSF repository, which contains
-all the "answers" and explanations given to the model during the
-training phases. Reconstructing the procedure was further complicated by
-the lack of clear documentation regarding the sequence, purpose, and
-annotation status of the individual files, inconsistencies in naming,
-and the uncertainty surrounding how the datasets were presented to the
+only provides an outline of the iterative training and evaluation
+approach, many details of the actual process had to be inferred from the
+so-called "conversation transcript" provided in the OSF repository,
+which contains all the "answers" and explanations given to the model
+during the training phases. Reconstructing the procedure was further
+complicated by the lack of clear documentation regarding the sequence,
+purpose, and annotation status of the individual files, inconsistencies
+in naming
+<!--# ELF: Could be more precise: is this file and/or variable naming? -->,
+and uncertainties regarding how the datasets were presented to the
 model. It was unclear to us whether the authors used Claude's web
 interface or an API when we designed our replication studies, but we
 chose to use an API and to share all of our scripts to ensure that our
@@ -650,7 +649,7 @@ Our close replication raised questions about the necessity of using very
 large, commercial LLMs to complete this type of binary linguistic
 classification task in standard English. With the present extended
 replication, we turn to testing the need for the extensive
-'in-conversation' training and evaluation process proposed in @morin2025
+'conversational' training and evaluation process proposed in @morin2025
 (see also @fig-Pipeline). To this end, we applied a much simpler,
 few-shot training approach using the best-performing open LLM from our
 first replication, GPT OSS 120B, and the original data.
@@ -670,7 +669,7 @@ vs. Claude:
 `r round(conf_matrix_claude$byClass["Pos Pred Value"] * 100, 1)`%),
 meaning that the open-weight GPT model predicted marginally more false
 positives ('evaluative' for actual 'non-evaluative') than Claude Sonnet
-3.5 using the considerably more complex 'in-conversation' training
+3.5 using the considerably more complex 'conversational' training
 procedure. The other accuracy metrics are higher than in the original
 study. These results provide clear support for our third hypothesis.
 
@@ -1035,16 +1034,16 @@ The data and code that support the findings of this study are openly
 available in \[repository name\] at \[URL\]. The current repository has
 been anonymised for double-blind peer review, but will be de-anonymised
 on acceptance.
-<!--# HB: https://anonymous.4open.science/ looks good so far, though if I understand correctly, they also anonymize file and directory names, which would make our project quite chaotic I think? -->
+<!--# HB: https://anonymous.4open.science/ looks good so far, though if I understand correctly, they also anonymize file and directory names, which would make our project quite chaotic I think? ELF: Humm, doesn't sound ideal. I honestly don't have time to understand how it works exactly right now so I suggest that you create a subfolder in our current GitHub repo to which you move all the files that we will be sharing (i.e. not your term paper, BERT stuff, etc.), manually anonymise those, and create a README file that lists all the files and what they contain (see https://dataverse.no/dataset.xhtml?persistentId=doi:10.18710/AGKOKG for an example) and that we use Sciebo to share these files for the reviewing process. If you follow the TROLLing guidelines, we can share the repo on TROLLing afterwards which is a bit more work, but ensures we did a good job, and counts as another "small" publication. -->
 
 ## CRediT author statement {.unnumbered}
 
-**Author1**: Methodology, Data Curation, Code, Validation, Formal
+**Author1**: Methodology, Data Curation, Software, Validation, Formal
 analysis, Investigation, Writing - Original Draft, Writing - Review &
-Editing, Project administration. **Author2**: Conceptualisation,
-Methodology, Validation, Investigation, Writing - Original Draft,
-Writing - Review & Editing, Supervision, Project administration.
-<!--# HB: checked these categories online and I did not fid "Code" anywhere, only "Software". -->
+Editing, Project administration. \
+**Author2**: Conceptualisation, Methodology, Validation, Investigation,
+Writing - Original Draft, Writing - Review & Editing, Supervision,
+Project administration.
 
 ## Declaration of conflict of interest {.unnumbered}
 
