@@ -9,14 +9,14 @@ library(httr)
 library(jsonlite)
 library(tidyverse) # for dplyr and readr
 
+# Models
 MISTRAL = "Mistral Small 3-2-24b Instruct KI:Inferenz.nrw"
 GPT = "OpenAI GPT OSS 120b KI:Inferenz.nrw"
 
 
 # Assign conv function for conversation as a list of messages
 create_conversation <- function() {
-  list(messages = list())
-}
+  list(messages = list())}
 
 # Function for adding message to conv object (with role and content)
 add_message <- function(conv, role, content) {
@@ -83,7 +83,7 @@ conv <- create_conversation() # conv-object: resets conversation every time I ru
 
 # File naming for transcript
 
-model_name <- "GPT" # change
+model_name <- "GPT" # change accordingly
 
 run_id <- paste0(
   model_name, "_",
@@ -97,10 +97,10 @@ log_file <- paste0("reduced_training/", run_id, "_RAW.txt") # for generating tra
 
 
 # Testing multi-turn conversation
-#res <- ask_llm(conv, "Name one subfield of linguistics.", MISTRAL)
+#res <- ask_llm(conv, "Name one subfield of linguistics.", GPT)
 #conv <- res$conversation
 #print(res$answer)
 
-#res <- ask_llm(conv, "What is the most interesting aspect of this subfield? Answer in one sentence.", MISTRAL)
+#res <- ask_llm(conv, "What is the most interesting aspect of this subfield? Answer in one sentence.", GPT)
 #conv <- res$conversation
 #print(res$answer)
