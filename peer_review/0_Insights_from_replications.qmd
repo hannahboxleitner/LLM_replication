@@ -234,7 +234,7 @@ conf_matrix_gpt_reduced_2 <- confusionMatrix(
   positive = "evaluative"
 )
 
-# Calculate Matthews correlation coefficient
+# Calculate Matthew's correlation coefficient
 calculate_mcc <- function(cm) {
   
   # Extract the four cells from confusion matrix
@@ -256,7 +256,7 @@ calculate_mcc <- function(cm) {
     return(NA_real_)
   }
   
-  # Calculate Matthews correlation coefficient
+  # Calculate Matthew's correlation coefficient
   (TP * TN - FP * FN) / denominator
 }
 
@@ -1028,7 +1028,7 @@ The data and code that support the findings of this study are openly
 available in \[repository name\] at \[URL\]. The current repository has
 been anonymised for double-blind peer review, but will be de-anonymised
 on acceptance.
-<!--# HB: https://anonymous.4open.science/ looks good so far, though if I understand correctly, they also anonymize file and directory names, which would make our project quite chaotic I think? ELF: Humm, doesn't sound ideal. I honestly don't have time to understand how it works exactly right now so I suggest that you create a subfolder in our current GitHub repo to which you move all the files that we will be sharing (i.e. not your term paper, BERT stuff, etc.), manually anonymise those, and create a README file that lists all the files and what they contain (see https://dataverse.no/dataset.xhtml?persistentId=doi:10.18710/AGKOKG for an example) and that we use Sciebo to share these files for the reviewing process. If you follow the TROLLing guidelines, we can share the repo on TROLLing afterwards which is a bit more work, but ensures we did a good job, and counts as another "small" publication. -->
+<!--# HB: What do we put here if we send it via Sciebo or something similar? (ELF: Humm, doesn't sound ideal. I honestly don't have time to understand how it works exactly right now so I suggest that you create a subfolder in our current GitHub repo to which you move all the files that we will be sharing (i.e. not your term paper, BERT stuff, etc.), manually anonymise those, and create a README file that lists all the files and what they contain (see https://dataverse.no/dataset.xhtml?persistentId=doi:10.18710/AGKOKG for an example) and that we use Sciebo to share these files for the reviewing process. If you follow the TROLLing guidelines, we can share the repo on TROLLing afterwards which is a bit more work, but ensures we did a good job, and counts as another "small" publication.) -->
 
 ## CRediT author statement {.unnumbered}
 
