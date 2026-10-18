@@ -570,9 +570,8 @@ so-called "conversation transcript" provided in the OSF repository,
 which contains all the "answers" and explanations given to the model
 during the training phases. Reconstructing the procedure was further
 complicated by the lack of clear documentation regarding the sequence,
-purpose, and annotation status of the individual files, inconsistencies
-in naming
-<!--# ELF: Could be more precise: is this file and/or variable naming? -->,
+purpose, and annotation status of the individual files, minor inconsistencies
+in file and variable naming,
 and uncertainties regarding how the datasets were presented to the
 model. It was unclear to us whether the authors used Claude's web
 interface or an API when we designed our replication studies, but we
