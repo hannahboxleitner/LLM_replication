@@ -1,8 +1,9 @@
 # Replication: OpenAI GPT OSS 120B
 
-# With this code, I intended to create a methodological pipeline similar to the one proposed by Morin & Marttinen Larsson (2025).
+# This code serves to create a methodological pipeline similar to the one proposed by Morin & Marttinen Larsson (2025).
 # This script contains the conversation with the model, which is divided into pretraining, training and testing of the model, and also contains analysis and evaluation.
 # The setup of the model (including API call) and the data import are called here from other R scripts.
+# Important note: This script was used also used for reduced training with GPT (only pretraining and testing).
 
 # Load setup script
 source("1_LLM_setup.R")
@@ -278,7 +279,7 @@ print(res$answer)
 
 
 # Pairwise comparison: Cohen's κ
-# Load the irr library
+# Load irr library
 library(irr)
 
 # Cohen's κ (2 raters)

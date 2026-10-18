@@ -1,9 +1,9 @@
 # Replication: Mistral Small 3.2 24B Instruct 2506
 
-# With this code, I intended to create a methodological pipeline similar to the one proposed by Morin & Marttinen Larsson (2025). I use the same code basis and original study datasets as in the replication with the GPT model.
+# This code serves to create a methodological pipeline similar to the one proposed by Morin & Marttinen Larsson (2025). The same code basis and original study datasets are used in the replication with the GPT model.
 # This script contains the conversation with the model, which is divided into pretraining, training and testing of the model, and also contains analysis and evaluation.
 # The setup of the model (including API call) and the data import are called from other R scripts.
-# Important note: This script also contains additional evaluations regarding inter-rater agreement (of all models).
+# Note: This script also contains additional evaluations regarding inter-rater agreement (of all models).
 
 # Load setup script
 source("1_LLM_setup.R")
