@@ -113,7 +113,7 @@ conf_matrix_claude <- confusionMatrix(
 )
 
 
-# Calculate Matthews correlation coefficient
+# Calculate Matthew's correlation coefficient
 calculate_mcc <- function(cm) {
   
   TP <- cm[1, 1]
@@ -136,7 +136,7 @@ calculate_mcc <- function(cm) {
 }
 
 
-# Create table with metrics for all three models
+# Create table with metrics for all three models 
 metrics_table <- data.frame(
   
   Metric = c(
@@ -183,16 +183,14 @@ metrics_table[2:4, -1] <- lapply(
   metrics_table[2:4, -1],
   function(x) {
     paste0(round(as.numeric(x) * 100, 1), "%")
-  }
-)
+  })
 
 # Format MCC to two decimal places (not percent)
 metrics_table[5, -1] <- lapply(
   metrics_table[5, -1],
   function(x) {
-    sprintf("%.2f", as.numeric(x))
-  }
-)
+    sprintf("%.2f", as.numeric(x))}
+    )
 ```
 
 ```{r}
@@ -311,8 +309,7 @@ metrics_table_ext[1, -1] <- paste0(
 )
 
 
-# Format Precision, Recall and F1-score
-# as percentages with one decimal place
+# Format Precision, Recall and F1-score (as percentages with one decimal place)
 metrics_table_ext[2:4, -1] <- lapply(
   metrics_table_ext[2:4, -1],
   function(x) {
@@ -571,9 +568,7 @@ which contains all the "answers" and explanations given to the model
 during the training phases. Reconstructing the procedure was further
 complicated by the lack of clear documentation regarding the sequence,
 purpose, and annotation status of the individual files, minor inconsistencies
-in file and variable naming,
-and uncertainties regarding how the datasets were presented to the
-model. It was unclear to us whether the authors used Claude's web
+in file and variable naming, and uncertainties regarding how the datasets were presented to the model. It was unclear to us whether the authors used Claude's web
 interface or an API when we designed our replication studies, but we
 chose to use an API and to share all of our scripts to ensure that our
 replications are as reproducible as possible (see Data Availability
