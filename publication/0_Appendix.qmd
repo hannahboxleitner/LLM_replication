@@ -29,8 +29,7 @@ library(kableExtra)
 
 # everything needed for test distribution, close replication, and later results
 comparison_all <- read_csv2(
-  "replication_data/comparison_all_results.csv",
-  show_col_types = FALSE
+  "replication_data/comparison_all_results.csv",show_col_types = FALSE
 )
 
 # Test set distribution
@@ -85,8 +84,7 @@ classification_levels <- c(
 
 ```{r}
 #| label: tbl-test-distribution
-#| tbl-cap: "Distribution of classifications in the testing set according to the human gold standard"
-
+#| tbl-cap: "Distribution of classifications in the testing set compared to the human gold standard"
 test_distribution_table <- data.frame(
   Classification = names(test_distribution),
   n = as.vector(test_distribution),
@@ -140,7 +138,7 @@ kable(results_table)
 
 ```{r}
 #| label: tbl-gpt-close-confusion
-#| tbl-cap: "GPT classifications compared with the human gold standard"
+#| tbl-cap: "GPT classifications compared to the human gold standard"
 #| warning: false
 #| message: false
 
@@ -175,7 +173,7 @@ kable(
 
 ```{r}
 #| label: tbl-mistral-confusion
-#| tbl-cap: "Mistral classifications compared with the human gold standard"
+#| tbl-cap: "Mistral classifications compared to the human gold standard"
 #| warning: false
 #| message: false
 
@@ -231,11 +229,11 @@ kable(
 
 ```{r}
 #| label: tbl-accuracy-metrics-close
-#| tbl-cap: "Classification performance of the three models compared with the human gold standard"
+#| tbl-cap: "Classification performance of the three models (Mistral, GPT and Claude) compared to the human gold standard"
 #| warning: false
 #| message: false
 
-# Calculate Matthews correlation coefficient
+# Calculate Matthew's correlation coefficient
 calculate_mcc <- function(cm) {
   
   # Extract the four cells from confusion matrix
@@ -257,7 +255,7 @@ calculate_mcc <- function(cm) {
     return(NA_real_)
   }
   
-  # Calculate Matthews correlation coefficient
+  # Calculate Matthew's correlation coefficient
   (TP * TN - FP * FN) / denominator
 }
 
@@ -271,7 +269,7 @@ metrics_table <- data.frame(
     "Precision",
     "Recall",
     "F1-score",
-    "Matthews correlation coefficient"
+    "Matthew's correlation coefficient"
   ),
   
   # Mistral metrics
@@ -283,7 +281,7 @@ metrics_table <- data.frame(
     calculate_mcc(conf_matrix_mistral$table)
   ),
   
-  # GPT metrics
+  # GPT
   GPT = c(
     as.numeric(conf_matrix_GPT_close$overall["Accuracy"]),
     as.numeric(conf_matrix_GPT_close$byClass["Pos Pred Value"]),
@@ -292,7 +290,7 @@ metrics_table <- data.frame(
     calculate_mcc(conf_matrix_GPT_close$table)
   ),
   
-  # Claude metrics
+  # Claude
   Claude = c(
     as.numeric(conf_matrix_claude$overall["Accuracy"]),
     as.numeric(conf_matrix_claude$byClass["Pos Pred Value"]),
@@ -301,7 +299,6 @@ metrics_table <- data.frame(
     calculate_mcc(conf_matrix_claude$table)
   )
 )
-
 
 # Format Accuracy as whole percentage
 metrics_table[1, -1] <- paste0(
@@ -329,7 +326,6 @@ metrics_table[5, -1] <- lapply(
     sprintf("%.2f", as.numeric(x))
   }
 )
-
 
 # Final table
 kable(
@@ -368,7 +364,6 @@ gpt_reduced_2_agreement <- sum(
     gpt_reduced_2$GPT_classification
 )
 
-
 # Number of test items
 gpt_reduced_2_total <- nrow(gpt_reduced_2)
 
@@ -376,9 +371,8 @@ gpt_reduced_2_total <- nrow(gpt_reduced_2)
 
 ```{r}
 #| label: tbl-GPT-reduced-training-2
-#| tbl-cap: "GPT performance in the reduced training replication (only pretraining dataset and testing)"
-
-reduced_training_2_table <- data.frame(
+#| tbl-cap: "GPT performance in extended replication (reduced training: only pretraining dataset and testing)"
+reduced_training_2_table <-data.frame(
   Accuracy = paste0(
     round(100 * gpt_reduced_2_accuracy),
     "%"
@@ -427,11 +421,11 @@ kable(
 
 ```{r}
 #| label: tbl-accuracy-metrics-reduced-2
-#| tbl-cap: "Classification performance of GPT after reduced training and Claude compared with the human gold standard"
+#| tbl-cap: "Classification performance of GPT after reduced training and Claude compared to the human gold standard"
 #| warning: false
 #| message: false
 
-# Calculate Matthews correlation coefficient
+# Calculate Matthew's correlation coefficient
 calculate_mcc <- function(cm) {
   
   # Extract the four cells from confusion matrix
@@ -453,7 +447,7 @@ calculate_mcc <- function(cm) {
     return(NA_real_)
   }
   
-  # Calculate Matthews correlation coefficient
+  # Calculate Matthew's correlation coefficient
   (TP * TN - FP * FN) / denominator
 }
 
@@ -467,7 +461,7 @@ metrics_table <- data.frame(
     "Precision",
     "Recall",
     "F1-score",
-    "Matthews correlation coefficient"
+    "Matthew's correlation coefficient"
   ),
   
   # GPT reduced training metrics
@@ -516,7 +510,6 @@ metrics_table[5, -1] <- lapply(
     sprintf("%.2f", as.numeric(x))
   }
 )
-
 
 # Final table
 kable(
