@@ -9,9 +9,9 @@ editor: visual
 - [x] Large language models besser definieren. LLM as opposed to base LLM as opposed to things like BERT
 - [x] Black box --\> besser definieren, weil black box schon seit langem genutzt wird und ganz unterschiedliche Dinge bedeuten kann. Siehe 'black box workshop'
 - [ ] Hypothesis 2 sounds strange and is not justified in the text
-- [ ] "conversation" and other terms in article --\> use more technical terms and maybe cite in brackets the authors
-- [ ] Is it really one human annotator?
-- [ ] Accessibility --\> third option cluster computing NRW
+- [x] "conversation" and other terms in article --\> use more technical terms and maybe cite in brackets the authors
+- [x] Is it really one human annotator?
+- [x] Accessibility --\> third option cluster computing NRW
 - [x] We only use open-weight models --\> make that clearer from the beginning
 
 **Job**
@@ -25,7 +25,7 @@ editor: visual
 - [x] "Whilst not essential, having access to the authors’ original analysis code would also have been useful to ensure more precise comparability of our results." Because you ask about the right tone, I think it would be relevant for your general point about reproducibility to add whether or not you contacted the authors, and why not, or what they answered.
 - [ ] "440B parameters" At this point, number of parameters is not as relevant as the model's architecture etc.
 - [ ] 5 Discussion: I think it would be good to more clearly introduce why you think the extensive training could be a problem.
-- [ ] "university’s platform" - this also has a web interface, I would say this is as easy to use as claude. Also when using the API.
+- [x] "university’s platform" - this also has a web interface, I would say this is as easy to use as claude. Also when using the API.
 - [ ] "The second dimension of accessibility is intellectual." This paragraphs feels a bit distracting from the main argument
 - [ ] "Claude’s chat-based interface rather than the API" At this point, this feels a bit repetitive and I am not sure if this matters much for your argument
 - [ ] I think the paragraphs on data leakage do not contain enough evidence. The index you cite is more about NLP. I doubt tbh the relevance of data leakage for applied linguistics. It is very nice to raise this as a potential issue of course.
