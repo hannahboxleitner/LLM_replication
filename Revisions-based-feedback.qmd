@@ -1,0 +1,32 @@
+---
+title: "Feedback from Eva and Job"
+format: html
+editor: visual
+---
+
+**Eva**
+
+- [x] Large language models besser definieren. LLM as opposed to base LLM as opposed to things like BERT
+- [x] Black box --\> besser definieren, weil black box schon seit langem genutzt wird und ganz unterschiedliche Dinge bedeuten kann. Siehe 'black box workshop'
+- [ ] Hypothesis 2 sounds strange and is not justified in the text
+- [ ] "conversation" and other terms in article --\> use more technical terms and maybe cite in brackets the authors
+- [ ] Is it really one human annotator?
+- [ ] Accessibility --\> third option cluster computing NRW
+- [x] We only use open-weight models --\> make that clearer from the beginning
+
+**Job**
+
+- [x] More explicityly introduce your aim with this paper. Your sentence "we are using this replication study as a starting point for a general discussion on how linguists approach the use of LLMs in corpus annotation" already works really well. Currently the abstracts reads more like a typical replication study, although the aim is more broadly. Be more upfront with your true aim I would say.
+- [x] "It is no longer possible to reproduce the original results". How do you know if this is really a problem? Any references to support this claim? Your aim is to find out I would say using an open model. Based on your result, it seems that there is no problem, you get even better results. Maybe using a more detyailed analysis of the mistakes you could make this point more convincingly.
+- [x] " this time from OpenAI": mention the model.
+- [x] "2 Research aims and questions The present study presents close and extended replication studies of the results published in: Morin, Cameron, and Matti Marttinen Larsson. 2025. “Large Corpora and Large Language Models: A Replicable Method for Automating Grammatical Annotation.” Linguistics Vanguard 11 (1): 501–10. <https://doi/10.1515/lingvan-2024-0228.> We are grateful to the original authors who published the data and materials associated with this project in an OSF repository (Morin & Marttinen Larsson 2024). .": this is a bit verbose. You already cited the study.
+- [x] "1. Is the “replicable method” proposed in Morin & Marttinen Larsson (2025) independently replicable using the information and materials made available by the authors in the article and associated OSF repository?" Didn't your already answer this question by saying that this is no longer possible as the model is gone? same method - different data?
+- [x] "3. If RQ2 is answered in the positive, can this also be achieved with a significantly less extensive training process than that proposed in Morin & Marttinen Larsson (2025)?" To what extent does their follow up study answer this question already?
+- [x] "Whilst not essential, having access to the authors’ original analysis code would also have been useful to ensure more precise comparability of our results." Because you ask about the right tone, I think it would be relevant for your general point about reproducibility to add whether or not you contacted the authors, and why not, or what they answered.
+- [ ] "440B parameters" At this point, number of parameters is not as relevant as the model's architecture etc.
+- [ ] 5 Discussion: I think it would be good to more clearly introduce why you think the extensive training could be a problem.
+- [ ] "university’s platform" - this also has a web interface, I would say this is as easy to use as claude. Also when using the API.
+- [ ] "The second dimension of accessibility is intellectual." This paragraphs feels a bit distracting from the main argument
+- [ ] "Claude’s chat-based interface rather than the API" At this point, this feels a bit repetitive and I am not sure if this matters much for your argument
+- [ ] I think the paragraphs on data leakage do not contain enough evidence. The index you cite is more about NLP. I doubt tbh the relevance of data leakage for applied linguistics. It is very nice to raise this as a potential issue of course.
+- [ ] finally, I am afraid I am not 100% convinced by the way you choose to mention a lot of new literature in the discussion section. I would have expected the discussion to focus more on the 'new' implications of your findings. The disadvantages of LLMs belong in the introduction and would actually help to frame your paper as a more general critique with the replication as a, what is the word for it, case in point?
