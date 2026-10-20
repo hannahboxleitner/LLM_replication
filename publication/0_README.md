@@ -48,14 +48,7 @@ Replications:
 
 1\. Folder "data": contains all data from the original study provided by the original authors \<List all files (or folders, as appropriate for dataset organization) contained in the dataset. Where appropriate, a file overview may be provided by explaining file naming conventions, instead of listing individual files. For each file (or folder), provide a brief description of what data it contains, and of the file format (e.g. plain text) if not obvious from file extension (e.g. .txt). If necessary, also include system and hardware requirements needed to open and read the file.\>
 
-// Relationship between files, if important:
+// Relationship between files:
 
-The "data" folder contains all data that was provided by Morin & Marttinen Larsson (2025) and that was used for replication. The other folders "replication_data", "transcripts", and "reduced_training" all contain results that were produced during this replication. The other files are numbered: Files starting with 0 contain the basic components necessary to understand and reproduce the study. Files starting with 1 are part of the setup necessary to later train and test the LLMs. The code for the actual training, testing and evaluation of the models is located in files numbered 2 and 3.
+The "data" folder contains all data that was provided by Morin & Marttinen Larsson (2025) and that was used for replication. The other folders "replication_data", "transcripts", and "reduced_training" all contain results that were produced during the replications. The other files are numbered: Files starting with 0 contain the basic components necessary to understand and reproduce the study. Files starting with 1 are part of the setup necessary to later train and test the LLMs. The code for the actual training, testing and evaluation of the models is located in files numbered 2 and 3.
 
-## HOW TO USE THE DATASET
-
-R Studio??
-
-an API key?
-
-other stuff to install?
