@@ -43,7 +43,7 @@ print(res$answer)
 
 
 # 2. SUPERVISED TRAINING (in batches)
-
+# the "answers"/corrections for the supervised training are based on the conversation transcript provided by the authors
 # Prompt with data
 res <- ask_llm(conv, paste(
   "Training: <instructions> Now we will classify 100 sentences together from the dataset <dataset> Supervised_training_sketchengine_100.csv </dataset>. Work in batches of 25 sentences at a time. Think step-by-step about each classification, and for each classification I want you to include <thinking> </thinking> and your <answer> </answer>. </instructions>",
@@ -247,8 +247,6 @@ test_gpt_results <- read_tsv(tsv_test, col_names = c("id", "GPT_classification")
 ncol(test_gpt_results) # check number of columns
 
 # Compare with human gold standard annotations and compute accuracy
-#human_gold_standard
-
 comparison_test <- human_gold_standard |>
   left_join(test_gpt_results, by = "id")
 

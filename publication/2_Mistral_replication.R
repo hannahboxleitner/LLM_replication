@@ -42,6 +42,7 @@ conv <- res$conversation
 print(res$answer)
 
 # 2. SUPERVISED TRAINING (in batches)
+# the "answers"/correction for the supervised training are based on the conversation transcript provided by the authors
 
 # Prompt with data
 res <- ask_llm(conv, paste(
