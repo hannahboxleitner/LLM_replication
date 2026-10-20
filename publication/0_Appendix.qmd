@@ -1,6 +1,6 @@
 ---
 title: "Appendix"
-subtitle: "LLMs for corpus annotation: Close and extended replications of Morin & Marttinen Larsson (2025) using smaller open LLMs"
+subtitle: "On the replicability of LLM-based linguistic annotation: Insights from close and extended replications of Morin & Marttinen Larsson (2025) using open-weight LLMs"
 date: last-modified
 format: pdf
 editor: visual
@@ -526,7 +526,7 @@ kable(
 
 ## Technical details regarding the models
 
-The open LLMs were accessed remotely via an API [@ki:conne]. The generation parameters in the API call were set to *temperature* = 0, *top~p~* = 1, and a constant random seed was used. Setting *temperature* to 0, meaning the model always chooses the most probable next token, removes random sampling and therefore makes additional constraints such as *top~k~* (sampling only from the k most probable tokens) unnecessary and potentially confounding. Even though these measures were taken to improve reproducibility, identical outputs across runs cannot be guaranteed.
+The open LLMs were accessed remotely via an API [@ki:conne]. The generation parameters in the API call were set to *temperature* = 0, *top~p~* = 1, and a constant random seed was used. Setting *temperature* to 0, meaning the model always chooses the most probable next token, removes random sampling and therefore makes additional constraints such as *top~k~* (sampling only from the *k* most probable tokens) unnecessary and potentially confounding. Even though these measures were taken to improve reproducibility, identical outputs across runs cannot be guaranteed.
 
 ## Data leakage
 
