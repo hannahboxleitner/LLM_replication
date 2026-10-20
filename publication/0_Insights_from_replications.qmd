@@ -144,7 +144,7 @@ metrics_table <- data.frame(
     "Precision",
     "Recall",
     "F1-score",
-    "Matthews correlation coefficient"
+    "Matthew's correlation coefficient"
   ),
 
   Mistral = c(
@@ -272,7 +272,7 @@ metrics_table_ext <- data.frame(
     "Precision",
     "Recall",
     "F1-score",
-    "Matthews correlation coefficient"
+    "Matthew's correlation coefficient"
   ),
   
   # GPT close run
