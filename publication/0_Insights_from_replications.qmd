@@ -1064,10 +1064,8 @@ measure.
 
 ## Data availability statement {.unnumbered}
 
-The data and code that support the findings of this study are openly
-available in \[repository name\] at \[URL\]. The current repository has
-been anonymised for double-blind peer review, but will be de-anonymised
-on acceptance.
+The data and code that support the findings of this study are
+currently available at <https://www.swisstransfer.com/dl/01a15f49-f416-71ec-876b-835eacfefc45>. The replication package has been anonymised for double-blind peer review, but will be de-anonymised and deposited on a public repository on acceptance.
 
 ## CRediT author statement {.unnumbered}
 
