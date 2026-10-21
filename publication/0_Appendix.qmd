@@ -1,11 +1,11 @@
 ---
 title: "Appendix"
 subtitle: "On the replicability of LLM-based linguistic annotation: Insights from close and extended replications of Morin & Marttinen Larsson (2025) using open-weight LLMs"
-date: last-modified
 format: pdf
 editor: visual
 execute:
   echo: false
+bibliography: references.bib
 ---
 
 # Full results
@@ -339,7 +339,7 @@ kable(
 )
 ```
 
-## Extended replication with GPT: simpler training process
+## Extended replication with GPT: reduced training process
 
 ### Accuracy compared to the human gold standard
 
@@ -417,7 +417,7 @@ kable(
 )
 ```
 
-### Accuracy metrics of GPT few-shot training extension compared to Claude in original study
+### Accuracy metrics of GPT with reduced training compared to Claude in original study
 
 ```{r}
 #| label: tbl-accuracy-metrics-reduced-2
@@ -522,6 +522,8 @@ kable(
 )
 ```
 
+{{< pagebreak >}}
+
 # Further details on the study
 
 ## Technical details regarding the models
@@ -531,3 +533,7 @@ The open LLMs were accessed remotely via an API [@ki:conne]. The generation para
 ## Data leakage
 
 For this study, it is assumed that the models, functioning as several "annotators", independently label the data without knowledge of each other's work. It can only be *assumed* because there is a possibility that the models might have the gold standard provided in the original study as part of their training data, which would mean they would not be totally independent. The Mistral model used for this study was released in June 2025 [@mistralai2026], and the GPT model in August 2025 [@openai2026]. @morin2025, who used data from the NOW corpus and Sketch Engine’s EnTenTen21 corpus for their study [@morin2025: 3], created their OSF-database containing the (annotated) datasets in November 2024 [@morin2024]. When and on which data the models were trained exactly remains unclear, but since they were released after the repository went public, the possibility of data leakage cannot be entirely ruled out.
+
+{{< pagebreak >}}
+
+# References
