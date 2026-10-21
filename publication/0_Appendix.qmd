@@ -5,7 +5,6 @@ format: pdf
 editor: visual
 execute:
   echo: false
-bibliography: references.bib
 ---
 
 # Full results
@@ -524,16 +523,8 @@ kable(
 
 {{< pagebreak >}}
 
-# Further details on the study
+# Further technical details on the study
 
-## Technical details regarding the models
-
-The open LLMs were accessed remotely via an API [@ki:conne]. The generation parameters in the API call were set to *temperature* = 0, *top~p~* = 1, and a constant random seed was used. Setting *temperature* to 0, meaning the model always chooses the most probable next token, removes random sampling and therefore makes additional constraints such as *top~k~* (sampling only from the *k* most probable tokens) unnecessary and potentially confounding. Even though these measures were taken to improve reproducibility, identical outputs across runs cannot be guaranteed.
-
-## Data leakage
-
-For this study, it is assumed that the models, functioning as several "annotators", independently label the data without knowledge of each other's work. It can only be *assumed* because there is a possibility that the models might have the gold standard provided in the original study as part of their training data, which would mean they would not be totally independent. The Mistral model used for this study was released in June 2025 [@mistralai2026], and the GPT model in August 2025 [@openai2026]. @morin2025, who used data from the NOW corpus and Sketch Engine’s EnTenTen21 corpus for their study [@morin2025: 3], created their OSF-database containing the (annotated) datasets in November 2024 [@morin2024]. When and on which data the models were trained exactly remains unclear, but since they were released after the repository went public, the possibility of data leakage cannot be entirely ruled out.
+The open LLMs were accessed remotely via an API. The generation parameters in the API call were set to *temperature* = 0, *top~p~* = 1, and a constant random seed was used. Setting *temperature* to 0, meaning the model always chooses the most probable next token, removes random sampling and therefore makes additional constraints such as *top~k~* (sampling only from the *k* most probable tokens) unnecessary and potentially confounding. Even though these measures were taken to improve reproducibility, identical outputs across runs cannot be guaranteed.
 
 {{< pagebreak >}}
-
-# References
