@@ -14,7 +14,7 @@ editor: visual
 
 **Contact details of corresponding author:** elefoll\@uni-koeln.de, Department of Romance Studies, University of Cologne, Albertus-Magnus-Platz, Cologne, Germany.
 
-**ORCID:** Hannah Boxleitner: 0009-0004-7123-3300 / Elen Le Foll: 0000-0002-5839-8010
+**ORCID:** Hannah Boxleitner: [0009-0004-7123-3300](https://orcid.org/0009-0004-7123-3300) / Elen Le Foll: [0000-0002-5839-8010](https://orcid.org/0000-0002-5839-8010)
 
 **Word count:** 7,000 words (including tables and references)
 
