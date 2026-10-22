@@ -1,12 +1,10 @@
 ---
-title: "Title page"
-format: html
+title: "On the replicability of LLM-based linguistic annotation: insights from close and extended replications of Morin & Marttinen Larsson (2025) using open-weight LLMs"
+format: pdf
 editor: visual
 ---
 
-**Title:** On the replicability of LLM-based linguistic annotation: insights from close and extended replications of Morin & Marttinen Larsson (2025) using open-weight LLMs
-
-**Short title:** On the replicability of LLM-based linguistic annotation
+### **Short title:** On the replicability of LLM-based linguistic annotation
 
 **Authors[^1]:** Hannah Boxleitner & Elen Le Foll\*
 
@@ -16,12 +14,14 @@ editor: visual
 
 **Contact details of corresponding author:** elefoll\@uni-koeln.de, Department of Romance Studies, University of Cologne, Albertus-Magnus-Platz, Cologne, Germany.
 
-**ORCID:** 0000-0002-5839-8010
+**ORCID:** Hannah Boxleitner: 0009-0004-7123-3300 / Elen Le Foll: 0000-0002-5839-8010
 
-**Word count:** 7,000 words
+**Word count:** 7,000 words (including tables and references)
 
 **Table count:** 2
 
 **Figure count:** 3
 
-This manuscript contains supplementary materials (see README file).
+::: callout-note
+This manuscript contains supplementary materials (see Appendix and README file).
+:::
